@@ -30,6 +30,14 @@ Strom je v `../genealogy-trees/<strom>/`.
 | git commit repa stromu | ❌ | ✅ |
 | workbench (`genealogy/`) | ❌ — návrhy změn pošli managerovi | ✅ |
 
+## Převzetí jiné osoby
+
+Když uživatel chce v jedné session dotáhnout i jinou osobu (typicky manžela/ku) a ta **nemá vlastní běžící
+session**, smí ji osobní session převzít: v dossieru převzaté osoby zapíše do Výzkumu
+„převzato session K0056 (YYYY-MM-DD)“, vede její dossier, checklist a patch (`P-K0057-01`) a nastavuje
+její stav. Zprávu o patchi pošle managerovi stejně jako za svou osobu. Kdyby se pro převzatou osobu
+otevřela vlastní session, nejdřív se domluví přes managera.
+
 ## Centrální seznam dokladů
 
 `research/doklady.md` = co musí uživatel sehnat, seskupené podle místa (doma, u rodičů, matriční úřad…).
@@ -118,7 +126,8 @@ Osoby a rodinné vazby zakládá manager rovnou (`ensure_persons.py`, `ensure_fa
 fakta. Vazbu, kterou zná uživatel, cituje „Ústní sdělení“; vazbu z pramene zakládá `--no-oral` a citaci dodá
 patch. Osobu mimo export MyHeritage zakládá `tools/research/add_person.py` (dossier + `manual.json` + Gramps).
 Odvozené obrázky (kontrastní kopie apod.) zůstávají jen v `sources/`, do Gramps se nedávají. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
-`description`/`date`/`place`/`type`), `add_citation` (`event: <handle>` + `citation`), `remove_citation`
+`description`/`date`/`place`/`type`; u `add_event`/`update_event` lze místo `citation: c1` uvést víc citací
+`citations: [c1, c2]`), `add_citation` (`event: <handle>` + `citation`), `remove_citation`
 (`event: <handle>` + `citation_gramps_id`; nepoužívaná citace se smaže), `update_citation` (`citation_gramps_id` +
 `page`/`confidence`), `add_media` (`file`, `citation`). Stejná citace (zdroj + `page` + jistota) se znovu
 použije, nezakládá se duplikát.

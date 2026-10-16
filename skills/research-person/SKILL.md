@@ -137,4 +137,7 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 - Když se zasekneš (chybí pramen, potřeba modulu archivu), nastav `stav: pozastaveno`, popiš proč
   v dossieru a dej vědět managerovi.
 
+Jinou osobu (např. manželku) smíš převzít, jen když chce uživatel a ta osoba nemá vlastní session —
+pravidla v `workflow-sessions.md`, sekce Převzetí jiné osoby.
+
 Do Gramps `berescak` nezapisuj, necommituj a neměň workbench — to dělá manager.

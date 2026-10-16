@@ -213,8 +213,9 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
     for ch in patch["changes"]:
         op = ch["op"]
         if op == "add_event":
+            keys = ([ch["citation"]] if ch.get("citation") else []) + list(ch.get("citations") or [])
             ev = {"_class": "Event", "type": ch["type"], "description": ch.get("description", ""),
-                  "citation_list": [cites[ch["citation"]]] if ch.get("citation") else []}
+                  "citation_list": list(dict.fromkeys(cites[k] for k in keys))}
             d = gramps_date(ch.get("date"))
             if d:
                 ev["date"] = d
@@ -245,8 +246,9 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                     ev["date"] = gramps_date(ch["date"])
                 if ch.get("place"):
                     ev["place"] = a.place(ch["place"])
-                if ch.get("citation") and cites[ch["citation"]] not in ev["citation_list"]:
-                    ev["citation_list"].append(cites[ch["citation"]])
+                for k in ([ch["citation"]] if ch.get("citation") else []) + list(ch.get("citations") or []):
+                    if cites[k] not in ev["citation_list"]:
+                        ev["citation_list"].append(cites[k])
                 a.gw.put(f"/events/{ch['event']}", ev)
                 a.context_note(ch["event"], ch.get("context", ""))
                 a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place', 'context') if k in ch)}")
