@@ -132,8 +132,8 @@ Odvozené obrázky (kontrastní kopie apod.) zůstávají jen v `sources/`, do G
 `page`/`confidence`), `add_family_citation` (`family: [otec, matka]` + `citation`/`citations` — doklad vazby
 rodiče → dítě nebo manželství), `add_media` (`file`, `citation`). Sidecar ústního sdělení uživatele
 (`type: ústní sdělení`, informátor Vojtěch Bereščák) se zapíše pod společný zdroj `S-USTNE-K0001`.
-Zdroj v Gramps = název souboru dokladu (`S-IMG_3967`) — kopie téhož dokladu u jiné osoby se stejným
-názvem souboru duplikát nezaloží. Stejná citace (zdroj + `page` + jistota) se znovu
+Zdroj v Gramps = původní fotka dokladu z pole `original` sidecaru (`S-IMG_3967`), jinak název souboru —
+kopie téhož dokladu u jiné osoby (i přejmenovaná) duplikát nezaloží, pokud má v sidecaru stejné `original`. Stejná citace (zdroj + `page` + jistota) se znovu
 použije, nezakládá se duplikát.
 Handly událostí jsou v sekci `applied:` dřívějších patchů.
 

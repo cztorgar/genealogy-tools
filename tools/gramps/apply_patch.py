@@ -140,7 +140,10 @@ class Applier:
 
     def source(self, sidecar: Path, pid: str) -> str:
         meta = yaml.safe_load(sidecar.read_text(encoding="utf-8"))
-        gid = f"S-{sidecar.stem}"   # jeden zdroj na doklad (sdílí ho všechny osoby, které cituje)
+        # jeden zdroj na doklad (sdílí ho všechny osoby, které cituje): klíč = původní fotka dokladu
+        # (`original: doklady/…/IMG_3967.HEIC`), jinak název souboru sidecaru
+        orig = meta.get("original") or ""
+        gid = f"S-{Path(str(orig)).stem}" if orig else f"S-{sidecar.stem}"
         if "ústní" in str(meta.get("type", "")).lower() and "Bereščák" in str(meta.get("informant", meta)):
             gid = "S-USTNE-K0001"   # ústní sdělení uživatele = jeden společný zdroj (ensure_family.py)
         s = self.find("sources", gid)
