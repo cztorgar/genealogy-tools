@@ -104,7 +104,7 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 
 ## 5. Přepis
 
-- Snímek přečti (obrázky čteš přímo). Jakmile bude `reader` (Claude + OpenAI), použij ho a porovnej po polích.
+- Snímek přečti skillem `read-record` (trojí čtení Claude + OpenAI + PERO a porovnání po polích).
 - Výsledek do `transcriptions/K<nnnn>-<udalost>-<rok>.md` (4 vrstvy) + `.json` (pole s `raw`, `value`,
   `confidence`).
 - Jména a data **ukaž uživateli proti snímku** a nech potvrdit — přepis je draft.

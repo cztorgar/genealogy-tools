@@ -1,0 +1,50 @@
+---
+name: read-record
+description: Trojí nezávislé čtení zápisu z matriky / dokladu (Claude + OpenAI + PERO OCR) a porovnání po polích. Použij, když má session přečíst snímek zápisu, ověřit svůj přepis, nebo když uživatel řekne „přečti to všemi třemi“, „ověř čtení“, „/read-record <snímek>“.
+---
+
+# Trojí čtení zápisu
+
+Argumenty: cesta ke snímku (`sources/<ID>/….jpg`), typ (`N` | `O` | `Z` | `scitani` | `doklad`), nápověda
+(obec, rok, hledaná osoba — kterého zápisu na stránce se to týká), volitelně výřez `x,y,w,h`.
+Pravidla přepisu: `docs/metodika/prepis.md`. Nástroje: `tools/reader/` (README tamtéž).
+
+## 1. Výřez
+
+Na stránce bývá víc zápisů. Najdi ten správný (podle nápovědy) a urči výřez `x,y,w,h` v pixelech původního
+snímku — **stejný výřez pro všechna tři čtení**. Výřez ulož vedle snímku: `<snímek>.crop-<n>.jpg`
+(`magick <snímek> -crop WxH+X+Y <výstup>`).
+
+## 2. Tři čtení — nezávisle
+
+1. **Claude** (ty): přečti výřez **bez nahlížení** do čtení ostatních → `<snímek>.claude.json`
+   (rubriky podle typu, každé pole `{raw, value, confidence}`; doslovně, nic nenormalizovat, nečitelné `[?]`).
+2. **OpenAI**:
+   `uv run tools/reader/openai_read.py read <výřez.jpg> --type <typ> --hint "<nápověda>" --out <snímek>.openai.json`
+   (klíč z `~/.config/openai/genealogie.json` — nikdy nevypisovat).
+3. **PERO OCR**:
+   `uv run tools/reader/pero_web.py ocr <výřez.jpg> --out <adresář>` → `<výřez>.pero.txt` (+ `.pero.xml`).
+   Když PERO selže (web nedostupný), pokračuj se dvěma čteními a zapiš to.
+
+## 3. Porovnání
+
+`uv run tools/reader/compare.py --claude <…>.claude.json --openai <…>.openai.json --pero <…>.pero.txt --out <snímek>.compare`
+→ `<snímek>.compare.md` (tabulka po polích) + `.compare.json` (`needs_review`).
+
+| Výsledek | Význam | Co dělat |
+|---|---|---|
+| 3/3 shoda | jisté | do přepisu, `confidence: high` |
+| 2/3 | pravděpodobné | do přepisu s menšinovým čtením v poznámce; ukázat uživateli |
+| 1/1/1, chybí | sporné | `needs_review` — ukázat uživateli výřez + všechna čtení, rozhodne on |
+
+Pozor: shoda všech tří u **jmen** není důkaz — modely umí jméno „normalizovat“ stejně. Jména a data vždy
+nech uživatele potvrdit proti výřezu.
+
+## 4. Výstup pro uživatele
+
+Krátká tabulka: pole · Claude · OpenAI · PERO · výsledek; pod ní sporná pole s odkazem na výřez.
+Po rozhodnutí uživatele: finální přepis do `<snímek>.md` + `.json` (4 vrstvy dle `prepis.md`), u polí
+uveď zdroj čtení a rozhodnutí. Cenu volání OpenAI hlásí reader (`~/.cache/genealogy-workbench/reader/usage.jsonl`).
+
+Stav nástrojů: `openai_read.py` a `compare.py` — ve výstavbě; `pero_web.py` — ve výstavbě (session
+„nástroj PERO web“). Dokud nejsou hotové, dělej jen krok 2.1 a dej vědět managerovi.
