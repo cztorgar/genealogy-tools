@@ -174,7 +174,8 @@ z Loukonos, Převýšova a Hradišťka. Sám jsem to znovu neověřoval.
    matričním úřadě Žiželice (Obecní úřad Žiželice – matrika, Masarykovo nám. 1). Pro N mladší
    100 let běží lhůta; N 1917–1925 by už do archivu předané být mohly. Ověřit dotazem na OÚ nebo
    na SOA Praha / SOkA Kolín.
-2. **Požár 1798 vs. 1830**: zdroje si odporují. Ověřit v pamětní knize nebo farní kronice Žiželic
+2. **Požár 1798 vs. 1830**: zdroje si odporují. → **Pamětní kniha městyse 1752–1848 je digitalizovaná**
+   (SOA Praha, Archiv města Žiželice, inv. č. 7, 212 snímků, viz kap. 7) — prohlédnout rok 1798. Dále ověřit v farní kronice Žiželic
    (SOkA Kolín, fond Farní úřad Žiželice, pokud existuje) nebo v Památkovém katalogu (kostel
    sv. Prokopa, památka od 1986).
 3. Kterému **vikariátu / děkanátu** patřila fara 1800–1949 (Nový Bydžov? Chlumec?), a zda fara
@@ -192,11 +193,34 @@ z Loukonos, Převýšova a Hradišťka. Sám jsem to znovu neověřoval.
 
 ---
 
+## 7. Archiv města Žiželice (SOA Praha, digitalizováno)
+
+eBadatelna SOA Praha, kategorie *Města a obce*, fond **Archiv města Žiželice**. Výpis dodal uživatel
+2026-10-16. **Doloženo** (katalog eBadatelny).
+
+| Inv. č. | Archiválie | Datace | Snímků |
+|---|---|---|---|
+| 1 | Listina Leopolda I. | 24. 6. 1670 | 12 |
+| 2 | Listina Karla VI. | 15. 1. 1732 | 15 |
+| 3 | Listina Marie Terezie | 6. 4. 1747 | 21 |
+| 4 | Listina Josefa II. | 29. 10. 1782 | 39 |
+| 5 | Listina Františka II. | 22. 2. 1796 | 2 |
+| 6 | Opis listiny Vladislava Jagellonského z 22. 3. 1502 (Kolín, Žiželice) | opis 3. 2. 1706 | 7 |
+| 7 | **Pamětní kniha** | **1752–1848** | **212** |
+
+- **Pamětní kniha 1752–1848 (inv. č. 7)** je hlavní dostupný pramen k **požáru kostela a fary 1798**
+  a ke ztrátě matrik před 1798 (otevřená otázka č. 2). Je to i pramen k rodům 18. a 1. pol. 19. století,
+  tedy k období před dochovanými matrikami a krátce po něm. Obsah zatím neprohlédnut.
+- Privilegijní listiny (1670–1796) se týkají práv městečka. Genealogicky jsou okrajové.
+- **Nedigitalizováno**: kronika 20. století a domovská matrika. Jsou jen v badatelně SOA Praha nebo
+  v SOkA Kolín, to je potřeba ověřit.
+
 ## Zdroje
 
 - eBadatelna SOA Praha, vyhledání matrik: https://ebadatelna.soapraha.cz/pages/SearchMatrikaPage
 - popis N I Žiželice: https://ebadatelna.soapraha.cz/pages/MatrikaPage/matrikaId/10053
 - popis N XII Žiželice 1906–1916: https://ebadatelna.soapraha.cz/pages/MatrikaPage/matrikaId/14421
+- fond Archiv města Žiželice (Města a obce): eBadatelna SOA Praha, výpis uživatele 2026-10-16
 - Profous IV, 854–855 (Žiželice); II, 295 (Končice); II, 673 (Loukonosy): https://mjc.ujc.cas.cz/
 - turistika.cz, kostel sv. Prokopa: https://www.turistika.cz/mista/kostel-sv-prokopa-opata-v-zizelicich/detail
 - obec Žiželice, historie: https://www.zizelice.cz/obec/historie/
