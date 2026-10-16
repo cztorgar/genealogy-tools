@@ -37,6 +37,13 @@ Generuje se ze sekcí `## Doklady k dohledání` v dossierech — session zapisu
 přehled se skládá automaticky (formát řádku ve skillu `research-person`). Skeny dává uživatel do
 `doklady/`, session je zařadí do `sources/<ID>/` a odškrtnou.
 
+## Odloženo (vědomě neřešeno)
+
+Každý dossier má sekci `## Odloženo (vědomě neřešeno)` (před logem): co jsme se **rozhodli teď nedělat**,
+aby se na to nezapomnělo a nehledalo se to omylem znovu. Formát:
+`- YYYY-MM-DD · **co** — proč / kde (odkaz na todo-seznam) · kdo rozhodl`.
+Rozdíl proti checklistu: `[-]` = hledáno a nenalezeno; *odloženo* = vědomě nehledáno.
+
 ## Životní cyklus osoby
 
 Front-matter dossieru má dvě pole:

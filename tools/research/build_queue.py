@@ -36,6 +36,9 @@ DOCS_HEADING = "## Doklady k dohledání"
 DOCS_HINT = ("*Formát: `- [ ] <doklad> | potvrdí: <co> | kde: <doma / rodiče / matriční úřad …>`; "
              "`[x]` = máme (cesta k souboru v `sources/`), `[-]` = nesehnatelné. Agreguje se do "
              "`research/doklady.md`.*")
+DEFERRED_HEADING = "## Odloženo (vědomě neřešeno)"
+DEFERRED_HINT = ("*Co jsme se rozhodli teď nedělat — aby se na to nezapomnělo a nehledalo se to omylem znovu. "
+                 "Formát: `- YYYY-MM-DD · **co** — proč / kde · kdo rozhodl`.*")
 DOC_LINE_RE = re.compile(r"^- \[([ x~-])\] (.+)$")
 
 
@@ -221,6 +224,7 @@ def dossier(tree: Tree, pid: str, rel: str, indi: Node, idmap: dict[str, str]) -
     for it, note in items:
         lines.append(f"- [ ] {it.label}{' — ' + note if note else ''}")
     lines += ["", DOCS_HEADING, "", DOCS_HINT, ""]
+    lines += ["", DEFERRED_HEADING, "", DEFERRED_HINT, ""]
     lines += ["", "## Log hledání", "",
               "*Formát: `- YYYY-MM-DD | pramen (archiv, svazek, roky, snímky) | výsledek | odkaz`. "
               "Zapisovat i „nenalezeno“.*", "",
@@ -229,12 +233,17 @@ def dossier(tree: Tree, pid: str, rel: str, indi: Node, idmap: dict[str, str]) -
 
 
 def ensure_docs_section(path: Path) -> None:
-    """Do staršího dossieru vloží sekci dokladů před log (nic jiného nemění)."""
+    """Do staršího dossieru vloží chybějící sekce (doklady, odloženo) před log — nic jiného nemění."""
     text = path.read_text(encoding="utf-8")
-    if DOCS_HEADING in text or "## Log hledání" not in text:
+    if "## Log hledání" not in text:
         return
-    text = text.replace("## Log hledání", f"{DOCS_HEADING}\n\n{DOCS_HINT}\n\n## Log hledání", 1)
-    path.write_text(text, encoding="utf-8")
+    changed = False
+    for heading, hint in ((DOCS_HEADING, DOCS_HINT), (DEFERRED_HEADING, DEFERRED_HINT)):
+        if heading.split(" (")[0] not in text:
+            text = text.replace("## Log hledání", f"{heading}\n\n{hint}\n\n## Log hledání", 1)
+            changed = True
+    if changed:
+        path.write_text(text, encoding="utf-8")
 
 
 def collect_docs(path: Path, pid: str) -> list[dict]:

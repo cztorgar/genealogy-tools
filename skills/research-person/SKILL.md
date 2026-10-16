@@ -45,6 +45,9 @@ Manželka: Magdaléna Bardová (K43) · Děti: … (K21 = naše linie)
 ### Checklist
 doloženo x/y · slabě z · hledáno bez výsledku w · nehledáno … (vypsat nehledané podle priority)
 
+### Odloženo (vědomě neřešeno)
+- … (ze sekce Odloženo v dossieru — připomenout, ať se to omylem nehledá znovu)
+
 ### Slabá místa a rozpory
 - …
 ```
@@ -111,6 +114,8 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 - Pravidlo jmenovce: kromě jména aspoň dva nezávislé údaje. Rozpory s nápovědami z MyHeritage
   zapiš do „Výzkum“ v dossieru a nech rozhodnout uživatele.
 - Odškrtej checklist (`[x]`, `[~]`, `[-]`, `[n]`).
+- Co se s uživatelem **vědomě rozhodnete neřešit**, zapiš do `## Odloženo (vědomě neřešeno)`:
+  `- YYYY-MM-DD · **co** — proč / kde · kdo rozhodl` (odkaz na `todo-*` seznam, pokud tam je).
 - Co jsi zjistil o **jiných osobách** (rodiče ze záznamu o křtu, sourozenci, č. p.), zapiš jako nový
   soubor `research/hints/K<cíl>-<YYYY-MM-DD>-od-K<nnnn>.md` s odkazem na přepis. Do cizích dossierů nepiš.
 
