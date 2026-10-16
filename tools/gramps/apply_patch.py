@@ -66,7 +66,10 @@ BOOKS = {"N": "matrika narozených", "O": "matrika oddaných", "Z": "matrika zem
 
 
 def source_title(meta: dict) -> str:
-    """Název zdroje: matrika = svazek (archiv, farnost, kniha, roky); doklad = typ + zápis."""
+    """Název zdroje: oficiální citace svazku od archivu (sidecar z czech-archives), jinak matrika = svazek
+    (archiv, farnost, kniha, roky), doklad = typ + zápis."""
+    if meta.get("official_citation"):
+        return f"{meta.get('type', '')}: {meta['official_citation']}".strip(": ")
     if meta.get("type") == "matrika":
         book = BOOKS.get(str(meta.get("book", "")), str(meta.get("book", "")))
         return (f"{meta.get('archive', '')}, {meta.get('confession', '')} f. ú. {meta.get('parish', '')} — "

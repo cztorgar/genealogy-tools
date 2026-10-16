@@ -1,0 +1,274 @@
+{
+  "id" : "91ed788d-0d77-4015-a63c-9d8bad6fd3bd",
+  "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, poř. č.: 3841",
+  "description" : "Chlumec nad Cidlinou",
+  "order" : 365,
+  "type" : "ARCH_DESC",
+  "children" : [ {
+    "id" : "ae850f93-755e-401c-94ac-e9656a97f440",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-1 (poř.č. 3842), 1775-1791",
+    "description" : "římskokatolická matrika NAROZENÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda) 1775-1784, Chlumec nad Cidlinou - město (1784-1790), Chlumec nad Cidlinou - Pražské předměstí (1784-1790), Chlumec nad Cidlinou - Kolínské předměstí (1784-1790), Chlumec nad Cidlinou - Hradecké předměstí (1784-1790), Kladruby (1784-1790), Levín (1784-1791), Lučice (1784-1790), Mlékosrby (1784-1.1787), Nepolisy (1784-1790), Nové Město (1784-1790), Pamětník (1784-1790), Písek (1784-1790), Stará Voda (1784-1790), Kosice (1784-1.1787), Olešnice (1784-1790)",
+    "order" : 5612,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "29aee08d-9801-4355-ac2a-550fbf6f9d29",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-2 (poř.č. 3843), 1791-1800",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město (1791-1800), Chlumec nad Cidlinou - Pražské předměstí (1791-1800), Chlumec nad Cidlinou - Kolínské předměstí (1791-1800), Chlumec nad Cidlinou - Hradecké předměstí (1791-1800), Kladruby (1791-1800), Levín (1791-1800), Lučice (1791-1800), Nepolisy (1791-1800), Nové Město (1791-1800), Pamětník (1791-1800), Písek (1791-1800), Stará Voda (1791-1800), Olešnice (1791-1800), Chudeřice (1798-1800)",
+    "order" : 5613,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "952a2a3b-ad90-4f64-94ae-f4e4b4d27c97",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3 (poř.č. 3844), 1801-1814",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice, Chudeřice",
+    "order" : 5614,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "57a2a7c8-cd7c-4a67-bc1b-ddda9cf6473b",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-4 (poř.č. 3845), 1815-1822",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice, Chudeřice",
+    "order" : 5615,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "431f7784-12fe-4275-82fb-6ea7c43ff32e",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-5 (poř.č. 3846), 1823-1836",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5616,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "e2a743eb-6c54-49f3-8cd5-df8ebb827670",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6 (poř.č. 3847), 1837-1846",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5617,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "599edaa3-8988-4d89-8b3c-447dc89ac8e8",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-7 (poř.č. 3848), 1847-1854",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5618,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "d55af1cf-2d6c-4600-94eb-fcb6c89db2cb",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-8 (poř.č. 3849), 1855-1859",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5619,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "3dbdba92-e513-4014-a938-777c533c483e",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-9 (poř.č. 3850), 1860-1865",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5620,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "790811d0-a386-4fee-a839-75922eecf7b0",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3557 (poř.č. 3851), 1866-1880",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí",
+    "order" : 5621,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "30182b85-5426-4d41-8747-a9a9d60f828a",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-4818 (poř.č. 3852), 1881-1895",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí)",
+    "order" : 5622,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "9118e041-3a21-4a39-9b01-acef86f05775",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6734 (poř.č. 3853), 1896-1907",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí)",
+    "order" : 5623,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "f23f7e0d-f0d6-43fc-8223-8ba03277ec36",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3558 (poř.č. 3854), 1866-1880",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5624,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "00603835-7f7c-4d6f-a3dd-55c9c3ded288",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-4819 (poř.č. 3855), 1881-1895",
+    "description" : "římskokatolická matrika NAROZENÝCH, Chuděřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5625,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "80a937c7-2a47-4f99-ae47-8bbbb74adea3",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-10 (poř.č. 3856), 1775-1800",
+    "description" : "římskokatolická matrika ODDANÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda) 1775-1784, Chlumec nad Cidlinou - město (1784-1800), Chlumec nad Cidlinou - Pražské předměstí (1784-1800), Chlumec nad Cidlinou - Kolínské předměstí (1784-1800), Chlumec nad Cidlinou - Hradecké předměstí (1784-1800), Kladruby (1784-1800), Levín (1784-1799), Lučice (1784-1798), Mlékosrby (1784-1.1787), Nepolisy (1784-1800), Nové Město (1784-1800), Písek (1784-1800), Pamětník (1784-1798), Stará Voda (1784-1800), Kosice (1784-1.1787), Chudeřice (1799-1800), Olešnice (1784-1800)",
+    "order" : 5626,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "e1d6a1d7-5a44-4b2b-8b29-ff73c90185f9",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-11 (poř.č. 3857), 1801-1837",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice, Chudeřice",
+    "order" : 5627,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "7f0a2b25-a990-4a4b-a021-bfe2c53d84a0",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-12 (poř.č. 3858), 1838-1859",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5628,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "9aded011-3b61-41fa-930d-2a519b9b3b42",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3559 (poř.č. 3859), 1860-1880",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5629,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "1282a745-74a8-4243-86b3-f0ad61c65089",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6735 (poř.č. 3860), 1881-1906",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí), Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5630,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "a7089501-5806-4650-933f-12d9bf1dcb54",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6736 (poř.č. 3861), 1907-1920",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí), Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5631,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "8d0f0863-0a74-4922-a95b-51c6d98d88f6",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-9372 (poř.č. 3862), 1921-1942",
+    "description" : "římskokatolická matrika ODDANÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí) do 11.1942, Chudeřice (od 5.1921), Kladruby (10.1922-6.1942), Levín (do 9.1939), Lučice (do 9.1942), Nepolisy (do 11.1942), Nové Město (4.1921-4.1942), Pamětník (do 4.1940), Písek (do 11.1942), Stará Voda (6.1921-11.1942), Olešnice (2.1921-4.1942)",
+    "order" : 5632,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "a1cd66bc-7179-4c24-8d52-a6725cd36c4a",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-13 (poř.č. 3863), 1775-1796",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda) 1775-1784, Chlumec nad Cidlinou - město (1784-1796), Chlumec nad Cidlinou - Pražské předměstí (1784-1796), Chlumec nad Cidlinou - Kolínské předměstí (1784-1796), Chlumec nad Cidlinou - Hradecké předměstí (1784-1796), Kladruby (1784-1796), Levín (1784-1795), Lučice (1784-1796), Mlékosrby (1784-1.1787), Nepolisy (1784-1796), Nové Město (1784-1796), Pamětník (1784-1796), Písek (1784-1796), Stará Voda (1784-1796), Kosice (1784-1.1787), Olešnice (1784-1796)",
+    "order" : 5633,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "f9929bc1-385c-42f1-82ba-a44f95c849e6",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-14 (poř.č. 3864), 1797-1800",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město (1797-1800), Chlumec nad Cidlinou - Pražské předměstí (1797-1800), Chlumec nad Cidlinou - Kolínské předměstí (1797-1800), Chlumec nad Cidlinou - Hradecké předměstí (1797-1800), Kladruby (1797-1800), Levín (1797-1799), Lučice (1797-1800), Nepolisy (1797-1800), Nové Město (1797-1800), Pamětník (1797-1800), Písek (1797-1800), Stará Voda (1797-1800), Olešnice (1797-1800), Chudeřice (1799-1800)",
+    "order" : 5634,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "a0437647-ab03-40ef-99ca-98d3f0e38245",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-15 (poř.č. 3865), 1801-1822",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice, Chudeřice",
+    "order" : 5635,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "928bec34-fa50-4299-b2e9-e90d9a64dc2a",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-16 (poř.č. 3866), 1823-1840",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5636,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "a4a82659-106f-46f6-95c5-dda6c5f59626",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-17 (poř.č. 3867), 1841-1861",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5637,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "8757573a-2184-474d-abda-a55530a8b526",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3560 (poř.č. 3868), 1862-1871",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5638,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "47791b80-b10c-48e1-ba51-43a7750904ce",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3561 (poř.č. 3869), 1872-1892",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5639,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "36b80f41-7f01-41b7-9a7c-37a59542fddd",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6737 (poř.č. 3870), 1893-1906",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí), Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5640,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "63e937de-b8a0-4fc0-904f-72ba201dfad9",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6738 (poř.č. 3871), 1907-1918",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí), Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Pamětník, Písek, Stará Voda, Olešnice",
+    "order" : 5641,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "e326ea90-104e-4816-ae2a-4487921252bd",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-8126 (poř.č. 3872), 1919-1932",
+    "description" : "římskokatolická matrika ZEMŘELÝCH, Chlumec nad Cidlinou (město + Hradecké předměstí + Kolínské předměstí + Pražské předměstí), Chudeřice (2.1919-10.1931), Kladruby (4.1919-2.1931), Levín (5.1919-4.1931), Lučice (5.1919-10.1932), Nepolisy, Nové Město (do 5.1932), Pamětník, Písek (do 10.1932), Stará Voda (4.1919-8.1932), Olešnice (2.1919-7.1932)",
+    "order" : 5642,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "00dea27b-f3ee-4484-a38f-ec18d07252d4",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-18 (poř.č. 3873), 1775-1852",
+    "description" : "římskokatolický index NAROZENÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)",
+    "order" : 5643,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "f55e8c74-3920-4ec3-9f9b-48db62aae3e9",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-19 (poř.č. 3874), 1837-1865",
+    "description" : "římskokatolický index NAROZENÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)\n1837-1852 duplicitní se sign. 55-18",
+    "order" : 5644,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "7eed61dd-afb9-496e-b8a5-3647dff13028",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-4820 (poř.č. 3875), 1866-1895",
+    "description" : "římskokatolický index NAROZENÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)",
+    "order" : 5645,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "d4668062-f08e-4d6a-b3d3-64c941994116",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-20 (poř.č. 3876), 1775-1865",
+    "description" : "římskokatolický index ODDANÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)",
+    "order" : 5646,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "653b2df0-8001-4943-80bf-2bbffb3a89b5",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-21 (poř.č. 3877), 1775-1852",
+    "description" : "římskokatolický index ZEMŘELÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Kosice, Levín, Lučice, Mlékosrby, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)",
+    "order" : 5647,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "532788d4-9bfb-4288-8ad2-2e9428d19fc2",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-3562 (poř.č. 3878), 1841-1892",
+    "description" : "římskokatolický index ZEMŘELÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)\n1841-1852 duplicitní se sign. 55-21",
+    "order" : 5648,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  }, {
+    "id" : "abbe6bbd-09c3-40fd-b55b-e58930cf8359",
+    "name" : "Státní oblastní archiv v Hradci Králové: Sbírka matrik Východočeského kraje, sign.: 55-6739 (poř.č. 3879), 1893-1914",
+    "description" : "římskokatolický index ZEMŘELÝCH, farnost (Chlumec nad Cidlinou - Hradecké předměstí, Chlumec nad Cidlinou - Kolínské předměstí, Chlumec nad Cidlinou - město, Chlumec nad Cidlinou - Pražské předměstí, Chudeřice, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda)",
+    "order" : 5649,
+    "type" : "ARCH_DESC",
+    "children" : [ ]
+  } ]
+}
