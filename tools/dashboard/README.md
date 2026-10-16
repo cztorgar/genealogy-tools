@@ -51,3 +51,26 @@ pedigree pokračuje doprava. Větve jdou sbalit (±, pamatuje si prohlížeč).
 Volba **prázdní rodiče** ukáže u každého přímého předka s dossierem prázdné rámečky rodičů — kam se dá jít.
 Filtry: **jen rozpracované** (rozpracováno / pozastaveno / běží session), **čeká na mě**
 (patch `navrženo` nebo session ve stavu idle/done).
+
+## Mapa (záložka Mapa)
+
+„Kde kdo žil“: výběr oblasti, podklad, posuvník roku (▶ přehrát, šipky ←/→, Shift = po 10 letech).
+U čísel popisných, kde v daném roce bydlel někdo ze stromu, se objeví tečka. Klik na ni ukáže, kdo tu
+byl v daném roce, a celou historii domu (rok → posuvník, jméno → panel osoby). Z panelu osoby vede
+sekce **Bydliště** s odkazem „na mapě“.
+
+| Co | Odkud |
+|---|---|
+| bydliště | události `add_event` v `T/patches/*.yml` s č. p. v `description`, typy narození, úmrtí, bydliště, sčítání, povolání („bytem…“). Sňatek a křest se neberou (č. p. nevěsty, kmotry, porodní báby). Rok z `date`, `FROM a TO b` = rozmezí |
+| poloha domu | `mcp/czech-archives/gazetteer/*-cp.csv` — **dnešní** RÚIAN; historicky mohl dům stát jinde |
+| poloha obce | tabulky `docs/mistopis/*/obce.md` (sloupec „lat, lon“) — obec bez dat o domech = čtvereček na středu obce |
+| oblasti | `cache/mapy/<oblast>/` (obálka z `tilejson.json`) a `docs/mistopis/<oblast>/` (obálka obcí); název z nadpisu README |
+| podklady | `cache/mapy/<oblast>/<vrstva>/xyz/` (stahuje `tools/mapy/stahni.py`), názvy a citace z `tools/mapy/vrstvy.yml`; přes `/tiles/…`. Pod nimi OpenStreetMap (online) |
+
+- **doloženo** (plná tečka) = záznam z toho roku nebo rozmezí FROM–TO; **odvozeno** (čárkovaný kroužek)
+  = mezi dvěma doklady téhož domu, nebo nejvýš 10 let po posledním dokladu (nikdy po úmrtí, před narozením).
+  Volba „jen doložené“ odvozené skryje.
+- **Podklad podle roku** vybere vrstvu s rozsahem let nejbližším roku na posuvníku (rozsah z názvu vrstvy
+  ve `vrstvy.yml`, „aktuální“ = letos). Katastrální mapa jde přes podklad zvlášť.
+- Do mapy jde jen to, co je v patchích (navržené i aplikované; neaplikované má v historii domu stav).
+  Nálezy jen v dossierech nebo přepisech se na mapě neobjeví, dokud nejsou v patchi.

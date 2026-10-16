@@ -33,6 +33,8 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import yaml
 
+import mapdata
+
 WORKBENCH = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).resolve().parent / "static"
 
@@ -428,6 +430,32 @@ class Tree:
             "states": STATES,
         }
 
+    # --- mapa
+    def map(self) -> dict:
+        files = self.files()
+        people = self.people(files)
+        houses: dict[str, dict] = {}
+        for csvp in sorted((WORKBENCH / "mcp/czech-archives/gazetteer").glob("*-cp.csv")):
+            for obec, cps in (CACHE.get(csvp, "houses", mapdata.load_houses) or {}).items():
+                houses.setdefault(obec, {}).update(cps)
+        places: dict[str, list] = {}
+        regions = []
+        for d in sorted(p for p in (WORKBENCH / "docs/mistopis").glob("*") if p.is_dir()):
+            readme = d / "README.md"
+            title = d.name
+            if readme.exists():
+                head = next((ln[2:] for ln in read_text(readme).splitlines() if ln.startswith("# ")), d.name)
+                title = re.split(r"\s+[—–-]\s+", head)[0].strip()
+            pl = CACHE.get(d / "obce.md", "places", mapdata.load_places) if (d / "obce.md").exists() else None
+            places.update(pl or {})
+            regions.append({"id": d.name, "title": title, "places": sorted(pl) if pl else []})
+        vrstvy = CACHE.get(WORKBENCH / "tools/mapy/vrstvy.yml", "yaml", load_yaml)
+        res = mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
+        for r in res:
+            r["name"] = (people.get(r["id"]) or {}).get("name") or ""
+        return {"residences": res, "houses": houses, "places": places, "regions": regions,
+                "layers": mapdata.layers(WORKBENCH / "cache/mapy", vrstvy)}
+
     # --- detail osoby
     def person(self, pid: str) -> dict | None:
         files = self.files()
@@ -452,6 +480,8 @@ class Tree:
         out["gramps"] = f"{self.gramps_url}/person/{gid}" if gid else None
         out["abs_path"] = str(self.root / d["file"]) if d.get("file") else None
         out["session"] = next((s for s in self.sessions() if s["id"] == pid), None)
+        out["residences"] = [r for r in mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
+                             if r["id"] == pid]
         return out
 
     def sources(self, pid: str, files) -> dict:
@@ -519,12 +549,12 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def send_file(self, path: Path, ctype: str | None = None):
+    def send_file(self, path: Path, ctype: str | None = None, cache: str = "no-cache"):
         data = path.read_bytes()
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", ctype or mimetypes.guess_type(path.name)[0] or "application/octet-stream")
         self.send_header("Content-Length", str(len(data)))
-        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Cache-Control", cache)
         self.end_headers()
         self.wfile.write(data)
 
@@ -550,6 +580,16 @@ class Handler(BaseHTTPRequestHandler):
                 if not ID_FULL_RE.match(pid):
                     return self.send_error(HTTPStatus.BAD_REQUEST)
                 return self.send_json(self.tree.person(pid))
+            if path == "/api/map":
+                return self.send_json(self.tree.map())
+            m = re.match(r"^/tiles/([\w-]+)/([\w-]+)/(\d+)/(\d+)/(\d+)\.(webp|png|jpg)$", path)
+            if m:
+                f = WORKBENCH / "cache/mapy" / m[1] / m[2] / "xyz" / m[3] / m[4] / f"{m[5]}.{m[6]}"
+                if f.is_file():
+                    return self.send_file(f, cache="max-age=86400")
+                self.send_response(HTTPStatus.NO_CONTENT)  # mimo stažené území — prázdno, ne chyba
+                self.end_headers()
+                return
             if path == "/api/file":
                 rel = q.get("p", [""])[0]
                 f = (self.tree.root / rel).resolve()

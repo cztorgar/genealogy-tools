@@ -13,6 +13,7 @@ const STATE_HELP = {
   "rozpracováno": "session na osobě pracuje", "pozastaveno": "rozpracováno, odloženo",
   "dokončeno": "výzkum hotový, čeká na zápis", "zapsáno": "zapsáno do Gramps",
 };
+const TYPE_CS = { Birth: "narození", Death: "úmrtí", Residence: "bydliště", Census: "sčítání", Occupation: "povolání / bytem" };
 const SVGNS = "http://www.w3.org/2000/svg";
 const $ = (s) => document.querySelector(s);
 
@@ -492,6 +493,12 @@ function renderPerson(d) {
     h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   }
 
+  if (d.residences && d.residences.length) {
+    const rows = d.residences.slice().sort((a, b) => a.year - b.year).map((r) =>
+      `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
+       <a href="#" data-showmap="${esc(r.place)}|${esc(r.cp)}|${r.year}">na mapě</a></li>`).join("");
+    h += `<h2 class="sec">Bydliště (z patchů)</h2><ul>${rows}</ul>`;
+  }
   if (d.patches.length) {
     h += `<h2 class="sec">Patche (${d.patches.length})</h2>`;
     for (const pt of d.patches) {
@@ -583,6 +590,7 @@ async function poll() {
     $("#live").title = `živě — naposledy ${new Date().toLocaleTimeString("cs-CZ")}`;
     if (!st.unchanged) {
       S = st;
+      if (window.onStateChange) window.onStateChange();
       renderOverview();
       renderLegend();
       render();
