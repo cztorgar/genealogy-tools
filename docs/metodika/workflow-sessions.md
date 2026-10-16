@@ -159,3 +159,12 @@ dávej do uvozovek.
 
 Manager patch zkontroluje, aplikuje do Gramps, doplní `gramps_id` do dossieru, nastaví `stav: zapsáno`
 a commitne.
+
+## Autonomní režim (na pokyn uživatele)
+
+Pro osoby, kde se čeká málo nálezů (typicky nejstarší generace), může uživatel session pustit bez průběžné
+kontroly: session projde checklist sama, zápisy čte **dvakrát nezávisle (Claude + OpenAI, `read-record`)**
+a výřezy uživateli neukazuje. Shoda polí → běžná jistota pramene; **neshoda → obě čtení do `context`,
+citace o stupeň níž (min. 1)**; v citaci vždy „autonomní čtení Claude+OpenAI, neověřeno uživatelem“.
+Na konci jeden souhrnný patch se `status: schváleno` (hromadný souhlas uživatele, datum) — manager ho
+aplikuje bez další kontroly. Poprvé: K0448–K0451, 2026-10-16.
