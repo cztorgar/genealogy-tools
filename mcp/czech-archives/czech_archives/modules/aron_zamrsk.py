@@ -144,6 +144,12 @@ class AronZamrsk:
             })
         _, items = self._search(filters, limit=limit)
         regs = [_parse_listing(i) for i in items]
+        # výpis hledání příznak digitalizace neobsahuje → druhý dotaz s filtrem DIGITAL=Ano (hodnota je
+        # case-sensitive: „ano“ vrací 0) a průnik ID; bez toho by všechno vyšlo digitized=False
+        _, dig = self._search(filters + [{"field": "DIGITAL", "operation": "EQ", "value": "Ano"}], limit=limit)
+        dig_ids = {i["id"] for i in dig}
+        for r in regs:
+            r.digitized = r.id in dig_ids
         if kind == "I":
             regs = [r for r in regs if "I" in r.kinds]
         if kind == "S":

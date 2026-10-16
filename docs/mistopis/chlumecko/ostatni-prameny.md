@@ -11,9 +11,10 @@ popisných, v ARONu typ `sčítací operát`. **Doloženo.**
 - Fond pokrývá celý politický okres, tedy oba soudní okresy, Nový Bydžov i Chlumec.
 - Pro Kratonohy, Michnovku, Obědovice a Babice (s. o. Nechanice) je to fond **Okresní úřad Hradec
   Králové I**. **Doloženo** (rešerše okolí).
-- **Skeny:** jen u části svazků. Žiželice 1869–1900 jsou digitalizované (862 snímků 1869),
-  u Nepolis, Kratonoh a dalších vrací ARON `digitized: false`. Před cestou do archivu ověřit
-  u konkrétního svazku. **Doloženo** (u jednotlivých svazků).
+- **Skeny:** sčítací operáty fondu jsou v ARONu ve velké míře digitalizované (Žiželice 1869–1900,
+  862 snímků 1869; Nepolisy 18/18, Kratonohy 8/8, Kladruby 1900–1921 svazků s příznakem `DIGITAL=Ano`).
+  Starší údaj „`digitized: false` u Nepolis, Kratonoh…“ byl chyba MCP `find_registers` (opraveno
+  2026-10-16). U konkrétního svazku stejně ověřit `register_info` (počet snímků). **Doloženo.**
 
 **Jak číst tabulku:**
 - Číslo je **inventární číslo**; odkaz vede na záznam v ARONu.
@@ -183,5 +184,5 @@ Hledání v ARONu: `find_registers(place, kind="S")` v MCP `czech-archives`, neb
 1. Inventář Vs Chlumec (NAD 334): požádat archiv.
 2. Berní rula sv. 11–13 a soupis 1651: kraj, edice, digitalizát.
 3. Sčítání: ověřit mezery (Písek 1880, Lišice 1880, Lužec 1890, Hlavečník 1890, Uhlířská Lhota
-   1869) a které svazky jsou digitalizované.
+   1869); digitalizaci po svazcích ukazuje `find_registers` (od opravy 2026-10-16 spolehlivě).
 4. Kroniky obcí: dotaz na SOkA Hradec Králové / Kolín / Pardubice.
