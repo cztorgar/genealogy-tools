@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+cache/
+.token-cache.json
+.obsidian/
+.claude/settings.local.json

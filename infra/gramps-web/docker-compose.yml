@@ -1,0 +1,48 @@
+# Gramps Web — lokální instance workbenche.
+# Vychází z oficiálního příkladu gramps-project/gramps-web-docs (docker-compose-base).
+# Média: bind mount na media/ stromu (GRAMPS_MEDIA_DIR v .env).
+services:
+  grampsweb: &grampsweb
+    image: ghcr.io/gramps-project/grampsweb:${GRAMPSWEB_VERSION:-26.10.1}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${GRAMPSWEB_PORT:-5055}:5000"
+    environment:
+      # víc stromů: každý podadresář grampsdb = strom; uživatel patří k jednomu stromu
+      GRAMPSWEB_TREE: "*"
+      GRAMPSWEB_BASE_URL: "http://localhost:${GRAMPSWEB_PORT:-5055}"
+      GRAMPSWEB_CELERY_CONFIG__broker_url: "redis://grampsweb_redis:6379/0"
+      GRAMPSWEB_CELERY_CONFIG__result_backend: "redis://grampsweb_redis:6379/0"
+      GRAMPSWEB_RATELIMIT_STORAGE_URI: "redis://grampsweb_redis:6379/1"
+    depends_on:
+      - grampsweb_redis
+    volumes:
+      - gramps_users:/app/users
+      - gramps_index:/app/indexdir
+      - gramps_thumb_cache:/app/thumbnail_cache
+      - gramps_cache:/app/cache
+      - gramps_secret:/app/secret
+      - gramps_db:/root/.gramps/grampsdb
+      - ${GRAMPS_MEDIA_DIR:?nastav GRAMPS_MEDIA_DIR v .env}:/app/media
+      - gramps_tmp:/tmp
+
+  grampsweb_celery:
+    <<: *grampsweb
+    ports: []
+    depends_on:
+      - grampsweb
+      - grampsweb_redis
+    command: celery -A gramps_webapi.celery worker --loglevel=INFO --concurrency=2
+
+  grampsweb_redis:
+    image: docker.io/valkey/valkey:8-alpine
+    restart: unless-stopped
+
+volumes:
+  gramps_users:
+  gramps_index:
+  gramps_thumb_cache:
+  gramps_cache:
+  gramps_secret:
+  gramps_db:
+  gramps_tmp:

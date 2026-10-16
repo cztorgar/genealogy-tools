@@ -1,0 +1,40 @@
+# Gazetteer: farnost Žiželice (ř. k.) — generováno z docs/mistopis/zizelice.md, sekce 4
+parish: Žiželice
+confession: řkt
+archive: SOA Praha
+module: ebadatelna_praha
+url_pattern: https://ebadatelna.soapraha.cz/pages/MatrikaPage/matrikaId/{id}
+places: [Žiželice, Končice, Hradišťko II, Loukonosy, Kundratice, Zbraň, Korce, Převýšov, Bílé Vchynice, Hlavečník, Radovesnice II, Rasochy, Rozehnaly, Tetov]
+valid: {from: 1798, to: 1949}
+note: matriky před 10/1798 se nedochovaly
+volumes:
+  - {name: "Žiželice 01 (I.)", id: 10053, N: "1798–1816", IN: "1798–1816", scans: 221}
+  - {name: "Žiželice 02", id: 10054, N: "1816–1834", IN: "1816–1834", scans: 250}
+  - {name: "Žiželice 03", id: 10055, N: "1835–1841", IN: "1835–1841", scans: 258}
+  - {name: "Žiželice 04", id: 10056, N: "1842–1848", IN: "1842–1848", scans: 298}
+  - {name: "Žiželice 05", id: 10057, N: "1849–1852", IN: "1849–1852", scans: 269}
+  - {name: "Žiželice 06", id: 10058, N: "1853–1860", IN: "1853–1860", scans: 425}
+  - {name: "Žiželice 07", id: 10059, N: "1861–1865", IN: "1861–1865", scans: 272}
+  - {name: "Žiželice 08", id: 10060, O: "1798–1833", IO: "1798–1833", scans: 131}
+  - {name: "Žiželice 09", id: 10061, O: "1834–1849", IO: "1834–1849", scans: 189}
+  - {name: "Žiželice 10", id: 10062, O: "1850–1870", IO: "1850–1870", scans: 380}
+  - {name: "Žiželice 11", id: 10063, Z: "1798–1816", IZ: "1798–1816", scans: 113}
+  - {name: "Žiželice 12", id: 10064, Z: "1816–1834", IZ: "1816–1834", scans: 128}
+  - {name: "Žiželice 13", id: 10065, Z: "1835–1850", IZ: "1835–1850", scans: 248}
+  - {name: "Žiželice 14", id: 10066, Z: "1851–1876", IZ: "1851–1876", scans: 406}
+  - {name: "Žiželice 15", id: 10067, N: "1866–1872", IN: "1866–1872", scans: 349}
+  - {name: "Žiželice 16", id: 10068, N: "1873–1880", IN: "1873–1880", scans: 417}
+  - {name: "Žiželice 17", id: 10069, N: "1881–1895", scans: 467}
+  - {name: "Žiželice 18", id: 10070, N: "1896–1905", scans: 360}
+  - {name: "Žiželice 19", id: 10071, O: "1871–1888", IO: "1871–1888", scans: 266}
+  - {name: "Žiželice 20", id: 10072, O: "1889–1909", IO: "1889–1909", scans: 279}
+  - {name: "Žiželice 21", id: 10073, Z: "1877–1905", scans: 288}
+  - {name: "Žiželice 22", id: 10074, IN: "1866–1880", scans: 77}
+  - {name: "Žiželice 23", id: 10075, IN: "1881–1905", scans: 90}
+  - {name: "Žiželice 24", id: 10076, IZ: "1877–1905", scans: 88}
+  - {name: "Žiželice 25", id: 10077, Z: "1906–1930", IZ: "1906–1930", scans: 366}
+  - {name: "Žiželice 26 (XII.)", id: 14421, N: "1906–1916", IN: "1906–1916", scans: 373}
+  - {name: "Žiželice 27", id: 14422, O: "1910–1934", IO: "1910–1934", scans: 337}
+  - {name: "Žiželice 28", id: 15734, O: "1934–1949", IO: "1934–1949", scans: 277}
+  - {name: "Žiželice 29", id: 15733, Z: "1931–1949", scans: 240}
+  - {name: "Žiželice 30", id: 15725, IZ: "1931–1949", scans: 43}

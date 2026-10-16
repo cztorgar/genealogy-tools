@@ -1,0 +1,118 @@
+---
+name: research-person
+description: Výzkum jedné osoby stromu v samostatné session — projde checklist, hledá v pramenech, přepisuje záznamy, vede log a připraví patch pro managera. Použij, když uživatel napíše "/research-person K0042" nebo "zkoumej K42".
+---
+
+# Výzkum osoby
+
+Argument: číslo osoby (`K42`, `K0042`) a volitelně strom (výchozí `berescak`).
+Strom: `../genealogy-trees/<strom>/`. Jsi **osobní session** — pravidla v
+`docs/metodika/workflow-sessions.md` (co smíš zapisovat). Komunikuj česky.
+
+## 1. Načti kontext
+
+1. `CLAUDE.md`, `docs/metodika/workflow-sessions.md`, `dukazni-standard.md`, `citace.md`, `prepis.md`.
+2. Dossier `research/people/<ID>-<slug>.md` (slug začíná malým písmenem — `K0001-vojtech-…`, ne `K0001-C1-…`).
+3. Kontext (jen čtení): u přímého předka dossiery rodičů (K×2, K×2+1) a dítěte (K÷2); u vedlejší linie
+   (`K0001-S1`, `K0002-C1-C2`) dossier kotvy (část ID před posledním `-S<n>`/`-C<n>`) a jejích dalších
+   manželů/dětí (`research/people/README.md`, sekce Vedlejší linie).
+4. Nápovědy pro tuto osobu: `research/hints/K<nnnn>-*.md`.
+5. Pokud chceš porovnat se starým stromem: Gramps strom `myheritage-ref` (čtení).
+
+## 2. Úvodní karta (vždy jako první výstup, ještě před jakoukoli prací)
+
+Vypiš uživateli přehled — **nic nehledej, dokud ho uživatel neviděl**:
+
+```
+## K42 · Jan Řezáč  (otec → matka → otec → matka → otec, generace 6)
+Stav: převzato (původ: myheritage) · Gramps berescak: nezapsán · MyHeritage: I500150
+
+### Co víme
+| Údaj | Hodnota | Jistota | Zdroj |
+|---|---|---|---|
+| narození | 17. 7. 1841, Nosetín č. 10 | 0 | MyHeritage (Smart Match) |
+| ...
+Rodiče: Josef Řezáč (K84, stav …), Terezie Macháčková (K85, stav …)
+Manželka: Magdaléna Bardová (K43) · Děti: … (K21 = naše linie)
+
+### Co máme za soubory
+- dossier: research/people/K0042-jan-rezac.md
+- nápovědy: research/hints/K0042-… (počet, od koho)
+- snímky: sources/K0042/ (počet) · přepisy: transcriptions/K0042-* · patche: patches/P-K0042-*
+- fotky: media/… (z dossieru, sekce Média)
+- odkazy do archivů z poznámek: …
+
+### Checklist
+doloženo x/y · slabě z · hledáno bez výsledku w · nehledáno … (vypsat nehledané podle priority)
+
+### Slabá místa a rozpory
+- …
+```
+
+Zdroje pro kartu: dossier, dossiery rodičů a dítěte (jejich `stav:`), `research/hints/K<nnnn>-*`,
+výpis souborů v `sources/K<nnnn>/`, `transcriptions/K<nnnn>-*`, `patches/P-K<nnnn>-*`; je-li osoba už
+v Gramps `berescak` (`gramps_id` v dossieru), načti její doložená fakta a ukaž je s jistotou z citací.
+
+Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
+
+## 3. Začni
+
+- Až uživatel odsouhlasí plán: nastav v dossieru `stav: rozpracováno` a pošli managerovi zprávu
+  `herdr agent prompt manager "K0042 Jan Řezáč: začínám"`.
+- Pořadí hledání:
+  1. odkazy do archivů z poznámek (už někdo něco našel),
+  2. křest / narození (N), 3. sňatek (O), 4. úmrtí (Z),
+  5. ostatní položky checklistu podle období.
+- U osob mladších 100 let (N) / 75 let (O, Z) se zeptej na **rodinné doklady** — online matriky nejsou.
+
+### Doklady k dohledání
+
+Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k dohledání` **svého** dossieru:
+
+```
+- [ ] oddací list 2018 — Vojtěch Bereščák × Zuzana Jiránková | potvrdí: datum a místo sňatku, rodiče snoubenců | kde: doma
+```
+
+- Název dokladu piš **jednotně** (`rodný list — <jméno>`, `oddací list <rok> — <on> × <ona>`,
+  `úmrtní list — <jméno>`, `rozvodový rozsudek <rok> — …`) — stejný doklad u dvou osob se pak v přehledu sloučí.
+- `kde`: `doma` · `u rodičů` · `u prarodičů` · `matriční úřad <obec>` · `soud <obec>` · `archiv <název>` · `neurčeno`.
+- Když doklad dorazí (sken v `../genealogy-trees/<strom>/doklady/`), přesuň ho do `sources/<ID>/`,
+  udělej sidecar citaci a změň řádek na `[x]` s cestou k souboru. Nesehnatelné = `[-]` + důvod.
+- Po změně spusť regeneraci přehledů (deterministická, smí kdokoli):
+  `python3 tools/research/build_queue.py ../genealogy-trees/<strom>/data/exports/myheritage/2026-10-16.ged @I500003@ ../genealogy-trees/<strom>/research/people`
+  → aktualizuje `research/doklady.md` a frontu.
+
+## 4. Hledání
+
+- Najdi správný svazek: obec + rok → farnost → archiv (`docs/archivy/`, místopis `docs/metodika/mista.md`).
+  Jakmile existuje MCP `czech-archives`, použij `find_registers` / `fetch_page`.
+  Do té doby: dej uživateli přesný odkaz na svazek a požádej o snímek / screenshot stránky
+  (nebo ji otevři přes Claude in Chrome, pokud to uživatel chce).
+- Snímek ulož do `sources/K<nnnn>/` + sidecar `.yml` s citací (vzor v `citace.md`).
+- **Každé hledání zapiš** do „Log hledání“ v dossieru — i „nenalezeno“ (svazek, roky, snímky).
+
+## 5. Přepis
+
+- Snímek přečti (obrázky čteš přímo). Jakmile bude `reader` (Claude + OpenAI), použij ho a porovnej po polích.
+- Výsledek do `transcriptions/K<nnnn>-<udalost>-<rok>.md` (4 vrstvy) + `.json` (pole s `raw`, `value`,
+  `confidence`).
+- Jména a data **ukaž uživateli proti snímku** a nech potvrdit — přepis je draft.
+
+## 6. Vyhodnocení
+
+- Pravidlo jmenovce: kromě jména aspoň dva nezávislé údaje. Rozpory s nápovědami z MyHeritage
+  zapiš do „Výzkum“ v dossieru a nech rozhodnout uživatele.
+- Odškrtej checklist (`[x]`, `[~]`, `[-]`, `[n]`).
+- Co jsi zjistil o **jiných osobách** (rodiče ze záznamu o křtu, sourozenci, č. p.), zapiš jako nový
+  soubor `research/hints/K<cíl>-<YYYY-MM-DD>-od-K<nnnn>.md` s odkazem na přepis. Do cizích dossierů nepiš.
+
+## 7. Patch a předání
+
+- Až uživatel údaje proti snímku potvrdí, nastav v patchi `status: schváleno` (bez toho ho manager nezapíše).
+- Až jsou základní fakta doložená (aspoň N, u ženatých O, u zemřelých Z — nebo co jde), vytvoř
+  `patches/P-K<nnnn>-<nn>.yml` podle formátu ve `workflow-sessions.md`.
+- Nastav `stav: dokončeno` a pošli managerovi zprávu (`herdr agent prompt manager "K0042: patch patches/P-K0042-01.yml — <shrnutí>"`).
+- Když se zasekneš (chybí pramen, potřeba modulu archivu), nastav `stav: pozastaveno`, popiš proč
+  v dossieru a dej vědět managerovi.
+
+Do Gramps `berescak` nezapisuj, necommituj a neměň workbench — to dělá manager.

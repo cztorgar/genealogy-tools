@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "genealogy": {
+      "command": "uvx",
+      "args": [
+        "genealogy-mcp==0.5.1"
+      ]
+    },
+    "czech-archives": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "mcp/czech-archives",
+        "czech-archives"
+      ]
+    }
+  }
+}

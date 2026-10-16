@@ -1,0 +1,114 @@
+# Pracovní workflow — manager a osobní session
+
+Strom se staví **od nuly, osoba po osobě**: přímí předci od výchozí osoby dozadu (čísla podle Kekuleho).
+Export z MyHeritage je jen zdroj nápověd (Gramps strom `myheritage-ref`), master je Gramps strom
+`berescak`, který obsahuje jen doložené osoby.
+
+## Role
+
+| Session | Pojmenování | Co dělá |
+|---|---|---|
+| **manager** | `manager` | řídí frontu, otevírá práci na osobách, kontroluje a aplikuje patche do Gramps, commituje repo stromu, rozvíjí workbench (nástroje, moduly archivů, metodiku) |
+| **osobní session** | `K0042` (číslo osoby) | výzkum jedné osoby: checklist, hledání, přepisy, závěr, patch; spouští se skillem `/research-person K0042` |
+
+Všechny session startují ve složce workbenche (`genealogy/`) — tam se načtou pravidla, skills a MCP.
+Strom je v `../genealogy-trees/<strom>/`.
+
+## Kdo smí co zapisovat (aby se session nepraly)
+
+| Soubor | Osobní session K | Manager |
+|---|---|---|
+| `research/people/K<nnnn>-*.md` (vlastní dossier) | ✅ | ✅ |
+| dossier **jiné** osoby | ❌ → zapiš nápovědu do `research/hints/` | ✅ |
+| `research/hints/K<cíl>-<datum>-od-K<nnnn>.md` (nový soubor) | ✅ | ✅ |
+| `sources/K<nnnn>/…`, `transcriptions/K<nnnn>-*` | ✅ | ✅ |
+| `patches/P-K<nnnn>-<nn>.yml` | ✅ vytvořit | ✅ schválit / aplikovat |
+| `research/people/README.md` (fronta), `research/doklady.md` | jen přes `build_queue.py` | ✅ (generuje `build_queue.py`) |
+| `doklady/` (skeny od uživatele) | ✅ přesunout do `sources/<ID>/` | ✅ |
+| Gramps strom `berescak` | ❌ jen čtení | ✅ zápis (z patche) |
+| git commit repa stromu | ❌ | ✅ |
+| workbench (`genealogy/`) | ❌ — návrhy změn pošli managerovi | ✅ |
+
+## Centrální seznam dokladů
+
+`research/doklady.md` = co musí uživatel sehnat, seskupené podle místa (doma, u rodičů, matriční úřad…).
+Generuje se ze sekcí `## Doklady k dohledání` v dossierech — session zapisují jen do svého dossieru,
+přehled se skládá automaticky (formát řádku ve skillu `research-person`). Skeny dává uživatel do
+`doklady/`, session je zařadí do `sources/<ID>/` a odškrtnou.
+
+## Životní cyklus osoby
+
+Front-matter dossieru má dvě pole:
+
+**`původ:`** — odkud osobu známe (nemění se): `myheritage` · `pramen` (narazili jsme na ni v záznamu —
+kmotr, svědek, sourozenec) · `ústně` (z vyprávění).
+
+**`stav:`** — kde je výzkum:
+
+| Stav | Význam | Kdo nastavuje |
+|---|---|---|
+| `zmínka` | narazili jsme na ni, dossier založen, nic nezkoumáno | kdokoli, kdo ji objeví (přes manažera — založení dossieru) |
+| `převzato` | jen údaje z MyHeritage, nic ověřeného | generátor fronty |
+| `rozpracováno` | výzkum začal | osobní session po odsouhlasení plánu |
+| `pozastaveno` | čeká na doklad / pramen — důvod v dossieru | osobní session |
+| `dokončeno` | výzkum hotový, patch připraven pro managera | osobní session |
+| `zapsáno` | v Gramps `berescak` s citacemi | manager |
+
+```
+zmínka ─┐
+        ├──► rozpracováno ⇄ pozastaveno ──► dokončeno ──► zapsáno
+převzato┘
+```
+
+Fronta (`research/people/README.md`) čte stav z dossierů a ukazuje souhrn.
+
+## Herdr
+
+Všechno běží v herdr (terminálový multiplexer pro agenty), ve workspace
+`genealogy`. Manager je tab + agent `manager`.
+
+- **Otevření osobní session** dělá manager: `tools/sessions/open_person.sh 42` → nový tab `K0042 <příjmení>`,
+  Claude Code s agentem/jménem `k0042`, spuštěný `/research-person K0042`. Když session už běží, jen se na
+  ni přepne.
+- **Zpráva managerovi:** `herdr agent prompt manager "K0042: <zpráva>"` (bez `--wait`).
+- **Manager → osobní session:** `herdr agent prompt k0042 "<zpráva>"`; stav `herdr agent get k0042`.
+- **Session zavírá manager jen na pokyn uživatele.** Ani po zápisu patche (`zapsáno`) ji nezavírat sám —
+  u osoby můžou zůstat otevřené body. Před zavřením ověřit, že agent nepracuje. Všechno podstatné je v dossieru; po dodání dokladu se otevře nová session a úvodní karta naváže.
+
+## Komunikace
+
+- Osobní session posílá managerovi zprávu (`herdr agent prompt manager …`), když:
+  patch je hotový · narazila na blok (chybí pramen, nečitelný snímek, potřeba nového modulu archivu) ·
+  zjistila něco podstatného o jiné osobě (a zapsala to do `research/hints/`).
+- Manager odpovídá do téže session nebo rozhodne o další osobě.
+- Rozhodnutí, která patří uživateli (sporná identita, přijetí rozporu), se neřeší mezi session —
+  vždy se zeptat uživatele.
+
+## Patch (`patches/P-K0042-01.yml`)
+
+```yaml
+person: K42                       # číslo osoby, Gramps ID doplní manager při zápisu
+status: navrženo                  # navrženo → schváleno → aplikováno
+summary: Jan Řezáč, * 17. 7. 1841 Nosetín č. 10, ověřeno v matrice N
+changes:
+  - op: add_event                 # add_event | update_event | add_citation | add_media (viz tools/gramps/apply_patch.py)
+    type: Birth                   # Birth | Baptism | Marriage | Death | Burial | Residence | Occupation | Census
+    date: 17 JUL 1841
+    place: Nosetín
+    description: "č. p. 10"
+    citation: c1
+citations:
+  c1:
+    source_sidecar: sources/K0042/soapraha-nosetin-N-1830-1850-s18.yml
+    page: "fol. 12v, snímek 18"
+    confidence: 4
+    transcription: transcriptions/K0042-krest-1841.md
+```
+
+Osoby a rodinné vazby zakládá manager rovnou (`ensure_persons.py`, `ensure_family.py`) — patch nese jen
+fakta. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
+`description`/`date`/`place`), `add_citation` (`event: <handle>` + `citation`), `add_media` (`file`, `citation`).
+Handly událostí jsou v sekci `applied:` dřívějších patchů.
+
+Manager patch zkontroluje, aplikuje do Gramps, doplní `gramps_id` do dossieru, nastaví `stav: zapsáno`
+a commitne.
