@@ -78,3 +78,10 @@ generátor citací a sidecar `.yml`.
 2. `ebadatelna_praha` — střední Čechy
 3. `kramerius` — schematismy (farnosti), noviny
 4. ostatní podle potřeby
+
+## Backlog
+
+- `aron_zamrsk.find_house(register_id, cp)` — u sčítacích operátů najít snímky domácnosti podle čísla
+  popisného (názvy souborů snímků v ARONu obsahují čp., např. `…-cp-300.jpg`; tip z výzkumu K0014).
+- modul `ebadatelna_praha` (matriky Žiželic a střední Čechy).
+- SQLite katalog svazků (`sync_catalog`), gazetteer → `find_registers` podle obce bez znalosti archivu.
