@@ -150,7 +150,15 @@ class PeroWeb:
         if wait > 0:
             time.sleep(wait)
         kw.setdefault("timeout", 120)
-        r = self.s.request(method, BASE + path, **kw)
+        for attempt in range(4):
+            try:
+                r = self.s.request(method, BASE + path, **kw)
+                break
+            except (requests.ConnectionError, requests.Timeout) as e:
+                if attempt == 3 or method != "GET":
+                    raise PeroError(f"{method} {path}: {e}") from e
+                self._log(f"spojení selhalo ({type(e).__name__}), zkusím znovu za {30 * (attempt + 1)} s")
+                time.sleep(30 * (attempt + 1))
         self._last = time.monotonic()
         _check_bot_protection(r)
         return r
@@ -351,29 +359,41 @@ def _crop(image: Path, crop: tuple[int, int, int, int], tmp_dir: Path) -> tuple[
 
 
 def ocr_image(image: Path, out_dir: Path, engine: str | None, layout: str | None, lm: str | None,
-              keep: bool = False, crop: tuple[int, int, int, int] | None = None) -> dict:
+              keep: bool = False, crop: tuple[int, int, int, int] | None = None,
+              document_id: str | None = None) -> dict:
+    """Celý běh pro jeden snímek. S document_id jen naváže na už rozběhnutý dokument (čeká + export)."""
     import tempfile
     pw = PeroWeb()
     pw.login()
-    name = f"workbench-{dt.date.today().isoformat()}-{uuid.uuid4().hex[:8]}"
     tmp = tempfile.TemporaryDirectory(prefix="pero-")
     upload_img, orig_size = image, None
     if crop:
         upload_img, orig_size = _crop(image, crop, Path(tmp.name))
-    doc_id = pw.ensure_document(name)
+    det, used = {"name": layout}, {"ocr": {"name": engine}, "language_model": {"name": lm}}
+    if document_id:
+        doc_id, name = document_id, pw.document(document_id)["name"]
+    else:
+        name = f"workbench-{dt.date.today().isoformat()}-{uuid.uuid4().hex[:8]}"
+        doc_id = pw.ensure_document(name)
+    ok = False
     try:
-        pw.upload(doc_id, [upload_img])
-        det = pw.run_layout(doc_id, layout)
-        pw.wait(doc_id, ST_LAYOUT_DONE)
-        used = pw.run_ocr(doc_id, engine, lm)
+        if not document_id:
+            pw.upload(doc_id, [upload_img])
+            det = pw.run_layout(doc_id, layout)
+            pw.wait(doc_id, ST_LAYOUT_DONE)
+            used = pw.run_ocr(doc_id, engine, lm)
         pw.wait(doc_id, ST_OCR_DONE)
         pages = pw.export(doc_id)
+        ok = True
     finally:
-        if not keep:
+        if ok and not keep:
             try:
                 pw.delete(doc_id)
             except Exception as e:  # noqa: BLE001 — smazání je best-effort
                 pw._log(f"smazání selhalo: {e}")
+        elif not ok:
+            pw._log(f"běh nedokončen — dokument {doc_id} ponechán; navázat: "
+                    f"pero_web.py ocr {image} --document {doc_id}")
         tmp.cleanup()
     page = pages[0]
     xml = page["page_xml"]
@@ -407,6 +427,7 @@ def main() -> int:
     o.add_argument("--out", type=Path, help="výstupní adresář (výchozí: vedle snímku)")
     o.add_argument("--crop", help="výřez x,y,w,h v pixelech původního snímku (odešle se jen výřez)")
     o.add_argument("--keep", action="store_true", help="dokument na serveru nemazat")
+    o.add_argument("--document", help="navázat na už spuštěný dokument (jen čekání + export)")
     sub.add_parser("engines", help="vypsat dostupné enginy (vytvoří a smaže prázdný dokument)")
     sub.add_parser("documents", help="vypsat dokumenty účtu")
     d = sub.add_parser("delete", help="smazat dokument")
@@ -422,7 +443,8 @@ def main() -> int:
                     assert len(crop) == 4
                 except (ValueError, AssertionError):
                     raise PeroError("--crop čeká x,y,w,h (celá čísla).")
-            meta = ocr_image(a.image, a.out or a.image.parent, a.engine, a.layout, a.lm, a.keep, crop)
+            meta = ocr_image(a.image, a.out or a.image.parent, a.engine, a.layout, a.lm, a.keep, crop,
+                             a.document)
             print(f"{len(meta['lines'])} řádků → {(a.out or a.image.parent) / a.image.stem}.pero.(xml|txt|json)")
             return 0
         pw = PeroWeb()

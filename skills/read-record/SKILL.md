@@ -46,5 +46,7 @@ Krátká tabulka: pole · Claude · OpenAI · PERO · výsledek; pod ní sporná
 Po rozhodnutí uživatele: finální přepis do `<snímek>.md` + `.json` (4 vrstvy dle `prepis.md`), u polí
 uveď zdroj čtení a rozhodnutí. Cenu volání OpenAI hlásí reader (`~/.cache/genealogy-workbench/reader/usage.jsonl`).
 
-Stav nástrojů: `openai_read.py` a `compare.py` — ve výstavbě; `pero_web.py` — ve výstavbě (session
-„nástroj PERO web“). Dokud nejsou hotové, dělej jen krok 2.1 a dej vědět managerovi.
+Stav nástrojů (2026-10-16): `openai_read.py` a `compare.py` **hotové** (výchozí `gpt-6.1-sol`, effort low,
+≈ 0,04–0,05 USD/výřez). **PERO odloženo** (rozhodnutí uživatele): klient `pero_web.py` je hotový, ale OCR ve sdílené
+frontě webu nedoběhlo a rukopisné modely nejsou pro lokální běh veřejné — **krok 2.3 zatím vynech** a porovnávej
+dvě čtení (Claude + OpenAI). Viz `docs/nastroje/pero.md`.
