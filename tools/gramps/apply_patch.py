@@ -161,6 +161,17 @@ class Applier:
         self.log.append(f"+ médium {path.name}")
         return h
 
+    def context_note(self, ev_handle: str, text: str) -> None:
+        """Kontext záznamu (domácnost, rodiče, kmotři…) → Event Note k události, aby popis zůstal jen o osobě."""
+        if self.dry or not text:
+            return
+        res = self.gw.post("/notes/", {"_class": "Note", "type": "Event Note",
+                                       "text": {"_class": "StyledText", "string": "Kontext záznamu:\n" + str(text).strip(),
+                                                "tags": []}})
+        ev = self.gw.get(f"/events/{ev_handle}")
+        ev["note_list"].append(next(o["handle"] for o in res if o["_class"] == "Note"))
+        self.gw.put(f"/events/{ev_handle}", ev)
+
     def attach_event(self, kind: str, obj: dict, ev: str, role: str) -> None:
         if self.dry:
             return
@@ -211,6 +222,7 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
             if pl:
                 ev["place"] = pl
             h = a.create("events", ev, "Event")
+            a.context_note(h, ch.get("context", ""))
             if ch.get("family"):
                 f, m = (norm_id(x) for x in ch["family"])
                 fam = a.find("families", f"F-{f}-{m}")
@@ -236,7 +248,8 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 if ch.get("citation") and cites[ch["citation"]] not in ev["citation_list"]:
                     ev["citation_list"].append(cites[ch["citation"]])
                 a.gw.put(f"/events/{ch['event']}", ev)
-                a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place') if k in ch)}")
+                a.context_note(ch["event"], ch.get("context", ""))
+                a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place', 'context') if k in ch)}")
             applied.append({"op": op, "event": ch["event"]})
         elif op == "add_note":
             # poznámka (Gramps Note) k události, nebo k osobě, když `event` chybí. Note v Gramps citace nemá,

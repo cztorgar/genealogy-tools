@@ -103,7 +103,8 @@ changes:
     type: Birth                   # Birth | Christening | Marriage | Death | Burial | Residence | Occupation | Census
     date: 17 JUL 1841
     place: Nosetín
-    description: "č. p. 10"
+    description: "Nosetín č. 10"            # jen o této osobě, krátce
+    context: "otec Josef Řezáč, tkadlec; kmotři …"   # kontext záznamu → poznámka k události
     citation: c1
 citations:
   c1:
@@ -135,6 +136,11 @@ dávej do uvozovek.
 - zapisuj **všechno potvrzené**, i nestrukturované údaje — kmotři, svědci, oddávající/křtitel, porodní bába,
   č. p., stav a povolání, příbuzní uvedení v zápisu, poznámky matrikáře → do `description` události
   (případně do další události: `Occupation`, `Residence`, `Religion`).
+- **Popis vs. kontext:** `description` = jen to, co záznam říká **o této osobě**, stručně (vidí se v seznamu
+  událostí: „obuvník, Žiželice č. 300“). Vše ostatní ze záznamu — domácnost, rodiče, děti, kmotři, svědci,
+  oddávající, poznámky — patří do pole **`context`** (aplikátor z něj udělá poznámku k události).
+  Údaj převzatý ze záznamu příbuzného označ v popisu krátce v hranatých závorkách:
+  „rolník, Žiželice č. 300 [z oddacího listu syna Josefa]“.
 - **Náboženství** = událost `Religion` (datum a místo záznamu, popis „římskokatolické“); přestup = další
   `Religion` s popisem („přestup do Církve československé“).
 
