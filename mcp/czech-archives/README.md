@@ -1,8 +1,10 @@
 # czech-archives — modulární MCP pro české archivy
 
 Jeden MCP server, jeden modul na archiv/portál. Moduly se dopisují podle toho, který archiv zrovna
-potřebujeme. Stav: **v0.1 — hotový modul `aron_zamrsk`** (SOA Zámrsk / Hradec Králové, viz
-[`docs/archivy/aron-zamrsk.md`](../../docs/archivy/aron-zamrsk.md)); ostatní moduly jsou zatím návrh.
+potřebujeme. Stav: **v0.2 — hotové moduly `aron_zamrsk`** (SOA Zámrsk / Hradec Králové, viz
+[`docs/archivy/aron-zamrsk.md`](../../docs/archivy/aron-zamrsk.md)) **a `ebadatelna_praha`** (SOA Praha,
+eBadatelna, viz [`docs/archivy/ebadatelna-praha.md`](../../docs/archivy/ebadatelna-praha.md));
+ostatní moduly jsou zatím návrh.
 
 ## Spuštění
 
@@ -34,8 +36,25 @@ Struktura: `czech_archives/core/` (modely, HTTP klient s rate limitem a cache, c
   `persons`, `confidence` a folio doplní člověk po přečtení zápisu.
 - Funguje s `mcp` 1.x (`FastMCP`) i 2.x (`MCPServer`).
 
-Zatím neimplementováno: `sync_catalog` / SQLite katalog, gazetteer, `search_names`, `fetch_register`
-(stažení celé sady — záměrně jen info o ZIPu).
+Zatím neimplementováno: `sync_catalog` / SQLite katalog, `search_names`, `fetch_register`
+(stažení celé sady — záměrně jen info o ZIPu). Gazetteer YAML zatím používá jen `ebadatelna_praha`
+jako offline zálohu hledání.
+
+### Modul `ebadatelna_praha` (SOA Praha)
+
+Nástroje jsou stejné, jen s `module="ebadatelna_praha"`; `register_id` = **matrikaId** (číslo
+z `…/MatrikaPage/matrikaId/<ID>` nebo z krátkého odkazu `…/d/<ID>/<snímek>`), `image` = číslo
+snímku v prohlížeči (= číslo v krátkém odkazu).
+
+- bez přihlášení (anonymní Wicket session, cookie jen v paměti), HTML parsing, žádné API;
+- `find_registers` = živé hledání eBadatelny „v lokalitách“ (podřetězec, i historické názvy obcí),
+  při výpadku portálu záloha z `gazetteer/*.yml`; v Pythonu `in_titles=True` hledá v názvech knih;
+- `fetch_page` = HTML prohlížeče `/d/<ID>/<snímek>` → odkaz „stáhnout“ → originální JPG
+  (2 požadavky, tj. ~5 s); sidecar `.yml` s odkazem `https://ebadatelna.soapraha.cz/d/<ID>/<snímek>`;
+- `register_zip_info` jen vrátí poznámku — ZIP celé knihy je pro registrované, modul ho nepoužívá;
+- jen v Pythonu (zatím ne jako MCP tool): `register_details(ID)` (okres, typ knihy, rozsahy N/O/Z
+  a indexů, lokality s variantami) a `image_map(ID)` — oddíly svazku podle obcí s čísly snímků
+  z „Obecného popisu“ (např. Loukonosy fol. 173–184 = snímky 165–176).
 
 ## Nástroje (MCP tools)
 
@@ -74,8 +93,8 @@ generátor citací a sidecar `.yml`.
 
 ## Pořadí modulů
 
-1. `aron_zamrsk` — hlavní archiv stromu `berescak` (Chlumecko, Bydžovsko, Hradecko)
-2. `ebadatelna_praha` — střední Čechy
+1. `aron_zamrsk` — hlavní archiv stromu `berescak` (Chlumecko, Bydžovsko, Hradecko) — hotovo
+2. `ebadatelna_praha` — střední Čechy (Žiželice, Týnec n. L., Žehuň, Ohaře) — hotovo
 3. `kramerius` — schematismy (farnosti), noviny
 4. ostatní podle potřeby
 
@@ -83,5 +102,7 @@ generátor citací a sidecar `.yml`.
 
 - `aron_zamrsk.find_house(register_id, cp)` — u sčítacích operátů najít snímky domácnosti podle čísla
   popisného (názvy souborů snímků v ARONu obsahují čp., např. `…-cp-300.jpg`; tip z výzkumu K0014).
-- modul `ebadatelna_praha` (matriky Žiželic a střední Čechy).
+- MCP tool pro `ebadatelna_praha.register_details` / `image_map` (navigace k oddílu obce ve svazku)
+  — vyžaduje úpravu `server.py`.
+- `ebadatelna_praha`: fond pro citaci (portál ho neuvádí; ověřit v ARON SOA Praha).
 - SQLite katalog svazků (`sync_catalog`), gazetteer → `find_registers` podle obce bez znalosti archivu.

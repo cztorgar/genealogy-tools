@@ -53,6 +53,7 @@ _RE_DL = re.compile(r'href="([^"]*wicket/resource/org\.apache\.wicket\.Applicati
 _RE_SCAN = re.compile(r'id="scanImage"[^>]*\bsrc="([^"]+)"')
 _RE_SIZE = re.compile(r'footerDataPageText">\s*([\d.,]+\s*[kMG]?B)\s*<')
 _RE_OPTION = re.compile(r"<option\b")
+_RE_JSESSION = re.compile(r";jsessionid=[0-9A-Fa-f]+")
 _RE_YEARS = re.compile(r"(\d{4})\s*-\s*(\d{4})")
 _RE_SECTION = re.compile(
     r"^(?P<label>.+?)\s+(?P<period>[\d/ .-]*\d{4}(?:\s*-\s*[\d/]*\d{4})?)?,?\s*"
@@ -245,7 +246,7 @@ class EbadatelnaPraha:
             year_from=yf,
             year_to=yt,
             years_text=_ranges_text(ranges) or None,
-            places=", ".join(localities) or None,
+            places=", ".join(x.split(" / ")[0] for x in localities) or None,
             signature=title or None,           # „název knihy“ = farnost + pořadové číslo
             signature_orig=first("Původní název"),
             storage=first("Místo uložení"),
@@ -305,6 +306,7 @@ class EbadatelnaPraha:
             return hit
         self.session._reset()                       # čistá session = předvídatelná čísla Wicket stránek
         url, page = self.session.request(f"{BASE}/pages/SearchMatrikaPage")
+        page = _RE_JSESSION.sub("", page)   # první odpověď nové session nese ;jsessionid=… v URL
         form = re.search(r'<form class="searchForm" id="([^"]+)"', page)
         btn = re.search(r'"u":"\./(SearchMatrikaPage\?[^"]*-searchForm-searchButton)"', page)
         if not form or not btn:
@@ -321,6 +323,7 @@ class EbadatelnaPraha:
             "searchButton": "1",
         }
         _, xml = self.session.request(f"{BASE}/pages/{btn[1]}", data, ajax_base)
+        xml = _RE_JSESSION.sub("", xml)
         rows = self._parse_results(xml)
         total = int((re.search(r"nalezeno\s+(\d+)", xml) or [0, len(rows)])[1])
         seen = {r["id"] for r in rows}
@@ -330,6 +333,7 @@ class EbadatelnaPraha:
                 break
             _, xml = self.session.request(f"{BASE}/pages/{nxt[1]}&_={int(time.time() * 1000)}",
                                           None, ajax_base)
+            xml = _RE_JSESSION.sub("", xml)
             new = [r for r in self._parse_results(xml) if r["id"] not in seen]
             if not new:
                 break
@@ -442,6 +446,8 @@ class EbadatelnaPraha:
             return hit
         url = self.viewer_url(register_id, image)
         final, text = self.session.request(url)
+        text = _RE_JSESSION.sub("", text)
+        final = _RE_JSESSION.sub("", final)
         total = len(_RE_OPTION.findall(text.split("pageDropdown", 1)[-1])) if "pageDropdown" in text else None
         if total and not 1 <= image <= total:
             raise ValueError(f"snímek {image} mimo rozsah 1–{total}")
