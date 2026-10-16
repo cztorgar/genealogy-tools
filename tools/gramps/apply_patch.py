@@ -6,7 +6,8 @@ souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `sta
 `applied:` s handly, v dossieru osoby `stav: zapsáno`.
 
 Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (type/description/date/place
-existující události), add_citation (k existující události), add_media. Zdroj = dokument
+existující události), add_citation / remove_citation (k existující události), update_citation
+(page/confidence podle Gramps ID citace), add_media. Zdroj = dokument
 ze sidecaru (`sources/<ID>/<doklad>.yml`), jeden Gramps Source na doklad (Gramps ID `S-<doklad>`),
 citace s jistotou, k citaci se připojí médium. Místa se zakládají podle názvu (hierarchie později).
 
@@ -129,9 +130,23 @@ class Applier:
                                                   f"uloženo: {meta.get('custody', '?')}"}, "Source")
 
     def citation(self, c: dict, pid: str) -> str:
+        """Citace zdroje; existuje-li už citace téhož zdroje se stejným `page` a jistotou, použije se znovu
+        (dřív každý patch zakládal novou → duplikáty)."""
         src = self.source(self.tree / c["source_sidecar"], pid)
-        return self.create("citations", {"_class": "Citation", "source_handle": src, "page": c.get("page", ""),
-                                         "confidence": int(c.get("confidence", 2))}, "Citation")
+        page, conf = c.get("page", ""), int(c.get("confidence", 2))
+        if not self.dry and not src.startswith("DRY"):
+            for ex in self.gw.get("/citations/?pagesize=10000"):
+                if ex["source_handle"] == src and ex.get("page", "") == page and ex.get("confidence") == conf:
+                    self.log.append(f"= citace {ex['gramps_id']} použita znovu")
+                    return ex["handle"]
+        return self.create("citations", {"_class": "Citation", "source_handle": src, "page": page,
+                                         "confidence": conf}, "Citation")
+
+    def citation_by_gid(self, gid: str) -> dict:
+        c = self.find("citations", gid)
+        if not c:
+            sys.exit(f"citace {gid} v Gramps není")
+        return c
 
     def media(self, path: Path, cit: str, desc: str) -> str:
         if self.dry:
@@ -223,6 +238,31 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 a.gw.put(f"/events/{ch['event']}", ev)
                 a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place') if k in ch)}")
             applied.append({"op": op, "event": ch["event"]})
+        elif op == "remove_citation":
+            # odebrat citaci z události; smazat ji, pokud ji už nic jiného neodkazuje
+            c = a.citation_by_gid(ch["citation_gramps_id"])
+            if not dry:
+                ev = a.gw.get(f"/events/{ch['event']}")
+                if c["handle"] in ev["citation_list"]:
+                    ev["citation_list"].remove(c["handle"])
+                    a.gw.put(f"/events/{ch['event']}", ev)
+                refs = a.gw.get(f"/citations/{c['handle']}?backlinks=1").get("backlinks", {})
+                if not any(refs.values()):
+                    a.gw.delete(f"/citations/{c['handle']}")
+                    a.log.append(f"- citace {c['gramps_id']} odebrána a smazána (bez dalších odkazů)")
+                else:
+                    a.log.append(f"- citace {c['gramps_id']} odebrána z události (dál odkazována: {refs})")
+            applied.append({"op": op, "event": ch["event"], "citation": c["gramps_id"]})
+        elif op == "update_citation":
+            c = a.citation_by_gid(ch["citation_gramps_id"])
+            if not dry:
+                if "page" in ch:
+                    c["page"] = ch["page"]
+                if "confidence" in ch:
+                    c["confidence"] = int(ch["confidence"])
+                a.gw.put(f"/citations/{c['handle']}", c)
+                a.log.append(f"~ citace {c['gramps_id']}: {', '.join(k for k in ('page', 'confidence') if k in ch)}")
+            applied.append({"op": op, "citation": c["gramps_id"]})
         elif op == "add_citation":
             # doplňková citace k už zapsané události (handle z `applied:` dřívějšího patche)
             cit = cites[ch["citation"]]

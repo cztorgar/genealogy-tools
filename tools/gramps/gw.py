@@ -73,6 +73,9 @@ class GrampsWeb:
     def upload(self, path: str, data: bytes, mime: str):
         return self._call("POST", path, raw=data, mime=mime)
 
+    def delete(self, path: str):
+        return self._call("DELETE", path)
+
     def put(self, path: str, body):
         return self._call("PUT", path, body)
 

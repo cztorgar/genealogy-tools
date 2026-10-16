@@ -1,0 +1,105 @@
+# Definice mapových vrstev pro tools/mapy/stahni.py
+#
+# typ:
+#   wmts  — nativní dlaždice zdroje (mřížka podle GetCapabilities: origin, res, tile)
+#   wms   — GetMap po metadlaždicích zarovnaných na mřížku (res × meta px), s okrajem (gutter)
+#   arcgis_export — totéž přes ArcGIS REST /export
+# res = metry na pixel v nativním CRS zdroje (u EPSG:3857 metry Mercatora).
+# zoom = rozsah XYZ úrovní, které se z mozaiky vygenerují (EPSG:3857, 256 px).
+# Licence a citace se propisují do manifest.json; ověřené údaje viz docs/mistopis/zizelice/mapy.md.
+
+vrstvy:
+  vm2:
+    nazev: "II. vojenské (Františkovo) mapování, Čechy 1836–1852, 1 : 28 800"
+    typ: wmts
+    crs: EPSG:5514
+    url: https://gis.cenia.cz/mapcache/II_vojenske_mapovani/wmts/1.0.0/II_vojenske_mapovani/default/jtsk:epsg:5514/{z}/{row}/{col}.jpgpng
+    capabilities: https://gis.cenia.cz/mapcache/II_vojenske_mapovani/wmts?SERVICE=WMTS&REQUEST=GetCapabilities
+    origin: [-925000.0, -920000.0]
+    level: 10
+    res: 1.000125            # ScaleDenominator 3571.875 × 0.00028
+    tile: 512
+    zoom: [12, 17]
+    resampling: bilinear
+    format: webp
+    licence: "CENIA — prohlížecí služba INSPIRE, přístup bez omezení (noLimitations / noConditionsApply); originál © Österreichisches Staatsarchiv / Kriegsarchiv"
+    citace: "II. vojenské mapování – Františkovo, prohlížecí služba CENIA (gis.cenia.cz/mapcache/II_vojenske_mapovani)"
+
+  vm3_75:
+    nazev: "III. vojenské mapování — speciální mapa 1 : 75 000 (ortorektifikovaná)"
+    typ: wmts
+    crs: EPSG:5514
+    url: https://gis.cenia.cz/mapcache/III_vojenske_mapovani/wmts/1.0.0/III_vojenske_mapovani/default/jtsk:epsg:5514/{z}/{row}/{col}.jpgpng
+    capabilities: https://gis.cenia.cz/mapcache/III_vojenske_mapovani/wmts?SERVICE=WMTS&REQUEST=GetCapabilities
+    origin: [-925000.0, -920000.0]
+    level: 9
+    res: 2.00025
+    tile: 512
+    zoom: [11, 16]
+    resampling: bilinear
+    format: webp
+    licence: "CENIA — prohlížecí služba INSPIRE, přístup bez omezení (noLimitations / noConditionsApply)"
+    citace: "Speciální mapy III. vojenského mapování, prohlížecí služba CENIA (gis.cenia.cz/mapcache/III_vojenske_mapovani)"
+
+  vm3_25:
+    nazev: "III. vojenské mapování — topografické sekce 1 : 25 000 (1874–1880)"
+    typ: wms
+    crs: EPSG:3857
+    url: https://www.chartae-antiquae.cz/WMS/Military3/
+    capabilities: https://www.chartae-antiquae.cz/WMS/Military3/?SERVICE=WMS&REQUEST=GetCapabilities
+    params: {LAYERS: Military3, STYLES: "", FORMAT: image/jpeg}
+    res: 1.194328566955879   # = rozlišení XYZ z17
+    meta: 2048
+    gutter: 0
+    zoom: [12, 17]
+    resampling: bilinear
+    format: webp
+    licence: "© VÚGTK, v.v.i. & HÚ AV ČR, v.v.i. (Chartae Antiquae, projekt NAKI); licence neuvedena — jen pro osobní výzkum, publikovat po dotazu"
+    citace: "III. vojenské mapování 1 : 25 000, WMS Chartae Antiquae (VÚGTK & HÚ AV ČR), https://www.chartae-antiquae.cz/cs/maps/3military25"
+
+  orto1950:
+    nazev: "Historická ortofotomapa ČR — snímkování převážně 1952–1954"
+    typ: wmts
+    crs: EPSG:5514
+    url: https://gis.cenia.cz/mapcache/ortofotomapa_historicka/wmts/1.0.0/orto/default/jtsk:epsg:5514/{z}/{row}/{col}.jpgpng
+    capabilities: https://gis.cenia.cz/mapcache/ortofotomapa_historicka/wmts?SERVICE=WMTS&REQUEST=GetCapabilities
+    origin: [-925000.0, -920000.0]
+    level: 11
+    res: 0.5000625
+    tile: 512
+    zoom: [12, 18]
+    resampling: cubic
+    format: webp
+    licence: "CC BY 4.0 — CENIA, GEODIS BRNO, MO ČR (VGHMÚř Dobruška)"
+    citace: "Historická ortofotomapa (50. léta), © CENIA, GEODIS BRNO, MO ČR, CC BY 4.0"
+
+  orto_dnes:
+    nazev: "Ortofoto ČR (aktuální), ČÚZK"
+    typ: arcgis_export
+    crs: EPSG:3857
+    url: https://ags.cuzk.gov.cz/arcgis1/rest/services/ORTOFOTO_WM/MapServer/export
+    params: {format: jpg, f: image}
+    res: 0.5971642834779395  # = rozlišení XYZ z18
+    meta: 2048
+    gutter: 0
+    zoom: [12, 18]
+    resampling: cubic
+    format: webp
+    licence: "CC BY 4.0 — © ČÚZK"
+    citace: "Ortofoto ČR, © ČÚZK, CC BY 4.0"
+
+  km:
+    nazev: "Katastrální mapa (aktuální), ČÚZK — WMS KN"
+    typ: wms
+    crs: EPSG:3857
+    url: https://services.cuzk.gov.cz/wms/local-km-wms.asp
+    capabilities: https://services.cuzk.gov.cz/wms/local-km-wms.asp?SERVICE=WMS&REQUEST=GetCapabilities
+    params: {LAYERS: KN, STYLES: "", FORMAT: image/png, TRANSPARENT: "TRUE"}
+    res: 0.29858214173896974 # = rozlišení XYZ z19
+    meta: 2048
+    gutter: 128              # popisy parcel se na hranách metadlaždic neořezávají
+    zoom: [14, 19]
+    resampling: bilinear
+    format: png
+    licence: "CC BY 4.0 — © ČÚZK"
+    citace: "Katastrální mapa, WMS KN, © ČÚZK, CC BY 4.0"

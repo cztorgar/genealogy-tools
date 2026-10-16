@@ -92,7 +92,7 @@ person: K42                       # číslo osoby, Gramps ID doplní manager př
 status: navrženo                  # navrženo → schváleno → aplikováno
 summary: Jan Řezáč, * 17. 7. 1841 Nosetín č. 10, ověřeno v matrice N
 changes:
-  - op: add_event                 # add_event | update_event | add_citation | add_media (viz tools/gramps/apply_patch.py)
+  - op: add_event                 # add_event | update_event | add_citation | remove_citation | update_citation | add_media
     type: Birth                   # Birth | Christening | Marriage | Death | Burial | Residence | Occupation | Census
     date: 17 JUL 1841
     place: Nosetín
@@ -108,7 +108,10 @@ citations:
 
 Osoby a rodinné vazby zakládá manager rovnou (`ensure_persons.py`, `ensure_family.py`) — patch nese jen
 fakta. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
-`description`/`date`/`place`), `add_citation` (`event: <handle>` + `citation`), `add_media` (`file`, `citation`).
+`description`/`date`/`place`/`type`), `add_citation` (`event: <handle>` + `citation`), `remove_citation`
+(`event: <handle>` + `citation_gramps_id`; nepoužívaná citace se smaže), `update_citation` (`citation_gramps_id` +
+`page`/`confidence`), `add_media` (`file`, `citation`). Stejná citace (zdroj + `page` + jistota) se znovu
+použije, nezakládá se duplikát.
 Handly událostí jsou v sekci `applied:` dřívějších patchů.
 
 **Typy událostí (pozor na českou lokalizaci Gramps):** křest dítěte = **`Christening`** („Křest“, GEDCOM CHR),
