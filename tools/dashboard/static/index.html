@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workbench dashboard</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+</head>
+<body>
+<header id="bar">
+  <strong id="title">Workbench</strong>
+  <div id="counts"></div>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Hledat jméno nebo ID…" autocomplete="off">
+    <ul id="results" hidden></ul>
+  </div>
+  <label><input type="checkbox" id="f-work"> jen rozpracované</label>
+  <label><input type="checkbox" id="f-wait"> čeká na mě</label>
+  <label title="u přímých předků ukázat prázdné rámečky jejich rodičů"><input type="checkbox" id="f-empty" checked> prázdní rodiče</label>
+  <button id="fit" title="Zobrazit celý strom">celý strom</button>
+  <span id="live" title="Automatické obnovení (polling 5 s)">●</span>
+</header>
+<main>
+  <aside id="overview"></aside>
+  <section id="canvas">
+    <svg id="svg"><g id="viewport"><g id="edges"></g><g id="nodes"></g></g></svg>
+    <div id="legend"></div>
+  </section>
+  <aside id="panel" hidden>
+    <button id="close" title="Zavřít (Esc)">×</button>
+    <div id="panel-body"></div>
+  </aside>
+</main>
+<div id="lightbox" hidden><img alt=""><a target="_blank" rel="noopener">otevřít v nové kartě</a></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

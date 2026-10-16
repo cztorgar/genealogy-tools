@@ -20,6 +20,7 @@ v `../genealogy-trees/<strom>/`.
 | [`infra/`](infra/) | Gramps Web v Dockeru |
 | [`evals/`](evals/) | testovací stránky matrik s ručním přepisem — měření kvality čtení |
 | [`web/`](web/) | (plán) stránka pro vizualizaci rozpracovaných výsledků |
+| [`tools/dashboard/`](tools/dashboard/) | živý dashboard stavu výzkumu: rodokmen se stavy osob, session, patche, todo (`uv run tools/dashboard/server.py`) |
 | [`docs/navrh-2026-10-16.md`](docs/navrh-2026-10-16.md) | výchozí průzkum a návrh |
 
 ## Strom (repo `genealogy-trees/<strom>/`)
