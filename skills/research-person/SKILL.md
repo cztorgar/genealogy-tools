@@ -72,6 +72,7 @@ Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
 
 - `todo-hroby.md` — hroby k návštěvě (data na desce, další jména, číslo hrobu)
 - `todo-pozemkove-knihy.md` — nemovitosti / pozemkové knihy (převody, výměnky); celý seznam nízká priorita
+- `todo-rodina.md` — otázky na příbuzné (vzpomínky, doklady doma, parte); odpověď = ústní sdělení, do stromu přes patch
 - `todo-<rod>.md` (např. `todo-vrbicti.md`) — vedlejší větve rodu, které strom eviduje (pokyn v `TREE.md`): každý nalezený člen mimo zkoumanou linii
 
 Zápis podle šablony v hlavičce souboru — **jen připsáním na konec** (`cat >> …`). Změny existujícího

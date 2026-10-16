@@ -24,7 +24,7 @@ Strom je v `../genealogy-trees/<strom>/`.
 | `sources/K<nnnn>/…`, `transcriptions/K<nnnn>-*` | ✅ | ✅ |
 | `patches/P-K<nnnn>-<nn>.yml` | ✅ vytvořit | ✅ schválit / aplikovat |
 | `research/people/README.md` (fronta), `research/doklady.md` | jen přes `build_queue.py` | ✅ (generuje `build_queue.py`) |
-| `research/todo-*.md` (sdílené seznamy: `todo-hroby`, `todo-pozemkove-knihy`, …) | ✅ jen **připsat nový záznam na konec** | ✅ úpravy záznamů, nové seznamy |
+| `research/todo-*.md` (sdílené seznamy: `todo-hroby`, `todo-pozemkove-knihy`, `todo-rodina`, `todo-<rod>`, …) | ✅ jen **připsat nový záznam na konec** | ✅ úpravy záznamů, nové seznamy |
 | `doklady/` (skeny od uživatele) | ✅ přesunout do `sources/<ID>/` | ✅ |
 | Gramps strom `berescak` | ❌ jen čtení | ✅ zápis (z patche) |
 | git commit repa stromu | ❌ | ✅ |
