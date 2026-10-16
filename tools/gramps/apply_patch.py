@@ -39,11 +39,31 @@ def norm_id(pid: str) -> str:
     return f"K{int(m[1]):04d}{m[2] or ''}" if m else str(pid)
 
 
+def _dmy(parts: list[str]) -> list:
+    day = month = 0
+    year = int(parts[-1])
+    if len(parts) >= 2:
+        month = MONTHS[parts[-2]]
+    if len(parts) == 3:
+        day = int(parts[0])
+    return [day, month, year, False]
+
+
 def gramps_date(text: str | None) -> dict | None:
-    """GEDCOM-like datum ('18 SEP 1940', 'ABT 1853', 'MAR 1990') → Gramps Date."""
+    """GEDCOM-like datum → Gramps Date: '18 SEP 1940', 'ABT 1853', 'MAR 1990',
+    'FROM 1882 TO 1921' (období, span), 'BET 1850 AND 1855' (rozmezí, range), 'FROM 1882' / 'TO 1921'."""
     if not text:
         return None
-    parts = str(text).upper().split()
+    up = str(text).upper().split()
+    if up[0] in ("FROM", "BET") and ("TO" in up or "AND" in up):
+        sep = "TO" if up[0] == "FROM" else "AND"
+        i = up.index(sep)
+        return {"_class": "Date", "calendar": 0, "modifier": 5 if sep == "TO" else 4, "quality": 0,
+                "dateval": _dmy(up[1:i]) + _dmy(up[i + 1:]), "text": "", "sortval": 0, "newyear": 0}
+    if up[0] in ("FROM", "TO"):
+        return {"_class": "Date", "calendar": 0, "modifier": 7 if up[0] == "FROM" else 8, "quality": 0,
+                "dateval": _dmy(up[1:]), "text": "", "sortval": 0, "newyear": 0}
+    parts = up
     mod = MODIFIERS.get(parts[0], 0)
     qual = QUALITY.get(parts[0], 0)
     if parts[0] in MODIFIERS:
@@ -78,7 +98,9 @@ def source_title(meta: dict) -> str:
         return f"{meta.get('type', '')}: {meta['official_citation']}".strip(": ")
     if meta.get("type") == "matrika":
         book = BOOKS.get(str(meta.get("book", "")), str(meta.get("book", "")))
-        return (f"{meta.get('archive', '')}, {meta.get('confession', '')} f. ú. {meta.get('parish', '')} — "
+        parish = str(meta.get("parish", ""))
+        par = parish if "f. ú." in parish else f"{meta.get('confession', '')} f. ú. {parish}"
+        return (f"{meta.get('archive', '')}, {par} — "
                 f"{book} {meta.get('years', '')} ({meta.get('volume', '')})").replace("  ", " ")
     return f"{meta.get('document', 'doklad')} — {meta.get('entry', '')}".strip(" —")
 
