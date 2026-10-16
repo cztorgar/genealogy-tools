@@ -25,7 +25,8 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from gw import GrampsWeb  # noqa: E402
+from gw import GrampsWeb
+from sort_events import sort_object  # noqa: E402
 
 MONTHS = {m: i for i, m in enumerate(
     ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"], 1)}
@@ -206,6 +207,7 @@ class Applier:
             return
         fresh = self.gw.get(f"/{kind}/{obj['handle']}")
         fresh["event_ref_list"].append({"_class": "EventRef", "ref": ev, "role": role})
+        sort_object(self.gw, kind, fresh)   # Gramps ukazuje události v pořadí seznamu → držet chronologicky
         self.gw.put(f"/{kind}/{obj['handle']}", fresh)
 
     def attach_media(self, kind: str, obj: dict, media: str) -> None:
