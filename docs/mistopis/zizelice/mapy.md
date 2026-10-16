@@ -195,7 +195,24 @@ Přesnost skládání: vrstvy ze S-JTSK se převádějí do 3857 přes PROJ (vý
 S-JTSK → WGS84, ~1 m). Historické mapy samy mají chybu georeferencování v řádu metrů (SK)
 až desítek metrů (vojenská mapování), a ta je o řád větší.
 
-STATISTIKY
+Staženo 2026-10-16, celkem 2,5 GB:
+
+| Vrstva | Požadavků | Mozaika (nativní CRS) | GeoTIFF | XYZ zoom | Dlaždic | XYZ |
+|---|---|---|---|---|---|---|
+| `vm2` | 306 | 8704×9216 px, S-JTSK, 1 m | 107 MB | 12–17 | 2 189 | 36 MB |
+| `vm3_25` | 36 | 12288×12288 px, 3857, 1,19 m | 217 MB | 12–17 | 2 189 | 19 MB |
+| `vm3_75` | 90 | 4608×5120 px, S-JTSK, 2 m | 56 MB | 11–16 | 591 | 7 MB |
+| `orto1950` | 1 190 | 17408×17920 px, S-JTSK, 0,5 m | 425 MB | 12–18 | 8 426 | 110 MB |
+| `orto_dnes` | 121 | 22528×22528 px, 3857, 0,6 m | 1,2 GB | 12–18 | 8 426 | 93 MB |
+| `km` | 420 | 40960×43008 px, 3857, 0,3 m | 43 MB | 14–17 hotovo, **z18–19 chybí** | 7 100 | 57 MB |
+
+Generování XYZ pro `km` zastavil systém kvůli nedostatku paměti během z18. Data jsou celá
+v cache, takže stačí `stahni.py zizelice km --bez-stahovani`. To dopočítá z18–19 a manifest,
+nic se nestahuje.
+
+**Kontrola skládání** (z17, náměstí Žiželic, KM + body RÚIAN přes ortofoto dnes, ortofoto
+1954, II. a III. vojenské mapování): KM a body čp. lícují s oběma ortofoty na pixel. Uliční
+síť ve vm2 a vm3_25 sedí s odchylkou v řádu metrů. **Doloženo** (vizuální kontrola).
 
 ---
 

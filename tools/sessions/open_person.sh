@@ -22,7 +22,9 @@ people="$workbench/../genealogy-trees/$tree/research/people"
 
 dossier=$(ls "$people/$k"-[a-z]*.md 2>/dev/null | head -1 || true)   # slug začíná malým písmenem, -S1/-C1 velkým
 [ -n "$dossier" ] || { echo "dossier $k ve stromu $tree neexistuje" >&2; exit 1; }
-surname=$(basename "$dossier" .md | sed "s/^$k-//" | awk -F- '{print $NF}')
+# celé jméno z nadpisu dossieru („# František Vrbický (K56)“) — do názvu tabu, ať se jmenovci rozliší
+fullname=$(grep -m1 '^# ' "$dossier" | sed 's/^# *//; s/ *([^)]*) *$//')
+surname=${fullname:-$(basename "$dossier" .md | sed "s/^$k-//")}
 
 if herdr agent get "$name" >/dev/null 2>&1; then
   echo "session $name už běží — přepínám na ni"
