@@ -93,7 +93,7 @@ status: navrženo                  # navrženo → schváleno → aplikováno
 summary: Jan Řezáč, * 17. 7. 1841 Nosetín č. 10, ověřeno v matrice N
 changes:
   - op: add_event                 # add_event | update_event | add_citation | add_media (viz tools/gramps/apply_patch.py)
-    type: Birth                   # Birth | Baptism | Marriage | Death | Burial | Residence | Occupation | Census
+    type: Birth                   # Birth | Christening | Marriage | Death | Burial | Residence | Occupation | Census
     date: 17 JUL 1841
     place: Nosetín
     description: "č. p. 10"
@@ -110,6 +110,12 @@ Osoby a rodinné vazby zakládá manager rovnou (`ensure_persons.py`, `ensure_fa
 fakta. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
 `description`/`date`/`place`), `add_citation` (`event: <handle>` + `citation`), `add_media` (`file`, `citation`).
 Handly událostí jsou v sekci `applied:` dřívějších patchů.
+
+**Typy událostí (pozor na českou lokalizaci Gramps):** křest dítěte = **`Christening`** („Křest“, GEDCOM CHR),
+**ne `Baptism`** (česky „Baptistické křtiny“ — aplikátor ho odmítne); `Adult Christening` = „Křtiny dospělých“.
+Ostatní: `Birth` (Narození), `Marriage` (Sňatek), `Divorce` (Rozvod), `Death` (Úmrtí), `Burial` (Pohřeb),
+`Residence` (Bydliště), `Occupation` (Povolání), `Census` (Sčítání lidu). Hodnoty s dvojtečkou v YAML
+dávej do uvozovek.
 
 Manager patch zkontroluje, aplikuje do Gramps, doplní `gramps_id` do dossieru, nastaví `stav: zapsáno`
 a commitne.

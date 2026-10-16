@@ -5,7 +5,7 @@ Patch musí mít `status: schváleno` (schvaluje uživatel), jinak `--approve` (
 souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `status: aplikováno`,
 `applied:` s handly, v dossieru osoby `stav: zapsáno`.
 
-Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (description/date/place
+Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (type/description/date/place
 existující události), add_citation (k existující události), add_media. Zdroj = dokument
 ze sidecaru (`sources/<ID>/<doklad>.yml`), jeden Gramps Source na doklad (Gramps ID `S-<doklad>`),
 citace s jistotou, k citaci se připojí médium. Místa se zakládají podle názvu (hierarchie později).
@@ -61,6 +61,11 @@ def slug(text: str) -> str:
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
     return re.sub(r"[^A-Za-z0-9]+", "-", text).strip("-").upper()
 
+
+# typy událostí, které v české lokalizaci Gramps znamenají něco jiného, než se čeká
+TYPE_FORBIDDEN = {
+    "Baptism": "v češtině Gramps = „Baptistické křtiny“; ř. k. (i evangelický) křest dítěte = Christening („Křest“)",
+}
 
 BOOKS = {"N": "matrika narozených", "O": "matrika oddaných", "Z": "matrika zemřelých", "I": "index"}
 
@@ -160,12 +165,18 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
     tree = Path(tree_dir)
     ppath = tree / patch_file if not Path(patch_file).is_absolute() else Path(patch_file)
     text = ppath.read_text(encoding="utf-8")
-    patch = yaml.safe_load(text)
+    try:
+        patch = yaml.safe_load(text)
+    except yaml.YAMLError as e:
+        sys.exit(f"{ppath.name}: neplatný YAML — {e}\n(tip: hodnoty s dvojtečkou dej do uvozovek, např. summary: \"…: …\")")
     status = str(patch.get("status", "")).strip()
     if status == "aplikováno":
         sys.exit(f"{ppath.name} už je aplikovaný")
     if status != "schváleno" and not approve:
         sys.exit(f"{ppath.name} má status '{status}' — potřeba schválení uživatele (--approve)")
+    bad = [c for c in patch["changes"] if c.get("type") in TYPE_FORBIDDEN]
+    if bad:
+        sys.exit("\n".join(f"{ppath.name}: typ {c['type']} nepoužívat — {TYPE_FORBIDDEN[c['type']]}" for c in bad))
     pid = norm_id(patch["person"])
     a = Applier(tree, dry)
     person = a.find("people", pid)
@@ -199,6 +210,8 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
             # úprava existující události: description / date / place (+ volitelně citace)
             if not dry:
                 ev = a.gw.get(f"/events/{ch['event']}")
+                if ch.get("type"):
+                    ev["type"] = ch["type"]
                 if "description" in ch:
                     ev["description"] = ch["description"]
                 if ch.get("date"):
@@ -208,7 +221,7 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 if ch.get("citation") and cites[ch["citation"]] not in ev["citation_list"]:
                     ev["citation_list"].append(cites[ch["citation"]])
                 a.gw.put(f"/events/{ch['event']}", ev)
-                a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('description', 'date', 'place') if k in ch)}")
+                a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place') if k in ch)}")
             applied.append({"op": op, "event": ch["event"]})
         elif op == "add_citation":
             # doplňková citace k už zapsané události (handle z `applied:` dřívějšího patche)

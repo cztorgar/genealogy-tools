@@ -116,6 +116,8 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 
 ## 7. Patch a předání
 
+- Typy událostí podle `workflow-sessions.md` (sekce Patch): křest = **`Christening`**, nikdy `Baptism`
+  (v české lokalizaci Gramps „Baptistické křtiny“). Text s dvojtečkou v YAML dej do uvozovek.
 - Až uživatel údaje proti snímku potvrdí, nastav v patchi `status: schváleno` (bez toho ho manager nezapíše).
 - Až jsou základní fakta doložená (aspoň N, u ženatých O, u zemřelých Z — nebo co jde), vytvoř
   `patches/P-K<nnnn>-<nn>.yml` podle formátu ve `workflow-sessions.md`.
