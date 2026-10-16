@@ -3,11 +3,11 @@
 
 Patch musí mít `status: schváleno` (schvaluje uživatel), jinak `--approve` (manager po výslovném
 souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `status: aplikováno`,
-`applied:` s handly, v dossieru osoby `stav: zapsáno`.
+`applied:` s handly; v dossieru `stav: zapsáno` jen pokud byl `dokončeno` (průběžné patche stav nemění).
 
 Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (type/description/date/place
 existující události), add_citation / remove_citation (k existující události), update_citation
-(page/confidence podle Gramps ID citace), add_media. Zdroj = dokument
+(page/confidence podle Gramps ID citace), add_note (k události nebo osobě), add_media. Zdroj = dokument
 ze sidecaru (`sources/<ID>/<doklad>.yml`), jeden Gramps Source na doklad (Gramps ID `S-<doklad>`),
 citace s jistotou, k citaci se připojí médium. Místa se zakládají podle názvu (hierarchie později).
 
@@ -238,6 +238,22 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 a.gw.put(f"/events/{ch['event']}", ev)
                 a.log.append(f"~ událost {ev['type']} {ch['event']}: {', '.join(k for k in ('type', 'description', 'date', 'place') if k in ch)}")
             applied.append({"op": op, "event": ch["event"]})
+        elif op == "add_note":
+            # poznámka (Gramps Note) k události, nebo k osobě, když `event` chybí. Note v Gramps citace nemá,
+            # proto se `citation` z patche připíše na konec textu jako odkaz na pramen.
+            text = str(ch["text"]).rstrip()
+            if ch.get("citation"):
+                text += f"\n\nPramen: {patch['citations'][ch['citation']].get('page', '')}"
+            ntype = "Event Note" if ch.get("event") else "Person Note"
+            h = a.create("notes", {"_class": "Note", "type": ntype,
+                                   "text": {"_class": "StyledText", "string": text, "tags": []}}, "Note")
+            if not dry:
+                kind, handle = ("events", ch["event"]) if ch.get("event") else ("people", person["handle"])
+                obj = a.gw.get(f"/{kind}/{handle}")
+                obj["note_list"].append(h)
+                a.gw.put(f"/{kind}/{handle}", obj)
+            a.log.append(f"+ poznámka ({ntype}) {text[:60]!r}…")
+            applied.append({"op": op, "note": h, "event": ch.get("event")})
         elif op == "remove_citation":
             # odebrat citaci z události; smazat ji, pokud ji už nic jiného neodkazuje
             c = a.citation_by_gid(ch["citation_gramps_id"])
@@ -296,9 +312,11 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
     for dp in people.glob(f"{pid}-*.md"):
         if re.match(rf"{re.escape(pid)}-[a-z]", dp.name):
             dt = dp.read_text(encoding="utf-8")
-            dt = re.sub(r"^stav:\s*[^#\n]*", "stav: zapsáno          ", dt, count=1, flags=re.M)
+            # průběžné patche: `zapsáno` jen když byl výzkum dokončen, jinak stav nechat (výzkum běží dál)
+            if re.search(r"^stav:\s*dokončeno", dt, re.M):
+                dt = re.sub(r"^stav:\s*[^#\n]*", "stav: zapsáno          ", dt, count=1, flags=re.M)
             dp.write_text(dt, encoding="utf-8")
-    print(f"✔ {ppath.name} aplikován, {pid} → zapsáno")
+    print(f"✔ {ppath.name} aplikován ({pid})")
     return 0
 
 

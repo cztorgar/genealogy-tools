@@ -5,7 +5,9 @@ Vazby, které uživatel zná, jsou vždy správně (docs/metodika/gramps-vs-work
 s citací „Ústní sdělení — Vojtěch Bereščák“ (jistota 3). Gramps ID rodiny = F-<otec>-<matka>.
 Osoby musí v Gramps existovat (ensure_persons.py). Opakované spuštění jen doplní chybějící děti.
 
-Použití: ensure_family.py --father K0002 --mother K0003 [--children K0001,K0002-C1] [--married]
+Vazby z pramenů (ne od uživatele) zakládej s `--no-oral` — citaci pak dodá patch.
+
+Použití: ensure_family.py --father K0002 --mother K0003 [--children K0001,K0002-C1] [--married] [--no-oral]
 """
 from __future__ import annotations
 
@@ -56,6 +58,8 @@ def main() -> int:
     ap.add_argument("--mother")
     ap.add_argument("--children", default="")
     ap.add_argument("--married", action="store_true", help="typ rodiny Married (jinak Unknown)")
+    ap.add_argument("--no-oral", action="store_true",
+                    help="bez citace ústního sdělení — vazba je z pramene, citaci dodá patch")
     a = ap.parse_args()
     gw = GrampsWeb()
     father = person(gw, a.father) if a.father else None
@@ -66,13 +70,13 @@ def main() -> int:
 
     fam = by_gid(gw, "families", fid)
     if not fam:
-        cit = oral_citation(gw, f"rodinné vazby {fid}, sděleno {today}")
+        cit = None if a.no_oral else oral_citation(gw, f"rodinné vazby {fid}, sděleno {today}")
         gw.post("/families/", {
             "_class": "Family", "gramps_id": fid,
             "father_handle": father["handle"] if father else None,
             "mother_handle": mother["handle"] if mother else None,
             "type": "Married" if a.married else "Unknown",
-            "citation_list": [cit],
+            "citation_list": [cit] if cit else [],
             "child_ref_list": [],
         })
         fam = by_gid(gw, "families", fid)

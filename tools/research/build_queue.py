@@ -384,8 +384,19 @@ def main(ged: str, root: str, out_dir: str, family_of: list[str], parents_of: li
     added += [pid for a, d in parents_of for pid in add_parents(tree, a, ids, d)]
     ids_path.write_text(json.dumps(ids, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     ids_rev = {v: x for x, v in ids.items()}
+    # osoby mimo export MyHeritage (nalezené v pramenech / ústně) — zakládá tools/research/add_person.py
+    manual_path = out / "manual.json"
+    manual = json.loads(manual_path.read_text(encoding="utf-8")) if manual_path.exists() else {}
 
     def ensure(pid: str, rel: str) -> tuple[Path, str]:
+        if pid in manual:
+            hits = sorted(p for p in out.glob(f"{pid}-*.md") if re.match(rf"{re.escape(pid)}-[a-z]", p.name))
+            if not hits:
+                sys.exit(f"dossier ručně založené osoby {pid} chybí")
+            ensure_docs_section(hits[0])
+            ensure.docs += collect_docs(hits[0], pid)
+            m = STATE_FILE_RE.search(hits[0].read_text(encoding="utf-8"))
+            return hits[0], (m[1].split("#")[0].strip() if m else "?")
         indi = tree.indi(ids_rev[pid])
         g, s = name(indi)
         existing = sorted(p for p in out.glob(f"{pid}-*.md") if re.match(rf"{re.escape(pid)}-[a-z]", p.name))
@@ -409,6 +420,12 @@ def main(ged: str, root: str, out_dir: str, family_of: list[str], parents_of: li
         rel = collateral_relation(pid, ids_rev, tree)
         path, state = ensure(pid, rel)
         coll.append(f"| {pid} | [{tree.label(tree.indi(ids_rev[pid]))}]({path.name}) | {rel} | {state} |")
+    for pid in sorted(manual):
+        m = manual[pid]
+        path, state = ensure(pid, m["rel"])
+        life = f" ({m['birth']}–)" if m.get("birth") else ""
+        coll.append(f"| {pid} | [{m['name']}{life}]({path.name}) | {m['rel']} · původ: {m['původ']} | {state} |")
+    coll.sort(key=lambda r: r.split("|")[1].strip())
     states = [r.rsplit("|", 2)[-2].strip() for r in rows + coll]
     summary = " · ".join(f"{s}: {states.count(s)}" for s in STATES if states.count(s))
     index = ["# Fronta osob", "",

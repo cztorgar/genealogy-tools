@@ -114,7 +114,9 @@ citations:
 ```
 
 Osoby a rodinné vazby zakládá manager rovnou (`ensure_persons.py`, `ensure_family.py`) — patch nese jen
-fakta. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
+fakta. Vazbu, kterou zná uživatel, cituje „Ústní sdělení“; vazbu z pramene zakládá `--no-oral` a citaci dodá
+patch. Osobu mimo export MyHeritage zakládá `tools/research/add_person.py` (dossier + `manual.json` + Gramps).
+Odvozené obrázky (kontrastní kopie apod.) zůstávají jen v `sources/`, do Gramps se nedávají. Operace: `add_event` (osoba, nebo `family: [K6, K7]`), `update_event` (`event: <handle>` +
 `description`/`date`/`place`/`type`), `add_citation` (`event: <handle>` + `citation`), `remove_citation`
 (`event: <handle>` + `citation_gramps_id`; nepoužívaná citace se smaže), `update_citation` (`citation_gramps_id` +
 `page`/`confidence`), `add_media` (`file`, `citation`). Stejná citace (zdroj + `page` + jistota) se znovu

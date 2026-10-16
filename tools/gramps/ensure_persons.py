@@ -35,6 +35,8 @@ def main(tree_dir: str, pids: list[str]) -> int:
     people = tree / "research" / "people"
     ids = json.loads((people / "ids.json").read_text(encoding="utf-8"))
     by_id = {v: x for x, v in ids.items()}
+    mpath = people / "manual.json"
+    manual = json.loads(mpath.read_text(encoding="utf-8")) if mpath.exists() else {}
     ged = parse(sorted((tree / "data" / "exports" / "myheritage").glob("*.ged"))[-1])
     gw = GrampsWeb()
     for pid in pids:
@@ -44,7 +46,7 @@ def main(tree_dir: str, pids: list[str]) -> int:
         full = m[1].strip() if m else pid
         given, _, surname = full.rpartition(" ") if " " in full else ("", "", full)
         indi = ged.get(by_id.get(pid, ""))
-        sex = indi.val("SEX") if indi else ""
+        sex = indi.val("SEX") if indi else manual.get(pid, {}).get("sex", "")
         uid = indi.val("_UID") if indi else ""
         existing = gw.person_by_gramps_id(pid)
         if existing:
