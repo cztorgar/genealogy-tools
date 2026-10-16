@@ -66,6 +66,12 @@ ALIASES = [
     (r"^(zemrely|zemrela)$", "zemrely"),
     (r"^(umrti|datum_umrti|datum umrti)$", "datum_umrti"),
     (r"^(pohreb|datum_pohrbu)$", "datum_pohrbu"),
+    (r"^(vek|stari|let)$", "vek"),
+    (r"^(rodice_manzel|rodice|manzel|manzelka|rodice / manzel)$", "rodice_manzel"),
+    (r"^(pricina_smrti|pricina smrti|nemoc|pricina)$", "pricina_smrti"),
+    (r"^(nabozenstvi|vira)$", "nabozenstvi"),
+    (r"^pohlavi$", "pohlavi"),
+    (r"^(pohrbil|pohrbivajici)$", "pohrbil"),
 ]
 
 # řádky tabulky v Markdown přepisu
