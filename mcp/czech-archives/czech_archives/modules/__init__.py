@@ -1,9 +1,11 @@
 """Registr modulů. Nový modul = soubor v tomto balíčku s třídou a řádek níže."""
 
 from .aron_zamrsk import AronZamrsk
+from .ebadatelna_praha import EbadatelnaPraha
 
 MODULES = {
     AronZamrsk.id: AronZamrsk,
+    EbadatelnaPraha.id: EbadatelnaPraha,
 }
 
 _instances: dict = {}
