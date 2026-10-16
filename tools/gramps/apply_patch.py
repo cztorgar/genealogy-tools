@@ -7,7 +7,7 @@ souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `sta
 
 Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (type/description/date/place
 existující události), add_citation / remove_citation (k existující události), update_citation
-(page/confidence podle Gramps ID citace), add_note (k události nebo osobě), add_media. Zdroj = dokument
+(page/confidence podle Gramps ID citace), add_note (k události nebo osobě), add_family_citation (citace vazby k rodině), add_media. Zdroj = dokument
 ze sidecaru (`sources/<ID>/<doklad>.yml`), jeden Gramps Source na doklad (Gramps ID `S-<doklad>`),
 citace s jistotou, k citaci se připojí médium. Místa se zakládají podle názvu (hierarchie později).
 
@@ -141,6 +141,8 @@ class Applier:
     def source(self, sidecar: Path, pid: str) -> str:
         meta = yaml.safe_load(sidecar.read_text(encoding="utf-8"))
         gid = f"S-{sidecar.stem}"   # jeden zdroj na doklad (sdílí ho všechny osoby, které cituje)
+        if "ústní" in str(meta.get("type", "")).lower() and "Bereščák" in str(meta.get("informant", meta)):
+            gid = "S-USTNE-K0001"   # ústní sdělení uživatele = jeden společný zdroj (ensure_family.py)
         s = self.find("sources", gid)
         if s:
             return s["handle"]
@@ -316,6 +318,20 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 a.gw.put(f"/citations/{c['handle']}", c)
                 a.log.append(f"~ citace {c['gramps_id']}: {', '.join(k for k in ('page', 'confidence') if k in ch)}")
             applied.append({"op": op, "citation": c["gramps_id"]})
+        elif op == "add_family_citation":
+            # citace k rodině (doklad vazby rodiče → dítě nebo manželství), `family: [otec, matka]`
+            f, m = (norm_id(x) for x in ch["family"])
+            fam = a.find("families", f"F-{f}-{m}")
+            if not fam:
+                sys.exit(f"rodina F-{f}-{m} v Gramps není")
+            if not dry:
+                fresh = a.gw.get(f"/families/{fam['handle']}")
+                for k in ([ch["citation"]] if ch.get("citation") else []) + list(ch.get("citations") or []):
+                    if cites[k] not in fresh["citation_list"]:
+                        fresh["citation_list"].append(cites[k])
+                a.gw.put(f"/families/{fam['handle']}", fresh)
+                a.log.append(f"+ citace k rodině F-{f}-{m}")
+            applied.append({"op": op, "family": f"F-{f}-{m}"})
         elif op == "add_citation":
             # doplňková citace k už zapsané události (handle z `applied:` dřívějšího patche)
             cit = cites[ch["citation"]]
