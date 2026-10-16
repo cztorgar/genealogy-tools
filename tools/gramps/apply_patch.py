@@ -96,12 +96,14 @@ def source_title(meta: dict) -> str:
     (archiv, farnost, kniha, roky), doklad = typ + zápis."""
     if meta.get("official_citation"):
         return f"{meta.get('type', '')}: {meta['official_citation']}".strip(": ")
-    if meta.get("type") == "matrika":
+    if meta.get("type") == "matrika" and (meta.get("archive") or meta.get("parish")):
         book = BOOKS.get(str(meta.get("book", "")), str(meta.get("book", "")))
         parish = str(meta.get("parish", ""))
         par = parish if "f. ú." in parish else f"{meta.get('confession', '')} f. ú. {parish}"
         return (f"{meta.get('archive', '')}, {par} — "
                 f"{book} {meta.get('years', '')} ({meta.get('volume', '')})").replace("  ", " ")
+    if meta.get("type") == "matrika" and meta.get("document"):
+        return meta["document"]   # fotka matriky mimo archivní portál: popis svazku a stránky je v `document`
     return f"{meta.get('document', 'doklad')} — {meta.get('entry', '')}".strip(" —")
 
 
