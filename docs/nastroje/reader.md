@@ -72,3 +72,14 @@ dvojstrana (3300×2352 → 3200×2281, ~7 200 dlaždic) ≈ +$0.015 vstupu naví
   ne u každého prohledávaného snímku.
 - `compare.py` → ověřit okem všechna pole `needs_review`; ✓ neznamená ověřeno.
 - Po dobití kreditu doplnit tabulku měření výše a podle výsledku rozhodnout výchozí model a effort.
+
+## Test modelů (session K0056, 2026-10-16)
+
+| Model / effort | Cena na výřez | Kvalita na kurentu (žiželické matriky 1846–1882) |
+|---|---|---|
+| `gpt-6.1-sol`, effort **low** | ≈ 0,04–0,05 USD | dobrá — **výchozí volba** |
+| `gpt-5.5`, effort medium | ≈ 0,25 USD | dobrá, ale drahé (většina tokenů na reasoning) |
+| `gpt-5.1`, `gpt-4.1`, `gpt-4.1-mini` | o 1–2 centy levnější | pletou jména a data — nepoužívat |
+
+Obecně: OpenAI na kurentu občas vymýšlí jména (Wejmola, Skorvindová…) — jako kontrolní hlas je užitečné
+(odhalilo záměnu ohlášky a sňatku), jako jediný zdroj ne.

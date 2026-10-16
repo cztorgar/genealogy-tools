@@ -461,7 +461,7 @@ def main() -> None:
     r.add_argument("--crop", help="výřez x,y,w,h v pixelech originálu")
     r.add_argument("--hint", help="obec, rok, hledaná osoba — jen k nalezení zápisu")
     r.add_argument("--model", default="auto")
-    r.add_argument("--effort", default="medium", help="reasoning effort (low|medium|high); '' = nevyplňovat")
+    r.add_argument("--effort", default="low", help="reasoning effort (low|medium|high; default low — test K0056: gpt-6.1-sol low ≈ $0.04–0.05/výřez, kvalita dobrá); '' = nevyplňovat")
     r.add_argument("--detail", default="original", choices=["original", "high", "auto", "low"])
     r.add_argument("--max-side", type=int, default=3200, help="max. delší strana odeslaného obrázku")
     r.add_argument("--enhance", action="store_true", help="šedotón + autokontrast")
