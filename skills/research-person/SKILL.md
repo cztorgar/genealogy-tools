@@ -65,10 +65,13 @@ Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
   5. ostatní položky checklistu podle období.
 - U osob mladších 100 let (N) / 75 let (O, Z) se zeptej na **rodinné doklady** — online matriky nejsou.
 
-### Hroby k dohledání
+### Sdílené seznamy `research/todo-*.md`
 
-Hrob, který stojí za návštěvu (data na desce, další jména), zapiš do sdíleného `research/todo-hroby.md`
-podle šablony v souboru — **jen připsáním na konec** (`cat >> …`). Změny existujícího záznamu pošli managerovi.
+- `todo-hroby.md` — hroby k návštěvě (data na desce, další jména, číslo hrobu)
+- `todo-pozemkove-knihy.md` — nemovitosti / pozemkové knihy (převody, výměnky); celý seznam nízká priorita
+
+Zápis podle šablony v hlavičce souboru — **jen připsáním na konec** (`cat >> …`). Změny existujícího
+záznamu nebo nový typ seznamu → napiš managerovi.
 
 ### Doklady k dohledání
 
