@@ -287,12 +287,12 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
         elif op == "add_note":
             # poznámka (Gramps Note) k události, nebo k osobě, když `event` chybí. Note v Gramps citace nemá,
             # proto se `citation` z patche připíše na konec textu jako odkaz na pramen.
-            text = str(ch["text"]).rstrip()
+            note_text = str(ch["text"]).rstrip()
             if ch.get("citation"):
-                text += f"\n\nPramen: {patch['citations'][ch['citation']].get('page', '')}"
+                note_text += f"\n\nPramen: {patch['citations'][ch['citation']].get('page', '')}"
             ntype = "Event Note" if ch.get("event") else "Person Note"
             h = a.create("notes", {"_class": "Note", "type": ntype,
-                                   "text": {"_class": "StyledText", "string": text, "tags": []}}, "Note")
+                                   "text": {"_class": "StyledText", "string": note_text, "tags": []}}, "Note")
             if not dry:
                 kind, handle = ("events", ch["event"]) if ch.get("event") else ("people", person["handle"])
                 obj = a.gw.get(f"/{kind}/{handle}")
