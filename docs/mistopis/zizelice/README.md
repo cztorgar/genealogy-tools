@@ -215,6 +215,18 @@ eBadatelna SOA Praha, kategorie *Města a obce*, fond **Archiv města Žiželice
 - **Nedigitalizováno**: kronika 20. století a domovská matrika. Jsou jen v badatelně SOA Praha nebo
   v SOkA Kolín, to je potřeba ověřit.
 
+## 8. Mapy a čísla popisná
+
+- [mapy.md](mapy.md): katalog historických map (stabilní katastr, vojenská mapování, ortofoto
+  1954, dnešní KM a ortofoto). Kódy k. ú., služby WMS/WMTS, licence. Které vrstvy jsou stažené
+  v `cache/mapy/zizelice/` (nástroj `tools/mapy/`) a návrh mapové vizualizace.
+- [cisla-popisna.md](cisla-popisna.md): dnešní čp. z RÚIAN
+  (`mcp/czech-archives/gazetteer/zizelice-cp.csv`), co se ví o přečíslování a postup
+  historické čp. → poloha domu.
+- **Oprava ke kap. 5:** katastrální území se úředně jmenuje **Žiželice nad Cidlinou** (RÚIAN,
+  kód 797481), Kundratice „Kundratice u Žiželic nad Cidlinou“ (797456). Přívlastek se tedy úředně
+  používá u k. ú., jen ne u obce. **Doloženo.**
+
 ## Zdroje
 
 - eBadatelna SOA Praha, vyhledání matrik: https://ebadatelna.soapraha.cz/pages/SearchMatrikaPage

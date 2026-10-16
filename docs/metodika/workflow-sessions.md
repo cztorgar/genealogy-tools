@@ -124,8 +124,17 @@ Handly událostí jsou v sekci `applied:` dřívějších patchů.
 **Typy událostí (pozor na českou lokalizaci Gramps):** křest dítěte = **`Christening`** („Křest“, GEDCOM CHR),
 **ne `Baptism`** (česky „Baptistické křtiny“ — aplikátor ho odmítne); `Adult Christening` = „Křtiny dospělých“.
 Ostatní: `Birth` (Narození), `Marriage` (Sňatek), `Divorce` (Rozvod), `Death` (Úmrtí), `Burial` (Pohřeb),
-`Residence` (Bydliště), `Occupation` (Povolání), `Census` (Sčítání lidu). Hodnoty s dvojtečkou v YAML
+`Residence` (Bydliště), `Occupation` (Povolání), `Census` (Sčítání lidu), `Religion` (Náboženství). Hodnoty s dvojtečkou v YAML
 dávej do uvozovek.
+
+**Patch se vede průběžně a je informačně bohatý** (pravidla od uživatele):
+- patch upravuj **pokaždé, když uživatel něco potvrdí** — ne až na konci výzkumu (status zůstává `navrženo`,
+  nepotvrzené části označ komentářem; `schváleno` až uživatel řekne ok k zápisu);
+- zapisuj **všechno potvrzené**, i nestrukturované údaje — kmotři, svědci, oddávající/křtitel, porodní bába,
+  č. p., stav a povolání, příbuzní uvedení v zápisu, poznámky matrikáře → do `description` události
+  (případně do další události: `Occupation`, `Residence`, `Religion`).
+- **Náboženství** = událost `Religion` (datum a místo záznamu, popis „římskokatolické“); přestup = další
+  `Religion` s popisem („přestup do Církve československé“).
 
 Manager patch zkontroluje, aplikuje do Gramps, doplní `gramps_id` do dossieru, nastaví `stav: zapsáno`
 a commitne.

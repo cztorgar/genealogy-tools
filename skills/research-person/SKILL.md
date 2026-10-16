@@ -121,6 +121,11 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 
 ## 7. Patch a předání
 
+- **Patch veď průběžně:** založ ho hned při prvním potvrzeném údaji a doplňuj ho **pokaždé, když uživatel
+  něco potvrdí** (status `navrženo`, nepotvrzené části okomentuj). `schváleno` až na výslovné ok k zápisu.
+- **Informačně bohatý:** všechno potvrzené ze zápisu patří do patche — kmotři, svědci, oddávající, porodní
+  bába, č. p., stav, povolání, příbuzní ze zápisu, poznámky → `description`; náboženství = událost `Religion`.
+
 - Typy událostí podle `workflow-sessions.md` (sekce Patch): křest = **`Christening`**, nikdy `Baptism`
   (v české lokalizaci Gramps „Baptistické křtiny“). Text s dvojtečkou v YAML dej do uvozovek.
 - Až uživatel údaje proti snímku potvrdí, nastav v patchi `status: schváleno` (bez toho ho manager nezapíše).

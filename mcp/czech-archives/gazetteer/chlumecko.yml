@@ -1,0 +1,619 @@
+# Gazetteer: Chlumecko (soudní okres Chlumec n. C.) — generováno z docs/mistopis/chlumecko/ (farnosti/, obce.md, ostatni-prameny.md)
+# Více YAML dokumentů: jeden na farnost / matriční úřad (formát jako zizelice.yml), pak `places` a `census`.
+# Ř. k. Žiželice: viz zizelice.yml. SOA Praha (Týnec n. L., Žehuň, Ohaře): doplnit z katalogu eBadatelny.
+---
+parish: "Chlumec nad Cidlinou"
+confession: "řkt"
+originator: "Děkanský úřad Chlumec nad Cidlinou"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Chlumec nad Cidlinou, Chlumec - Hradecké předměstí, Chlumec - Kolínské předměstí, Chlumec - Pražské předměstí, Kladruby, Levín, Lučice, Nepolisy, Nové Město, Olešnice, Pamětník, Písek, Stará Voda, Chudeřice (od 1798), Kosice (do 1/1787), Mlékosrby (do 1/1787)]
+valid: {from: 1775, to: 1942}
+note: "matriky před 1775 v ARONu nejsou; N vesnic jen do 1895, města do 1907"
+volumes:
+  - {sign: "55-1", id: "ae850f93-755e-401c-94ac-e9656a97f440", orig: "I.", N: "1775–1791", scans: 334, set: "FL3HOUD2"}
+  - {sign: "55-2", id: "29aee08d-9801-4355-ac2a-550fbf6f9d29", orig: "II.", N: "1791–1800", scans: 260, set: "ECVSHHHD"}
+  - {sign: "55-3", id: "952a2a3b-ad90-4f64-94ae-f4e4b4d27c97", orig: "III.", N: "1801–1814", scans: 464, set: "C345MVFD"}
+  - {sign: "55-4", id: "57a2a7c8-cd7c-4a67-bc1b-ddda9cf6473b", orig: "IV.", N: "1815–1822", scans: 120, set: "BTJ3EFPR"}
+  - {sign: "55-5", id: "431f7784-12fe-4275-82fb-6ea7c43ff32e", orig: "V.", N: "1823–1836", scans: 369, set: "AIFM7727"}
+  - {sign: "55-6", id: "e2a743eb-6c54-49f3-8cd5-df8ebb827670", orig: "VI.", N: "1837–1846", scans: 406, set: "7DFMFOTY"}
+  - {sign: "55-7", id: "599edaa3-8988-4d89-8b3c-447dc89ac8e8", orig: "VII.", N: "1847–1854", scans: 426, set: "53BLONKB"}
+  - {sign: "55-8", id: "d55af1cf-2d6c-4600-94eb-fcb6c89db2cb", orig: "VIII.", N: "1855–1859", scans: 270, set: "4QWJDYGB"}
+  - {sign: "55-9", id: "3dbdba92-e513-4014-a938-777c533c483e", orig: "IX.", N: "1860–1865", scans: 368, set: "3LFMFOTY"}
+  - {sign: "55-3557", id: "790811d0-a386-4fee-a839-75922eecf7b0", orig: "X. A", N: "1866–1880", scans: 385, set: "2BCOXMRJ"}
+  - {sign: "55-4818", id: "30182b85-5426-4d41-8747-a9a9d60f828a", orig: "XI. A", N: "1881–1895", scans: 411, set: "YZ4KX23H"}
+  - {sign: "55-6734", id: "9118e041-3a21-4a39-9b01-acef86f05775", orig: "XII. A", N: "1896–1907", scans: 343, set: "XSZNHSA2"}
+  - {sign: "55-3558", id: "f23f7e0d-f0d6-43fc-8223-8ba03277ec36", orig: "X. B", N: "1866–1880", scans: 418, set: "WKMHMW4R"}
+  - {sign: "55-4819", id: "00603835-7f7c-4d6f-a3dd-55c9c3ded288", orig: "XI. B", N: "1881–1895", scans: 417, set: "VAI5NY5U"}
+  - {sign: "55-10", id: "80a937c7-2a47-4f99-ae47-8bbbb74adea3", orig: "I.", O: "1775–1800", scans: 172, set: "T2P52ISD"}
+  - {sign: "55-11", id: "e1d6a1d7-5a44-4b2b-8b29-ff73c90185f9", orig: "II.", O: "1801–1837", scans: 327, set: "SSQXHYN6"}
+  - {sign: "55-12", id: "7f0a2b25-a990-4a4b-a021-bfe2c53d84a0", orig: "III.", O: "1838–1859", scans: 314, set: "RKA772RM"}
+  - {sign: "55-3559", id: "9aded011-3b61-41fa-930d-2a519b9b3b42", orig: "IV.", O: "1860–1880", scans: 409, set: "QB3675QX"}
+  - {sign: "55-6735", id: "1282a745-74a8-4243-86b3-f0ad61c65089", orig: "V.", O: "1881–1906", scans: 413, set: "O2NRCCJN"}
+  - {sign: "55-6736", id: "a7089501-5806-4650-933f-12d9bf1dcb54", orig: "VI. B", O: "1907–1920", scans: 274, set: "NQC22CHI"}
+  - {sign: "55-9372", id: "8d0f0863-0a74-4922-a95b-51c6d98d88f6", orig: "VII.", O: "1921–1942", scans: 266, set: "YKL6QWHC"}
+  - {sign: "55-13", id: "a1cd66bc-7179-4c24-8d52-a6725cd36c4a", orig: "I.", Z: "1775–1796", scans: 293, set: "MJEJHAWJ"}
+  - {sign: "55-14", id: "f9929bc1-385c-42f1-82ba-a44f95c849e6", orig: "II.", Z: "1797–1800", scans: 60, set: "LDU3U3LH"}
+  - {sign: "55-15", id: "a0437647-ab03-40ef-99ca-98d3f0e38245", orig: "III.", Z: "1801–1822", scans: 295, set: "JYBLWLWQ"}
+  - {sign: "55-16", id: "928bec34-fa50-4299-b2e9-e90d9a64dc2a", orig: "IV.", Z: "1823–1840", scans: 331, set: "IR7OTJMT"}
+  - {sign: "55-17", id: "a4a82659-106f-46f6-95c5-dda6c5f59626", orig: "V.", Z: "1841–1861", scans: 312, set: "HLLF6T3P"}
+  - {sign: "55-3560", id: "8757573a-2184-474d-abda-a55530a8b526", orig: "VI.", Z: "1862–1871", scans: 175, set: "GAA4KZ3I"}
+  - {sign: "55-3561", id: "47791b80-b10c-48e1-ba51-43a7750904ce", orig: "VII.", Z: "1872–1892", scans: 373, set: "EYR73BIL"}
+  - {sign: "55-6737", id: "36b80f41-7f01-41b7-9a7c-37a59542fddd", orig: "VIII.", Z: "1893–1906", scans: 377, set: "DRTS2PLY"}
+  - {sign: "55-6738", id: "63e937de-b8a0-4fc0-904f-72ba201dfad9", orig: "IX.", Z: "1907–1918", scans: 289, set: "CIXUGGAE"}
+  - {sign: "55-8126", id: "e326ea90-104e-4816-ae2a-4487921252bd", orig: "10 (X.)", Z: "1919–1932", scans: 253, set: "BA7NOIZL"}
+  - {sign: "55-18", id: "00dea27b-f3ee-4484-a38f-ec18d07252d4", IN: "1775–1852", scans: 115, set: "72UZ36KU"}
+  - {sign: "55-19", id: "f55e8c74-3920-4ec3-9f9b-48db62aae3e9", IN: "1837–1865", scans: 74, set: "6S2I23VY"}
+  - {sign: "55-4820", id: "7eed61dd-afb9-496e-b8a5-3647dff13028", IN: "1866–1895", scans: 156, set: "5KJ4P5BC"}
+  - {sign: "55-20", id: "d4668062-f08e-4d6a-b3d3-64c941994116", IO: "1775–1865", scans: 60, set: "4AJWMUQD"}
+  - {sign: "55-21", id: "653b2df0-8001-4943-80bf-2bbffb3a89b5", IZ: "1775–1852", scans: 98, set: "22B32QMS"}
+  - {sign: "55-3562", id: "532788d4-9bfb-4288-8ad2-2e9428d19fc2", IZ: "1841–1892", scans: 153, set: "ZSQNJBHV"}
+  - {sign: "55-6739", id: "abbe6bbd-09c3-40fd-b55b-e58930cf8359", IZ: "1893–1914", scans: 92, set: "YL5OONWB"}
+---
+parish: "Mlékosrby"
+confession: "řkt"
+originator: "Farní úřad Mlékosrby"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Mlékosrby, Hrázka, Luhy, Oktaviánov, Ostrov, Strašovka, Kosice, Třesice, Přestavecko, Luková, Barchůvek]
+valid: {from: 1787, to: 1928}
+note: "lokálie od 1787 (předtím Chlumec, Luková a Barchůvek Nový Bydžov); N Mlékosrby jen do 1876"
+volumes:
+  - {sign: "105-1", id: "01935e16-4264-4aca-bb1d-3070559b9541", orig: "A.", N: "1787–1808", scans: 97, set: "NB5TIYI3"}
+  - {sign: "105-2", id: "1c40d74a-7641-4826-8a5f-756f6f5585c8", orig: "B.", N: "1809–1849", scans: 382, set: "LYKN4DFT"}
+  - {sign: "105-11156", id: "24b7eb74-8638-414a-9f29-154a5df6631f", orig: "C.", N: "6.1837–11.1925", scans: 0}
+  - {sign: "105-3568", id: "a6785325-0515-4c32-a5ce-3163509c3139", orig: "D.", N: "1842–1897", scans: 300, set: "KQS2IDBS"}
+  - {sign: "105-6740", id: "a98424d2-4c8b-4e36-9349-1187692c2f81", orig: "F.", N: "4.1850–1906", scans: 101, set: "JKLUDMRZ"}
+  - {sign: "105-3537", id: "dda152c2-e909-4b1d-a16e-571bc0a108b4", orig: "E.", N: "2.1850–1876", scans: 142, set: "IDEDZR5M"}
+  - {sign: "105-3", id: "4b75516b-68e3-4e88-98da-04aa0280143e", orig: "A.", O: "1787–1837", scans: 94, set: "G326FZUG"}
+  - {sign: "105-3542", id: "138a5a9f-c32d-42b3-856c-0919ef9619fb", orig: "B.", O: "1837–1886", scans: 185, set: "FRPKAQOH"}
+  - {sign: "105-7664", id: "ddc223cd-aa36-431f-acdf-55d3f14a3264", orig: "C.", O: "1887–1928", scans: 177, set: "ELD32CNV"}
+  - {sign: "105-4", id: "b66b652d-d527-4279-a870-ea4a2d855497", orig: "A.", Z: "1787–1821", scans: 100, set: "DAMPQLGL"}
+  - {sign: "105-3554", id: "120c0d56-da0f-4ebe-82dc-4076949934ca", orig: "B.", Z: "1822–1874", scans: 181, set: "BYEMVA4E"}
+  - {sign: "105-7263", id: "0b71ac05-407f-41de-ac1b-b8ba174ffeeb", orig: "C.", Z: "1875–1916", scans: 149, set: "AQXV2BBG"}
+  - {sign: "105-3555", id: "7579fc77-4fff-49bf-a62a-a3b066f60bf7", IN: "1787–1874", IO: "1787–1874", IZ: "1787–1874", scans: 81, set: "7IVNVCKB"}
+  - {sign: "105-3556", id: "a74c39ac-3b96-4c2a-bf5b-571930d6641b", IN: "1809–1874", scans: 50, set: "6AHTA6MQ"}
+---
+parish: "Lužec nad Cidlinou"
+confession: "řkt"
+originator: "Farní úřad Lužec nad Cidlinou"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Lužec nad Cidlinou, Dvůr Žabí Lhotka, Skochovice, Žantov, Vlkov nad Lesy, Hlínov, Číhary, Kopanina, Hejlovec, Lišičky, Lovčice (do 9/1872), Lišice (do 1872), Bludy (do 1872), Lada (do 1872), Slibovice (do 1872)]
+valid: {from: 1721, to: 1933}
+note: "filiální obvod Lovčice do 9/1872; Z jen do 1871"
+volumes:
+  - {sign: "95-1", id: "8b8ac9d4-56bb-4d1c-9e4a-98ab85c865e8", orig: "II.", N: "2.1721–1767", scans: 181, set: "MTXK6SIQ"}
+  - {sign: "95-2", id: "1a4c265e-50c0-41b8-b17b-e21e9c9b1800", orig: "IV.", N: "1768–10.1784", scans: 124, set: "LLZORDBN"}
+  - {sign: "95-3", id: "92e97d06-e16e-4cac-a527-9caa5e64a0c8", orig: "VI.", N: "1784–1822", scans: 202, set: "KBN2MYTQ"}
+  - {sign: "95-4", id: "eba3255a-f26a-4700-99c7-8212d896d8d6", orig: "IX.", N: "1823–1844", scans: 212, set: "IZ5SHXFT"}
+  - {sign: "95-5", id: "7f4e28d2-fefe-4b17-a71b-0885ce5408e1", orig: "XIII.", N: "1845–1864", scans: 286, set: "HSNPZY64"}
+  - {sign: "95-4848", id: "cb284926-5f4f-48d1-9671-6ffe3b7ab00f", orig: "XV.", N: "1865–1892", scans: 362, set: "GJAPGAJ6"}
+  - {sign: "95-6732", id: "ccf3b5c3-7233-43f6-a90f-707c08e67656", N: "1893–1915", scans: 362, set: "FCRWOA2J"}
+  - {sign: "95-6", id: "adcd386f-2a9a-4e3d-8478-197c85aad3fa", orig: "VIII.", N: "1821–1845", scans: 188, set: "DYZ2RD3N"}
+  - {sign: "95-7", id: "63734b93-c5e8-4c6e-b176-260601e18457", orig: "XII.", N: "1845–1864", scans: 196, set: "CSZRNTSG"}
+  - {sign: "95-8", id: "85e93f6a-7fb1-4766-bac9-a8a8c26e4126", orig: "I.", O: "2.1721–8.1784", scans: 106, set: "BJKERAYQ"}
+  - {sign: "95-9", id: "91b7a2cf-a02f-4966-b9c1-f267d18bf9f6", orig: "V.", O: "1784–1835", scans: 92, set: "ABE36K6N"}
+  - {sign: "95-10", id: "334cfeb8-253f-4a93-9b98-77035ed3a3c6", orig: "X.", O: "1836–1870", scans: 231, set: "63KFBAYE"}
+  - {sign: "95-8138", id: "385c107a-1da9-407d-b8d5-db13f115ab6b", orig: "XVI.", O: "1871–1933", scans: 388, set: "5TCWYIZN"}
+  - {sign: "95-11", id: "7d4df496-6b0a-4518-97bc-118802359e63", orig: "III.", Z: "2.1721–9.1784", scans: 158, set: "4IO3QHEK"}
+  - {sign: "95-12", id: "1c91af54-d72b-4a4a-8ed7-fbd5a4702f35", orig: "VII.", Z: "1784–1835", scans: 169, set: "3DISG77G"}
+  - {sign: "95-13", id: "98b9af8e-21a1-48f2-adca-fcbac769b0ab", orig: "XI.", Z: "1836–1871", scans: 220, set: "ZY7SEZ4O"}
+  - {sign: "95-14", id: "3adcd629-2aef-4ed0-be9c-f16fcc0cc496", IN: "1721–1864", IO: "1721–1864", IZ: "1721–1864", scans: 193, set: "YRWIDCWF"}
+---
+parish: "Lovčice"
+confession: "řkt"
+originator: "Farní úřad Lovčice"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Lovčice, Bludy, Lada, Lišice, Slibovice]
+valid: {from: 1872, to: 1947}
+note: "fara od 9/1872 (předtím Lužec); N Lovčice jen do 6/1887"
+volumes:
+  - {sign: "95-4821", id: "37e082e6-43e5-4c53-b02e-7b1b49fc9a9d", orig: "II.a.", N: "1872–1896", scans: 274, set: "WA46IC55"}
+  - {sign: "95-6733", id: "7ee9a16e-8d03-4a52-a900-2629e4bd8f4a", orig: "I.a.", O: "9.1872–11.1903", scans: 147, set: "U2GGVG2R"}
+  - {sign: "95-9371", id: "99cfa9cb-0bb3-4900-8122-ed4f42658be1", orig: "1b.", O: "6.1904–7.1947", scans: 188, set: "ZRO6SLQT"}
+  - {sign: "95-8127", id: "9cbfd70b-96f7-4309-adbc-239e82b7bc4a", orig: "III.a.", Z: "1872–1935", scans: 171, set: "TTZ7QXF3"}
+---
+parish: "Kratonohy"
+confession: "řkt"
+originator: "Farní úřad Kratonohy"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Kratonohy, Michnovka, Obědovice, Káranice, Požáry, Hrázka, Bílá Hlína, Chudeřice (do 1798), Babice (fil. 1721–1786), Barchov (fil. 1721–1786), Kosičky (fil. 1721–1786), Trnava (fil. 1721–1786)]
+valid: {from: 1664, to: 1932}
+note: "nejstarší matriky Chlumecka (od 2/1664); Kratonohy, Michnovka, Obědovice = s. o. Nechanice"
+volumes:
+  - {sign: "79-1", id: "6897d209-930f-463f-bd63-87fb8d57673c", orig: "I. a", N: "1664–1703", O: "1664–1703", Z: "1664–1703", scans: 98, set: "TIKISHR4"}
+  - {sign: "79-2", id: "30d15f1c-5c83-4f22-958d-d36e446c51b3", orig: "I.", N: "1704–1743", O: "1704–1743", Z: "1704–1743", scans: 205, set: "SCMLZSOI"}
+  - {sign: "79-3", id: "fdb6a20b-b315-4077-876f-c457a1e9ec22", orig: "II.", N: "1743–1803", O: "1743–1803", Z: "1743–1803", scans: 405, set: "Q2CBIOY5"}
+  - {sign: "79-4", id: "9ab089dd-9008-42d2-8bcf-6597cc900f5f", orig: "III.", N: "1777–1807", scans: 162, set: "PSVXKASO"}
+  - {sign: "79-5", id: "995d8fa2-e03b-4622-a2f6-fd661bbe7361", orig: "IV.", N: "1808–1823", scans: 74, set: "OLADYD6K"}
+  - {sign: "79-6", id: "9408aafb-3fdd-4a54-bcff-f51326c33c9a", orig: "V.", N: "1824–1848", scans: 200, set: "NC3QZGRC"}
+  - {sign: "79-7", id: "618ec053-3853-4cd5-815b-0a1712c9b937", orig: "VI.", N: "1848–1860", scans: 170, set: "LZQPVGGP"}
+  - {sign: "79-3612", id: "e77039d3-aafd-4aa2-8ae5-ca3e08c8f1b9", orig: "VII.", N: "1861–1887", scans: 338, set: "KRI7RO5W"}
+  - {sign: "79-6754", id: "72534f9d-53bf-4634-9afd-9b57af124c67", orig: "VIII.", N: "1888–1916", scans: 322, set: "JLRZWNV2"}
+  - {sign: "79-8", id: "da3f4853-5a17-4de7-8f31-74ab4abf098d", orig: "III.", O: "1804–1829", scans: 37, set: "IACIIHDC"}
+  - {sign: "79-3605", id: "9665a040-4b26-44bb-b030-ca6989f3c485", orig: "IV.", O: "1830–1875", scans: 123, set: "GYATP3MQ"}
+  - {sign: "79-8128", id: "7eea34b4-99da-403b-b2b5-6f8fd7cbe2ef", orig: "V.", O: "1876–1932", scans: 277, set: "FSNJ36IJ"}
+  - {sign: "79-9", id: "f8ff982c-30d3-4a8c-b492-ba8f905e4850", orig: "III.", Z: "1800–1838", scans: 74, set: "EIZRIQDF"}
+  - {sign: "79-3603", id: "3dd42830-6cdd-4ea7-8370-752e0c480c96", orig: "IV.", Z: "1839–1884", scans: 149, set: "DBKF4JFP"}
+  - {sign: "79-10", id: "46674233-31a3-4052-8b70-63a37658497b", IN: "1808–1848", IO: "1808–1848", IZ: "1808–1848", scans: 79, set: "BZCHMQCR"}
+  - {sign: "79-6755", id: "eb801b77-aa34-4bc2-bccc-b78bc8d75de1", IN: "1848–1887", scans: 51, set: "ARV7DHK4"}
+  - {sign: "79-6756", id: "52a2f114-2d3c-4a82-922d-6c9910eb8d84", IZ: "1839–1884", scans: 42, set: "7JTIRAWE"}
+---
+parish: "Babice"
+confession: "řkt"
+originator: "Farní úřad Babice"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Babice, Malé Babice, Barchov, Kosičky, Trnava]
+valid: {from: 1787, to: 1937}
+note: "vlastní matriky od 2/1787 (předtím filiálka Kratonoh); Kosičky = s. o. Chlumec"
+volumes:
+  - {sign: "1-1", id: "80c78b00-ab7d-4604-9b28-8e9c05d6146f", orig: "I.", N: "1787–1803", O: "1787–1803", Z: "1787–1803", scans: 29, set: "OA4B2IPL"}
+  - {sign: "1-5", id: "1bfba836-5b59-42d0-a617-719f0814f702", orig: "II.", N: "1787–1803", O: "1787–1803", Z: "1787–1803", scans: 47, set: "M26QJO75"}
+  - {sign: "1-4", id: "006f8dfd-dbc6-4752-b6f9-ba2c1b312c83", orig: "III.", N: "1787–1803", O: "1787–1803", Z: "1787–1803", scans: 39, set: "LRWYXTFH"}
+  - {sign: "1-3567", id: "e4a0991b-54af-42e6-b4a1-62384b7dc67a", orig: "IV.", N: "1787–1803", O: "1787–1803", Z: "1787–1803", scans: 25, set: "KI2RF4BT"}
+  - {sign: "1-2", id: "2144d661-449d-482e-bb2e-56725c4e0689", orig: "VI.", N: "1804–1836", scans: 208, set: "JBSH7QY4"}
+  - {sign: "1-3", id: "2285a3d5-dbe4-4f84-b912-328e5b9225f9", orig: "VIII.", N: "1837–1853", scans: 310, set: "HYJOIGJV"}
+  - {sign: "1-3563", id: "ba1c83a1-170e-40a8-add6-77a6696018f5", orig: "XI.", N: "1854–1881", scans: 361, set: "GRH7YMDQ"}
+  - {sign: "1-6660", id: "8890845a-ec92-4259-b542-fba26d94bf8e", orig: "XII.", N: "1882–1909", scans: 256, set: "FJUMERCP"}
+  - {sign: "1-6661", id: "c7303738-5756-47c2-9feb-e31d8abdac29", orig: "XIII.", N: "1882–1912", scans: 253, set: "EAWVBZP7"}
+  - {sign: "1-6", id: "ab41a4ce-5be9-4ce3-b9ef-26c9bbbc29b1", orig: "V.", O: "1804–1836", scans: 51, set: "CZRU3VSJ"}
+  - {sign: "1-3565", id: "a091f3f0-66ca-4c15-9225-2139da4c1b8c", orig: "IX.", O: "1837–1882", scans: 198, set: "BRKV436S"}
+  - {sign: "1-6662", id: "51f51293-6c34-451f-9e39-feef818bff7d", orig: "XIV.", O: "6.1882–12.1918", scans: 188, set: "AKGFJ27P"}
+  - {sign: "1-7", id: "84c31158-1941-4f2a-8864-432e96bfb018", orig: "VII.", Z: "1804–1836", scans: 96, set: "7BGIDS6G"}
+  - {sign: "1-3566", id: "154bf0d7-d37e-4f25-b823-63bccc8f6b34", orig: "X.", Z: "1837–1890", scans: 193, set: "5ZCMCEBK"}
+  - {sign: "1-6663", id: "2cc68459-9a75-42b1-a3e7-6664d1702697", orig: "XV.", Z: "1891–1909", scans: 103, set: "4SXOKAGK"}
+  - {sign: "1-8578", id: "03cda9b5-698a-40ca-8d50-696031f40299", orig: "XVII.", Z: "1910–1937", scans: 104, set: "3JGIDS6G"}
+  - {sign: "1-2598", id: "1cd1790a-26d9-437e-b20f-e214524891d1", IN: "1787–1882", IO: "1787–1882", IZ: "1787–1882", scans: 122, set: "2DDERQJ3"}
+  - {sign: "1-3564", id: "768568fd-3491-44a4-b3f2-739afd394812", IN: "1854–1893", scans: 65, set: "Y35PU6BA"}
+---
+parish: "Vápno"
+confession: "řkt"
+originator: "Farní úřad Vápno"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Vápno, Přepychy, Chýšť, Strašov, Malé Výkleky, Újezd u Přelouče, Klamoš, Štít, Kolesa, Komárov, Rtanov (do 1784)]
+valid: {from: 1721, to: 1949}
+note: "Újezd do 1721 filiálka Žiželic; mladší svazky bez skenů"
+volumes:
+  - {sign: "1887", id: "99fa396b-607c-4c51-9edd-8d08cef41629", N: "1721–1784", scans: 231, set: "SC6LLP4D"}
+  - {sign: "1888", id: "29f8f22a-a837-4471-8275-0290165b9d44", N: "1784–1823", scans: 157, set: "Q2UBS6QS"}
+  - {sign: "1889", id: "61e105a3-1343-4016-a8ad-4093464dc089", N: "1824–1836", scans: 224, set: "PTH77NXP"}
+  - {sign: "1890", id: "b487de9b-ed83-497f-b324-1ef89e870ec1", N: "1837–1846", scans: 245, set: "OKKF2RVI"}
+  - {sign: "1891", id: "4da13c53-dd06-4c35-b6b1-695d377bec9e", N: "1846–1861", scans: 301, set: "NDNXVT2S"}
+  - {sign: "4504", id: "485675c0-fd5d-4fe0-a32b-4af7ab57efcd", N: "1862–1875", scans: 410, set: "LZ2JJVH3"}
+  - {sign: "4506", id: "274b707f-96d7-4f0d-a7f9-ca8335abc356", N: "1876–1899", scans: 464, set: "KQC5EITQ"}
+  - {sign: "6570", id: "968e61f3-a175-481b-b65b-87cadf972486", N: "1900–1924", scans: 0}
+  - {sign: "1892", id: "f4e6a68a-dc30-4876-afcc-35c30d2d589a", O: "1721–1784", scans: 101, set: "IAUJZVFA"}
+  - {sign: "1893", id: "44923324-0a4f-4632-8773-77142cc38020", O: "1784–1851", scans: 184, set: "GZKT3BIL"}
+  - {sign: "4511", id: "b798f53f-9161-434d-bb7c-d2e6f1ac5ceb", O: "1852–1875", scans: 181, set: "FS7AEBFS"}
+  - {sign: "6571", id: "41836205-caee-43cc-ab27-e2188c924ab5", O: "1876–1910", scans: 223, set: "EITSFUN7"}
+  - {sign: "10243", id: "4935dbd0-5fa5-4c27-b7eb-6487aef58b9d", orig: "XVIII.", O: "1911–1949", scans: 0}
+  - {sign: "1894", id: "a8fcc878-6ce5-45eb-b0c6-9ed8ab60636c", Z: "1721–1784", scans: 139, set: "DB4MGW3J"}
+  - {sign: "1895", id: "b89a7a6b-50ed-4a1e-83a7-c169351cb96b", Z: "1784–1823", scans: 85, set: "BZUA2A7M"}
+  - {sign: "1896", id: "28dfa6fd-6bdc-469c-8b77-049d47130eb1", Z: "1824–1848", scans: 209, set: "AQHUJLU7"}
+  - {sign: "4508", id: "8f2d4995-a62c-4f66-a4fa-4c549c95271b", Z: "1849–1877", scans: 222, set: "7IFH4NG3"}
+  - {sign: "10920", id: "d954c5d4-cc99-44d6-84e8-dccf53dcd971", orig: "XVI.", Z: "1878–1949", scans: 0}
+  - {sign: "10921", id: "b74db3d4-a3b2-4f71-b0d7-511b2cc54bc4", IO: "1721–1949", scans: 0}
+  - {sign: "10922", id: "a962d867-1384-4b5e-8b45-482164837dad", IO: "1721–1949", scans: 0}
+---
+parish: "Trnávka"
+confession: "ev. a. v."
+originator: "Farní sbor Trnávka (ev. a. v.)"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Chlumec nad Cidlinou, Lučice, Klamoš, Kolesa, Krakovany, Rasochy, Strašov, Tetov, Hlavečník, Bílé Vchynice, Lišice, Lužec nad Cidlinou, Nepolisy, Hradišťko II, Žehuň]
+valid: {from: 1782, to: 1949}
+note: "lokality ve svazcích jen výběr; otevřít popis svazku"
+volumes:
+  - {sign: "L 6-8326", id: "379788df-31d1-49d6-b49a-70194543c231", orig: "R-III-B-1", N: "1782–1832", O: "1782–1832", Z: "1782–1832", scans: 208, set: "A2GAIN2Q"}
+  - {sign: "L 6-1", id: "02a92544-360c-44a9-8462-9ff17b9f46a5", N: "1801–1864", Z: "1801–1864", scans: 191, set: "7TFMCVRD"}
+  - {sign: "L 6-2", id: "f1b15fd1-0f22-4710-aa4c-2e3c74c09a19", N: "1847–1906", Z: "1847–1906", scans: 336, set: "6KJU7JHU"}
+  - {sign: "L 6-3", id: "dd646b54-082c-4ade-8a56-a9d7d5bc1399", N: "10.1895–7.1925", scans: 0}
+  - {sign: "L 6-4", id: "5472f3a8-6a0a-44c9-9631-67aceca10e90", O: "10.1832–1909", scans: 128, set: "3ZV6QFKO"}
+  - {sign: "L 6-9038", id: "c27730d0-c730-40ba-b17d-407282e3dcd2", orig: "III.", O: "1910–10.1942", scans: 206, set: "2S3P7EOT"}
+  - {sign: "L 6-11138", id: "a1a8735c-1fd0-4cc1-a4bb-c69732c08583", orig: "IV.", O: "10.1942–1949", scans: 0}
+  - {sign: "L 6-10283", id: "0f62fa05-863d-466a-90e0-304155d8ce6a", orig: "IV.", Z: "2.1906–1949", scans: 0}
+---
+parish: "Bukovka"
+confession: "ev. h. v."
+originator: "Farní sbor Bukovka (ev. h. v.)"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Chlumec nad Cidlinou, Uhlířská Lhota, Nové Město, Chudeřice, Chýšť, Vápno, Kratonohy, Obědovice]
+valid: {from: 1783, to: 1949}
+note: "lokality jen výběr"
+volumes:
+  - {sign: "R 3-10482", id: "5f2b60d5-e319-410f-a162-1bce2c417330", orig: "I. (R-III-B-1)", N: "1783–1803", O: "1783–1803", Z: "1783–1803", scans: 0}
+  - {sign: "R 3-10483", id: "4d2fa25d-fe5c-467f-b309-0cb5d28bc911", orig: "II. ((R-III-B-2)", N: "1805–1830", O: "1805–1830", Z: "1805–1830", scans: 0}
+  - {sign: "R 3-1", id: "c9602185-52cc-4920-a78a-a7f182e9728c", orig: "III.", N: "3.1831–3.1857", scans: 195, set: "HTENVX2Y"}
+  - {sign: "R 3-2", id: "4250588c-4413-4801-b258-ec8602db7bf9", orig: "IV.", N: "3.1857–4.1875", scans: 146, set: "GKHN4G3I"}
+  - {sign: "R 3-3", id: "412bff0c-6aff-4e0a-91b4-f4bd589f06f7", orig: "V.", N: "4.1875–1892", scans: 178, set: "FDQUY457"}
+  - {sign: "R 3-5", id: "4dbc5e49-89c1-47b2-ad75-37634cb647c6", orig: "VI.", N: "1893–2.1923", scans: 201, set: "DZI7652Q"}
+  - {sign: "R 3-6", id: "ac85cc40-66f1-4d74-8ba2-00985369fd45", orig: "III.", O: "8.1831–1909", scans: 191, set: "CTIYS3UM"}
+  - {sign: "R 3-11091", id: "b0bbfab6-1a3f-4551-9734-9ff2819dcc54", orig: "IV.", O: "1910–1949", scans: 0}
+  - {sign: "R 3-4", id: "6a91f916-8bde-4c67-9966-9497c0abae2b", orig: "III.", Z: "1831–8.1886", scans: 196, set: "BKZML7YX"}
+  - {sign: "R 3-9428", id: "b318a5db-dd86-4a84-bb4c-fb1ea703e6c8", orig: "IV.", Z: "10.1886–3.1944", scans: 122, set: "2SCNZRVO"}
+  - {sign: "R 3-11092", id: "8cd273fa-8461-4813-bce5-96c7bd2534fc", orig: "V.", Z: "3.1944–1949", scans: 0}
+---
+parish: "Chvaletice"
+confession: "ev. h. v."
+originator: "Farní sbor Chvaletice (ev. h. v.)"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Lišice, Lovčice, Klamoš, Tetov, Hlavečník, Krakovany]
+valid: {from: 1791, to: 1949}
+note: "lokality jen výběr"
+volumes:
+  - {sign: "R 11-1", id: "8bdf9374-07d9-465b-854b-e84ae6665e4e", N: "3.1791–1815", scans: 143, set: "FSLI4KQJ"}
+  - {sign: "R 11-2", id: "8ed95d2d-f624-4b31-b364-aeebcae5ba78", N: "1816–6.1843", scans: 278, set: "EI7ZHHKA"}
+  - {sign: "R 11-3", id: "6a5c62f4-7105-4bed-b35f-3deaf799d336", N: "6.1843–1863", scans: 313, set: "DBIAS3PQ"}
+  - {sign: "R 11-4", id: "97c3c8e3-19c7-4b13-bd61-e0f70016715b", N: "1864–4.1872", scans: 240, set: "BZAD7JHM"}
+  - {sign: "R 11-5", id: "85c15598-32c4-43da-b2ef-6dc40f235ed0", N: "4.1872–10.1883", scans: 317, set: "ARTZ6MRW"}
+  - {sign: "R 11-6", id: "a8af45d8-74f9-4065-8bff-dd5bb4a868c3", N: "10.1883–1.1893", scans: 201, set: "7JRNNDXS"}
+  - {sign: "R 11-7", id: "23c4bf2e-512e-4cb3-9c9c-020d962eba92", N: "1.1893–9.1900", scans: 142, set: "6BD7HD5O"}
+  - {sign: "R 11-15", id: "96ebbc81-8a12-434c-b009-7cad2f8be5bf", N: "10.1900–3.1908", scans: 122, set: "4ZLZIPFN"}
+  - {sign: "R 11-8", id: "ff81abca-0e49-4294-88fa-49ac646b2b37", O: "3.1791–6.1849", scans: 92, set: "3Q5GPAWI"}
+  - {sign: "R 11-9", id: "bd438143-eb4d-4cd6-b829-c4371ff9fc1d", O: "11.1849–8.1880", scans: 271, set: "2KKQEBFS"}
+  - {sign: "R 11-10", id: "ac3854b8-8fe4-43fa-8a3c-1d0ac5b2f644", O: "9.1880–5.1898", scans: 146, set: "ZAGHU7FG"}
+  - {sign: "R 11-13", id: "d2f79c00-b575-4987-9f76-64fcc30b012f", O: "5.1898–9.1912", scans: 101, set: "XYDVNA6U"}
+  - {sign: "R 11-8431", id: "915c140b-3e96-4aac-9a80-19b6df4c252d", orig: "V.", O: "11.1912–1941", scans: 156, set: "WTVO4TE7"}
+  - {sign: "R 11-11115", id: "9414fea3-72d5-4449-9be8-8d6d5d316571", orig: "VI.", O: "3.1942–1949", scans: 0}
+  - {sign: "R 11-11", id: "843fe54e-feea-4513-864d-118be9fa38ae", Z: "3.1791–7.1846", scans: 139, set: "VJODF7EZ"}
+  - {sign: "R 11-12", id: "82cff8fd-9614-49da-b208-b2622a0e8446", Z: "7.1846–1873", scans: 266, set: "UBVS3VJA"}
+  - {sign: "R 11-14", id: "e74b95a4-f8e3-4870-ab84-55c7a5d60ea8", Z: "1874–11.1910", scans: 288, set: "S23CA4GK"}
+  - {sign: "R 11-10743", id: "162111e5-3837-4842-9658-4cff1196d697", orig: "IV.", Z: "1911–1949", scans: 0}
+---
+parish: "Hradec Králové"
+confession: "ev. a. v."
+originator: "Evangelická církev a. v. Hradec Králové"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Chlumec nad Cidlinou, Nepolisy]
+valid: {from: 1899, to: 1945}
+note: "jen svazek 9721 uvádí obce Chlumecka"
+volumes:
+  - {sign: "9721", id: "e59ed643-2833-4bd7-9bf3-167f92a4a157", orig: "I.", N: "1899–1923", O: "1899–1923", Z: "1899–1923", scans: 118, set: "DT5UL73S"}
+  - {sign: "8117", id: "e08cd40b-893d-4f88-8e4b-61129132d19a", orig: "II.", O: "1920–1929", scans: 106, set: "4BOU4XIB"}
+  - {sign: "9722", id: "0cc6b1b1-1436-40ef-8da8-1359c8c91d3e", orig: "III.", O: "11.1929–6.1942", scans: 206, set: "CKZ5UG5U"}
+  - {sign: "8124", id: "aef3ddce-8d22-44bb-87d5-422613a649c6", orig: "II.", Z: "1923–7.1936", scans: 103, set: "23W73ZV6"}
+  - {sign: "9723", id: "ceee03be-015d-4024-82ce-e8cfcb551584", orig: "III.", Z: "8.1936–10.1945", scans: 102, set: "BCRABH35"}
+---
+parish: "Nový Bydžov"
+confession: "čsl."
+originator: "Náboženská obec CČS Nový Bydžov"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [Chlumec nad Cidlinou, Kladruby, Klamoš, Pamětník, Písek, Nepolisy, Luková, Mlékosrby, Kosičky, Lišice, Lužec nad Cidlinou, Žiželice, Končice, Zbraň, Tetov, Bílé Vchynice, Radovesnice II]
+valid: {from: 1921, to: 1946}
+volumes:
+  - {sign: "7968", id: "7ed9204e-a7d9-425d-b0e3-40204537fd91", O: "4.1921–8.1931", scans: 203, set: "EL23ZLPO"}
+  - {sign: "8584", id: "d4296b7c-2314-4628-a5a5-25bd35956db8", orig: "II.", O: "9.1931–1939", scans: 142, set: "DDHIQNEW"}
+  - {sign: "9712", id: "c0e62b6e-18ee-40a8-bb33-2ad4942c060a", orig: "III.", O: "1940–1946", scans: 222, set: "OYPTVNB4"}
+  - {sign: "8585", id: "9c4c4813-34e9-4506-8bd0-c6b0ef0ffffb", orig: "I.", Z: "3.1921–1939", scans: 200, set: "BY7GGNG2"}
+---
+parish: "Okresní hejtmanství Nový Bydžov"
+confession: "civ."
+originator: "Okresní hejtmanství Nový Bydžov (civilní matriky)"
+archive: SOA Hradec Králové (Zámrsk)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+fond: Sbírka matrik Východočeského kraje (NAD 190)
+places: [celý soudní okres Chlumec nad Cidlinou (výčet v obce.md)]
+valid: {from: 1871, to: 1949}
+note: "civilní sňatky a úmrtí; nejlepší doklad rozsahu s. o. Chlumec"
+volumes:
+  - {sign: "7661", id: "11b41138-2702-4ba1-9a42-da4da2ff7f78", O: "7.1871–12.1921", scans: 109, set: "NBQAK4YC"}
+  - {sign: "8132", id: "c345117e-99c0-48d2-918b-ee90de936312", orig: "II.", O: "12.1921–1930", scans: 382, set: "L3OU2WEJ"}
+  - {sign: "8133", id: "713e0df0-c93f-4ee1-9c06-bb41ed601949", orig: "III.", O: "1931", scans: 49, set: "KTHOENAO"}
+  - {sign: "8134", id: "cf767bda-a989-4347-9dcd-0cc4008cc42c", orig: "IV.", O: "1932", scans: 37, set: "JJOFAHJD"}
+  - {sign: "8135", id: "9f23bbba-85d4-4057-b501-0d107d97d9ef", orig: "V.", O: "1933", scans: 33, set: "IDY4XLMW"}
+  - {sign: "8136", id: "617eaf4d-e988-47c6-be88-e2da91ef50f1", orig: "VI.", O: "1934", scans: 35, set: "G37CM3EL"}
+  - {sign: "8137", id: "70cd6c8b-e476-48a3-8925-de189e7ad8cc", orig: "VII.", O: "1935", scans: 32, set: "FSD3NDJH"}
+  - {sign: "8586", id: "3278ca2d-26a2-4c96-a28c-b9110da4e890", orig: "VIII.", O: "1936–1937", scans: 63, set: "ELWBIOPO"}
+  - {sign: "8587", id: "219f4149-b10a-475a-a43f-9e1531fec020", orig: "IX.", O: "1938–11.1939", scans: 63, set: "DDAY5LCQ"}
+  - {sign: "9743", id: "870f8fc1-71c9-4eea-8dbb-f540d6db2611", orig: "X.", O: "12.1939–4.1942", scans: 66, set: "G2TSVMPU"}
+  - {sign: "8139", id: "66a0190f-02f7-4660-a2a9-641c5ed49109", orig: "I.", Z: "11.1872–1932", scans: 184, set: "BYYZGYT7"}
+  - {sign: "8140", id: "6342c644-c0b7-43da-8afc-b1c07097a5a4", orig: "II.", Z: "1933", scans: 22, set: "ATKATXID"}
+  - {sign: "8141", id: "f2e7efaf-0e4a-4c7d-82ed-69769c4c51c5", orig: "III.", Z: "1934", scans: 22, set: "7LL3LKYU"}
+  - {sign: "8142", id: "b178ebb6-47d4-4089-b75f-ae407c955bb0", orig: "IV.", Z: "1935", scans: 20, set: "6AYNWKTO"}
+  - {sign: "8588", id: "f5b1d837-ce30-4154-bef2-7123df0178cb", orig: "V.", Z: "1936–1937", scans: 40, set: "43ADRPL3"}
+  - {sign: "8589", id: "57ce42b9-debb-4327-ad17-fa165bcc070a", orig: "VI.", Z: "1938–1940", scans: 40, set: "3TX7P7BV"}
+  - {sign: "8717", id: "c165e241-b537-415c-a483-4f44dc9a1154", IO: "1871–1949", scans: 48, set: "2KDN3WG6"}
+  - {sign: "8718", id: "5ba67fe2-43f6-4018-910b-c0cf16e93543", IZ: "1872–1949", scans: 43, set: "ZD66YDS2"}
+---
+kind: places
+note: "WGS84 (cs.wiki / OSM), KÚ = dnešní katastrální území (RÚIAN); fara = ř. k. fara a archiv (Z = Zámrsk, P = SOA Praha)"
+places:
+  - {name: "Chlumec n. C. (město, Hradecké, Kolínské, Pražské předm.)", today: "Chlumec n. C., HK", ku: "651800", lat: 50.1545, lon: 15.4603, parish: "Chlumec od 1775 (Z)"}
+  - {name: "Kladruby", today: "č. o. Chlumec, HK", ku: "651800", lat: 50.1467, lon: 15.4678, parish: "Chlumec (Z)"}
+  - {name: "Lučice", today: "č. o. Chlumec, HK", ku: "688291", lat: 50.1378, lon: 15.4625, parish: "Chlumec (Z)"}
+  - {name: "Pamětník", today: "č. o. Chlumec, HK", ku: "717533", lat: 50.1236, lon: 15.4511, parish: "Chlumec (Z)"}
+  - {name: "Olešnice", today: "Olešnice, HK", ku: "710351", lat: 50.1403, lon: 15.448, parish: "Chlumec (Z)"}
+  - {name: "Levín", today: "č. o. Olešnice, HK", ku: "710342", lat: 50.1339, lon: 15.4303, parish: "Chlumec (Z)"}
+  - {name: "Stará Voda", today: "Stará Voda, HK", ku: "754056", lat: 50.1504, lon: 15.5306, parish: "Chlumec (Z)"}
+  - {name: "Nové Město (Luhy, Ostrov)", today: "Nové Město, HK", ku: "706396", lat: 50.1477, lon: 15.4952, parish: "Chlumec (Z); Luhy, Ostrov Mlékosrby"}
+  - {name: "Písek (Oktaviánov, Hrázka)", today: "Písek, HK", ku: "720917", lat: 50.1555, lon: 15.5018, parish: "Chlumec (Z); Oktaviánov, Hrázka Mlékosrby"}
+  - {name: "Nepolisy", today: "Nepolisy, HK", ku: "703397", lat: 50.1923, lon: 15.4634, parish: "Chlumec (Z); 1397 filiálka Luhů"}
+  - {name: "Chudeřice", today: "Chudeřice, HK", ku: "654787", lat: 50.1491, lon: 15.5509, parish: "Kratonohy → Chlumec od 1798 (Z)"}
+  - {name: "Mlékosrby (Hrázka, Luhy, Oktaviánov, Ostrov, Strašovka)", today: "Mlékosrby, HK", ku: "697311", lat: 50.1918, lon: 15.5015, parish: "Chlumec → Mlékosrby od 1787 (Z)"}
+  - {name: "Kosice (Třesice, Přestavecko)", today: "Kosice, HK", ku: "669831", lat: 50.1798, lon: 15.5349, parish: "Chlumec → Mlékosrby od 1787 (Z)"}
+  - {name: "Luková", today: "č. o. Nepolisy, HK", ku: "689009", lat: 50.19, lon: 15.4836, parish: "N. Bydžov → Mlékosrby od 1787 (Z)"}
+  - {name: "Kosičky", today: "Kosičky, HK", ku: "669849", lat: 50.1787, lon: 15.5558, parish: "Kratonohy (fil. Babice) → Babice od 1787 (Z)"}
+  - {name: "Káranice", today: "Káranice, HK", ku: "663182", lat: 50.153, lon: 15.5576, parish: "Kratonohy (Z)"}
+  - {name: "Lovčice (Bludy, Lada)", today: "Lovčice, HK", ku: "687634", lat: 50.1653, lon: 15.3847, parish: "Lužec (filiálka) → Lovčice 9/1872 (Z)"}
+  - {name: "Lišice (Lišičky)", today: "Lišice, HK", ku: "684970", lat: 50.181, lon: 15.4081, parish: "Lužec → Lovčice 1872; Lišičky Lužec (Z)"}
+  - {name: "Lužec n. C. (Žabí Lhotka, Hejlovec)", today: "Lužec n. C., HK", ku: "689271", lat: 50.2136, lon: 15.4119, parish: "Lužec od 1721 (Z)"}
+  - {name: "Klamoš (Rtánov)", today: "Klamoš, HK", ku: "665428", lat: 50.1256, lon: 15.5013, parish: "Vápno od 1721 (Z)"}
+  - {name: "Štít", today: "č. o. Klamoš, HK", ku: "665436", lat: 50.117, lon: 15.4739, parish: "Vápno (Z)"}
+  - {name: "Vápno", today: "Vápno, Pardubice", ku: "776955", lat: 50.1043, lon: 15.533, parish: "Vápno od 1721 (Z)"}
+  - {name: "Přepychy", today: "Přepychy, Pardubice", ku: "734691", lat: 50.1064, lon: 15.52, parish: "Vápno (Z)"}
+  - {name: "Chýšť", today: "Chýšť, Pardubice", ku: "655686", lat: 50.1282, lon: 15.5414, parish: "Vápno (Z)"}
+  - {name: "Malé Výkleky", today: "Malé Výkleky, Pardubice", ku: "655694", lat: 50.1194, lon: 15.5386, parish: "Vápno (Z)"}
+  - {name: "Strašov", today: "Strašov, Pardubice", ku: "756318", lat: 50.0875, lon: 15.5228, parish: "Vápno (Z)"}
+  - {name: "Újezd (u Přelouče)", today: "Újezd u Přelouče, Pardubice", ku: "773689", lat: 50.102, lon: 15.4946, parish: "Žiželice → Vápno od 1721 (Z)"}
+  - {name: "Komárov", today: "č. o. Kladruby n. L., Pardubice", ku: "668702", lat: 50.0889, lon: 15.4914, parish: "Vápno (Z)"}
+  - {name: "Kolesa", today: "č. o. Kladruby n. L., Pardubice", ku: "668079", lat: 50.0858, lon: 15.4769, parish: "stř. fara → Vápno (Z)"}
+  - {name: "Převýšov", today: "Převýšov, HK", ku: "735299", lat: 50.1516, lon: 15.4105, parish: "Žiželice (P)"}
+  - {name: "Hlavečník", today: "Hlavečník, Pardubice", ku: "638951", lat: 50.0755, lon: 15.4266, parish: "Žiželice (P)"}
+  - {name: "Tetov (Dlouhá Hráz)", today: "Tetov, Pardubice", ku: "766968", lat: 50.0805, lon: 15.4457, parish: "Žiželice (P)"}
+  - {name: "Bílé Vchynice (Rutvasy)", today: "č. o. Kladruby n. L., Pardubice", ku: "604143", lat: 50.0939, lon: 15.4386, parish: "Žiželice (P)"}
+  - {name: "Rasochy", today: "č. o. Uhlířská Lhota, Kolín", ku: "773174", lat: 50.0897, lon: 15.4067, parish: "Žiželice (P)"}
+  - {name: "Radovesnice II", today: "Radovesnice II, Kolín", ku: "738778", lat: 50.1041, lon: 15.3678, parish: "Žiželice (P)"}
+  - {name: "Krakovany", today: "Krakovany, Kolín", ku: "672351", lat: 50.0661, lon: 15.3689, parish: "Týnec n. L.? (P) — viz farnosti/soa-praha.md"}
+  - {name: "Božec", today: "č. o. Krakovany, Kolín", ku: "672343", lat: 50.0744, lon: 15.3644, parish: "Týnec n. L.? (P)"}
+  - {name: "Lipec", today: "Lipec, Kolín", ku: "738760", lat: 50.085, lon: 15.3646, parish: "Týnec n. L.? (P)"}
+  - {name: "Uhlířská Lhota", today: "Uhlířská Lhota, Kolín", ku: "773182", lat: 50.079, lon: 15.3911, parish: "Týnec n. L. (Sommer 1837) (P)"}
+  - {name: "Choťovice", today: "Choťovice, Kolín", ku: "795721", lat: 50.1424, lon: 15.3197, parish: "Žehuň? (P)"}
+  - {name: "Dománovice", today: "Dománovice, Kolín", ku: "709191", lat: 50.1119, lon: 15.3226, parish: "Žehuň? (P)"}
+  - {name: "Polní Chrčice", today: "Polní Chrčice, Kolín", ku: "709212", lat: 50.1101, lon: 15.2968, parish: "Ohaře od ~1813? (P)"}
+  - {name: "Kratonohy", today: "Kratonohy, HK", ku: "674141", lat: 50.1692, lon: 15.607, parish: "Nechanice"}
+  - {name: "Michnovka", today: "č. o. Kratonohy, HK", ku: "674150", lat: 50.1422, lon: 15.6111, parish: "Nechanice"}
+  - {name: "Obědovice", today: "Obědovice, HK", ku: "674168", lat: 50.1611, lon: 15.5821, parish: "Nechanice"}
+  - {name: "Babice", today: "Babice (KÚ Velké Babice), HK", ku: "600610", lat: 50.1921, lon: 15.5856, parish: "Nechanice"}
+  - {name: "Kněžičky", today: "Kněžičky, Nymburk", ku: "603121", lat: 50.174, lon: 15.3449, parish: "Městec Králové"}
+  - {name: "Žehuň", today: "Žehuň, Kolín", ku: "795739", lat: 50.1355, lon: 15.2914, parish: "Městec Králové"}
+  - {name: "Ohaře", today: "Ohaře, Kolín", ku: "709204", lat: 50.0978, lon: 15.2951, parish: "Kolín"}
+  - {name: "Vlkov nad Lesy (Hlínov)", today: "č. o. Běrunice, Nymburk", ku: "603171", lat: 50.205, lon: 15.3806, parish: "Poděbrady?"}
+  - {name: "Slibovice", today: "č. o. Běrunice, Nymburk", ku: "603155", lat: 50.1806, lon: 15.3692, parish: "Poděbrady?"}
+  - {name: "Skochovice", today: "č. o. Nový Bydžov, HK", ku: "748331", lat: 50.2272, lon: 15.3981, parish: "Poděbrady?"}
+  - {name: "Žantov", today: "č. o. Nový Bydžov, HK", ku: "748331", lat: 50.2417, lon: 15.395, parish: "Poděbrady?"}
+  - {name: "Barchůvek", today: "č. o. Měník, HK", ku: "600946", lat: 50.2094, lon: 15.5456, parish: "Nový Bydžov"}
+  - {name: "Nový Bydžov", today: "město, HK", ku: "707163", lat: 50.2416, lon: 15.4909, parish: "Nový Bydžov"}
+---
+kind: census
+archive: SOkA Hradec Králové
+fond: Okresní úřad Nový Bydžov (archivní pomůcka č. 1794)
+module: aron_zamrsk
+url_pattern: https://aron.vychodoceskearchivy.cz/apu/{id}
+note: "inv = inventární číslo; spojené obce mají podřízené záznamy po obcích; skeny jen u části"
+records:
+  - {year: 1890, place: "Božec čp. 1-35", inv: "1163", id: 73707969-b641-49de-8f48-d09cb43bcb70}
+  - {year: 1900, place: "Božec čp. 1-14, 16-36", inv: "1251", id: ee7fe280-6c86-4692-9ee2-1b6323603d1b}
+  - {year: 1910, place: "Božec čp. 1-42", inv: "1343", id: 71ba8835-c47a-44d0-bf50-932ae545bf48}
+  - {year: 1921, place: "Božec čp. 1-21, 23-43", inv: "1440", id: 7cd172ec-221b-4fb3-9397-75285203046e}
+  - {year: 1869, place: "Chlumec nad Cidlinou", inv: "poř. 14", id: 89c8a471-88e0-4e75-a68d-3c812a2e4920}
+  - {year: 1880, place: "Chlumec nad Cidlinou", inv: "poř. 158", id: 16688ab6-4c98-4296-a536-2e7c59b00322}
+  - {year: 1890, place: "Chlumec nad Cidlinou", inv: "poř. 286", id: 8e8a2895-d757-4a98-b5c6-30ea3e0a6a09}
+  - {year: 1900, place: "Chlumec nad Cidlinou", inv: "poř. 420", id: ecbcadf0-a9b7-4b86-ba2c-5d4e4c08c964}
+  - {year: 1910, place: "Chlumec nad Cidlinou", inv: "poř. 553", id: 83571d02-d69a-4583-a2b8-1f3a6b0dcabd}
+  - {year: 1921, place: "Chlumec nad Cidlinou", inv: "poř. 684", id: 8ae275fd-1692-44d4-b4a9-ad0067325394}
+  - {year: 1869, place: "Choťovice čp. 1-68", inv: "1013", id: 3e9c0861-f5b8-45d8-a16d-4d50f765e248}
+  - {year: 1880, place: "Choťovice čp. 1-80", inv: "1094", id: e34ebb54-b8d0-4fcf-9e8e-1a675b1f42a2}
+  - {year: 1890, place: "Choťovice čp. 1-79", inv: "1177", id: 515a528b-8eae-4437-815e-22eae204b518}
+  - {year: 1900, place: "Choťovice čp. 1-88", inv: "1265", id: 5565cc04-2d69-4661-91e2-7767d3a16fd2}
+  - {year: 1910, place: "Choťovice čp. 1-107", inv: "1359", id: 9ce44180-134f-4a39-aabc-44010ccdada6}
+  - {year: 1921, place: "Choťovice čp. 1-105, 107-110", inv: "1457", id: 1dd57266-479e-4c08-9f96-d5642bb5ab5c}
+  - {year: 1921, place: "Chudeřice čp. 1-31", inv: "1458", id: 63716f20-6550-4177-8940-75389ffd501b}
+  - {year: 1869, place: "Chýšť čp. 1-50", inv: "1015", id: 81bbd76f-9f91-4769-a699-be588656b4c8}
+  - {year: 1880, place: "Chýšť čp. 1-53", inv: "1096", id: 7b58afc6-a565-4148-b8bd-8bf6d479e51a}
+  - {year: 1890, place: "Chýšť čp. 1-56", inv: "1179", id: 21f6ac60-a0c5-484b-8185-9cf049c7abfd}
+  - {year: 1900, place: "Chýšť čp. 1-58", inv: "1267", id: d80c24f4-73f7-4985-bfd5-18d6a6bdb7e4}
+  - {year: 1910, place: "Chýšť čp. 1-60", inv: "1361", id: 0326b90c-46a1-4644-8bed-eee093c8b5ed}
+  - {year: 1921, place: "Chýšť čp. 1-36, 38-58, 60-62, bez čp.", inv: "1460", id: f8ca98d3-1714-45bb-97f6-d3051caea74a}
+  - {year: 1910, place: "Dománovice čp. 1-40", inv: "1346", id: 6d32291c-52fb-46cd-bad5-46c017f6d508}
+  - {year: 1921, place: "Dománovice čp. 1-40, bez čp., (čp. 40 viz čp. 6)", inv: "1443", id: ed1c7554-d44d-4105-9d6b-b9961749c0a7}
+  - {year: 1869, place: "Hlavečník čp. 1-77", inv: "1002", id: d146e24a-219b-4e21-ab23-c0beecdecd63}
+  - {year: 1880, place: "Hlavečník čp. 1-95", inv: "1082", id: 97d08b40-f703-45ab-85c1-7779b073c2e0}
+  - {year: 1900, place: "Hlavečník čp. 1-104", inv: "1254", id: c49f8ffb-1e36-41ff-8c78-3d28a562d3da}
+  - {year: 1910, place: "Hlavečník čp. 1-114", inv: "1347", id: 5057064b-2f83-4570-badb-1c4ca859c93e}
+  - {year: 1921, place: "Hlavečník čp. 1-122", inv: "1444", id: 507d2251-3c09-49f2-a838-e51e473ee015}
+  - {year: 1880, place: "Hradišťko II, Rozehnaly", inv: "1085", id: 6643137e-4da6-42c4-b331-21759acc4ffc}
+  - {year: 1890, place: "Hradišťko II, Rozehnaly", inv: "1168", id: e8d17ea4-43d2-4bca-bb7e-fc6681c9b965}
+  - {year: 1900, place: "Hradišťko II, Rozehnaly", inv: "1257", id: a88dcd99-b0cf-4ec6-b114-1b5f59616703}
+  - {year: 1910, place: "Hradišťko II, Rozehnaly", inv: "1350", id: 7914b1ae-33c3-4b26-ae23-4db3063465fd}
+  - {year: 1921, place: "Hradišťko II,  Rozehnaly", inv: "1447", id: 3d32fc17-adee-4f45-b32f-867fdc33ecbe}
+  - {year: 1869, place: "Klamoš čp. 1-55", inv: "1017", id: c2cb80dd-72f5-4cbb-be54-d3debc88088d}
+  - {year: 1880, place: "Klamoš čp. 1-57", inv: "1099", id: 0fac6627-93e5-4c89-aaed-6b9505b29a9f}
+  - {year: 1890, place: "Klamoš čp. 1-59", inv: "1182", id: 4b73f0d3-0bdf-413b-80b0-b7e4abffc6eb}
+  - {year: 1900, place: "Klamoš čp. 1-64", inv: "1270", id: bc4f2ee6-fe74-43a5-8987-2215e29749a7}
+  - {year: 1910, place: "Klamoš čp. 1-75", inv: "1364", id: 19f93d96-925a-4c4a-9b23-e423da403811}
+  - {year: 1921, place: "Klamoš čp. 1-80", inv: "1463", id: 58690ea4-8a91-4c71-bf70-baab9bbdfbd7}
+  - {year: 1869, place: "Komárov, Kolesa", inv: "1019", id: 59a32ad7-3e24-4d16-a717-0d332a091922}
+  - {year: 1880, place: "Komárov, Kolesa", inv: "1101", id: fd264c74-2cd0-4aaf-80c2-f34b99eca89d}
+  - {year: 1890, place: "Komárov, Kolesa", inv: "1184", id: fe945374-237a-47d2-8e02-4ea05a98d303}
+  - {year: 1900, place: "Komárov, Kolesa", inv: "1272", id: 9997758a-933b-4c39-9761-67e6dfc1549e}
+  - {year: 1910, place: "Komárov, Kolesa", inv: "1366", id: e6b3853b-c696-4b65-b7b8-84d0d6015f23}
+  - {year: 1921, place: "Komárov, Kolesa", inv: "1465", id: d89d0264-3fdb-4afd-ac78-6b27013e94fc}
+  - {year: 1869, place: "Končice, Zbraň", inv: "1020", id: 25cba94b-bf63-4756-9c27-12099804491f}
+  - {year: 1880, place: "Končice, Zbraň", inv: "1102", id: e870d809-6b7b-4e73-a348-a111893d2efe}
+  - {year: 1890, place: "Končice, Zbraň", inv: "1185", id: 301cab69-6975-455c-8898-0881d94db63f}
+  - {year: 1900, place: "Končice, Zbraň", inv: "1273", id: ad555f8a-70a1-4cb2-8d27-e61bffd8a23b}
+  - {year: 1910, place: "Končice, Zbraň", inv: "1367", id: 88ad20a3-b8d0-4b53-913d-b1636e384fbb}
+  - {year: 1921, place: "Končice, Zbraň", inv: "1466", id: c417475f-c0de-4be3-b347-6ef9fb5c81e3}
+  - {year: 1869, place: "Kosice čp. 1-63", inv: "1021", id: f9fb97d8-b1b0-4843-b016-8b157923282c}
+  - {year: 1880, place: "Kosice čp. 1-74", inv: "1103", id: 44a7a726-e359-41c8-8b33-2144abca58b2}
+  - {year: 1890, place: "Kosice čp. 1-73", inv: "1186", id: df5444d2-33be-4b01-9f27-73e594e89ba8}
+  - {year: 1900, place: "Kosice čp. 1-19, 21-67, 69-74", inv: "1274", id: 867c38d5-40fd-4ac2-a4af-c7848b5792b6}
+  - {year: 1910, place: "Kosice čp. 1-6, 8-83", inv: "1368", id: 5348756b-0494-4aa4-94d9-6cea09160fe6}
+  - {year: 1921, place: "Kosice čp. 1-81, 84, 85", inv: "1467", id: db329250-b5e5-4961-8e69-201aec0d5edb}
+  - {year: 1869, place: "Kosičky čp. 1-68", inv: "1022", id: a7e7523b-3916-4850-a3b7-1fb3972eaa71}
+  - {year: 1880, place: "Kosičky čp. 1-78", inv: "1104", id: 157bcf8d-0b28-4ac7-894a-0b761b4dfc9c}
+  - {year: 1890, place: "Kosičky čp. 1-82", inv: "1187", id: 812c3211-118f-4bf0-9f77-5761fd1f8058}
+  - {year: 1900, place: "Kosičky čp. 1-8, 10-33, 35-87", inv: "1275", id: 3ad6ff7f-363d-4a14-bcc9-5e5079dd4f4d}
+  - {year: 1910, place: "Kosičky čp. 1-97", inv: "1369", id: c67e79e7-e20b-47e9-969a-efc14a241001}
+  - {year: 1921, place: "Kosičky čp. 1-8, 10-69, 71-76, 78-90, 92-96, 98-101", inv: "1468", id: 40b9f242-dead-4986-81f2-5f9336956b59}
+  - {year: 1869, place: "Krakovany čp. 2-96", inv: "1024", id: 1595518d-acbe-44f9-82c8-bc0cb955e84f}
+  - {year: 1880, place: "Krakovany čp. 1-112", inv: "1106", id: 9c2a8f5e-907e-4596-a6e1-82bef642fa02}
+  - {year: 1890, place: "Krakovany čp. 1-116", inv: "1190", id: c0fce081-8893-4237-84bb-acb61eb0266f}
+  - {year: 1900, place: "Krakovany čp. 1-117", inv: "1278", id: e37f77a7-ae7d-4cab-a8f1-ed0b2777f8d1}
+  - {year: 1910, place: "Krakovany čp. 1-147", inv: "1372", id: 969da296-c865-417a-9e9e-a65a99f9b5bd}
+  - {year: 1921, place: "Krakovany čp. 1-158, bez čp., (čp. 142 viz čp. 12, čp. 150 viz čp. 141)", inv: "1471", id: 517597d9-d5c2-40e4-8711-18914b28decb}
+  - {year: 1869, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1025", id: 6ca69690-8a03-4962-af37-a68d2ec9c555}
+  - {year: 1880, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1108", id: fef0796b-7f37-4e6b-9b87-8f7ebfc7f597}
+  - {year: 1890, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1193", id: 19129e42-7611-4613-88f5-1f1405556071}
+  - {year: 1900, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1281", id: 9f0c320e-7e4e-465e-b99b-9785d54ce8af}
+  - {year: 1910, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1375", id: 39870b3d-7629-41ea-8180-912f970bdea7}
+  - {year: 1921, place: "Kundratice, Rasochy, Tetov, Bílé Vchynice", inv: "1474", id: 6a195086-487b-40f9-b6e1-5c5a8aebbac3}
+  - {year: 1921, place: "Káranice čp. 1-42", inv: "1462", id: c73cc128-5d36-4026-be8d-fe9bd53df74c}
+  - {year: 1869, place: "Káranice, Chudeřice", inv: "1016", id: c1ab04d4-397c-4270-bda1-074ea2d1dddd}
+  - {year: 1880, place: "Káranice, Chudeřice", inv: "1098", id: e4a8f5b4-9414-48bc-9970-0b5c86db6e64}
+  - {year: 1890, place: "Káranice, Chudeřice", inv: "1181", id: 812f5e34-cacd-452d-9961-7d8b12363d90}
+  - {year: 1900, place: "Káranice, Chudeřice", inv: "1269", id: 0ad47963-eb60-46e0-8942-010bb0811070}
+  - {year: 1910, place: "Káranice, Chudeřice", inv: "1363", id: 347392bd-e0f3-451d-8271-75156fb1aa19}
+  - {year: 1890, place: "Lipec čp. 1-45", inv: "1195", id: ae28ca8e-f8ba-4906-8ebb-5d3670c3d47b}
+  - {year: 1900, place: "Lipec čp. 1-47, 0a, 0b", inv: "1283", id: 3aaba55e-d191-4161-a5df-8bf526ee3b6f}
+  - {year: 1910, place: "Lipec čp. 1-32, 34-52", inv: "1377", id: 8b96f868-429c-41f7-a388-836cf0231b9d}
+  - {year: 1921, place: "Lipec čp. 1-52, bez čp.", inv: "1476", id: 3084c35e-2144-43f2-a0fd-f0fef6a7289b}
+  - {year: 1869, place: "Lipec, Božec", inv: "1027", id: 2ced0bfc-fe19-4b86-954d-5ddb88f41b0e}
+  - {year: 1880, place: "Lipec, Božec", inv: "1110", id: 64ca8468-0897-41ca-86d6-83d087932499}
+  - {year: 1869, place: "Lišice a Lišičky čp. 1-55", inv: "1029", id: d36a8cb8-992d-47f8-bc3b-8f65edf3479c}
+  - {year: 1890, place: "Lišice a Lišičky čp. 1-71", inv: "1197", id: fc1187f7-632b-4876-94e8-cc9ed4afcac4}
+  - {year: 1900, place: "Lišice a Lišičky čp. 1-74", inv: "1285", id: 208eca03-61e6-4579-b81f-a525f111a61b}
+  - {year: 1910, place: "Lišice a Lišičky čp. 1-11, 13-44, 46-86", inv: "1379", id: 9286dd65-fe6d-4fa0-9e59-ff011519640b}
+  - {year: 1921, place: "Lišice a Lišičky čp. 1-90, bez čp.", inv: "1478", id: b5aa0bbc-e8f2-4528-8e4e-d3951131b2cc}
+  - {year: 1890, place: "Loukonosy čp. 1-49", inv: "1199", id: a9b8e4ff-cb17-460c-893c-78eb16841c79}
+  - {year: 1900, place: "Loukonosy čp. 1-51", inv: "1287", id: bdd249e4-e0b0-4417-8c06-2976e08ddc2b}
+  - {year: 1910, place: "Loukonosy čp. 1-58", inv: "1381", id: 1c50b2ba-e483-4334-8c84-6d82bc2e589d}
+  - {year: 1921, place: "Loukonosy čp. 1-65", inv: "1480", id: 431ab0ca-ed08-4307-b7a8-4628e65834ce}
+  - {year: 1880, place: "Lovčice čp. 1-153", inv: "1113", id: e47a367f-9d99-48a2-90b4-65b078f5368d}
+  - {year: 1890, place: "Lovčice čp. 1-155", inv: "1200", id: 39fe69d4-d4d3-4359-b6e1-f835d68a44c4}
+  - {year: 1900, place: "Lovčice čp. 1-11, 13-68, 71, 73-116, 118-146, 148-159", inv: "1288", id: 3679ab7a-3aef-45c3-bdd4-daa6d0edd39a}
+  - {year: 1910, place: "Lovčice čp. 1-181, 183-193", inv: "1382", id: d3ab81c7-e8cf-49c4-aba4-fed908831960}
+  - {year: 1921, place: "Lovčice čp. 1-204, komediantské vozy bez čp.", inv: "1481", id: 603bae36-ffbf-439b-b486-8af11d64de48}
+  - {year: 1869, place: "Lovčice, Převýšov", inv: "1031", id: 17e94151-d622-463b-ad0b-bd819f56544a}
+  - {year: 1910, place: "Luková čp. 1-22", inv: "1384", id: 1058be51-3c1c-40db-88da-f6d7b832f0f0}
+  - {year: 1921, place: "Luková čp. 1-24", inv: "1483", id: 383bc5fa-48f1-4682-bf50-17daa9fedcc5}
+  - {year: 1869, place: "Lučice, Kladruby, Levín, Loukonosy, Olešnice, Pamětník", inv: "1032", id: aefd3b11-4f35-4202-9d15-d74c7a7fb83e}
+  - {year: 1880, place: "Lučice, Kladruby, Levín, Olešnice, Pamětník", inv: "1114", id: a6f823ac-5f7c-4b93-9a09-1563962ced40}
+  - {year: 1890, place: "Lučice, Kladruby, Levín, Olešnice, Pamětník", inv: "1201", id: 4b42ffe4-2e0f-4299-a18e-4df404e70091}
+  - {year: 1900, place: "Lučice, Kladruby, Pamětník", inv: "1289", id: d21feaf4-6b49-4ef4-9bc0-42a70a385ea2}
+  - {year: 1910, place: "Lučice, Kladruby, Pamětník", inv: "1383", id: edfcd837-a976-42f5-b56a-09dcd5a05cf9}
+  - {year: 1921, place: "Lučice, Kladruby, Pamětník", inv: "1482", id: 11ce73d2-62a9-41b4-b559-f2f39de89c20}
+  - {year: 1869, place: "Lužec nad Cidlinou čp. 1-139", inv: "1033", id: a727221a-ad48-4d7e-9b67-4d5a73a0951f}
+  - {year: 1880, place: "Lužec nad Cidlinou čp. 1-146", inv: "1115", id: 60e40cac-377b-41d9-94ad-9424abac0440}
+  - {year: 1900, place: "Lužec nad Cidlinou čp. 1-169", inv: "1290", id: 88e03c70-9eec-4686-97f4-27e2cec13d1b}
+  - {year: 1910, place: "Lužec nad Cidlinou čp. 1-9, 11-59, 62-74, 76-168, 170-189", inv: "1385", id: 42936a92-6279-4dce-be26-a93ed52d0503}
+  - {year: 1921, place: "Lužec nad Cidlinou čp. 1-9, 11-59, 61-68, 70-74, 76-168, 170-194, komediantský vůz bez čp.", inv: "1484", id: aad4d7bd-5e08-40ab-af40-a390a13b4e3d}
+  - {year: 1900, place: "Malé Výkleky čp. 1-43", inv: "1291", id: 66dae3e0-0970-493f-a83f-b6f7f73d7369}
+  - {year: 1910, place: "Malé Výkleky čp. 1-47", inv: "1386", id: 657f4c72-ea79-4edc-835d-3816c160713f}
+  - {year: 1921, place: "Malé Výkleky čp. 1-47", inv: "1485", id: eeab0fbd-3afb-4c6e-95aa-5780862641d0}
+  - {year: 1869, place: "Mlékosrby čp. 1-63", inv: "1036", id: e9eadaba-1dc7-4fc4-ac29-492642b59257}
+  - {year: 1880, place: "Mlékosrby čp. 1-67", inv: "1117", id: 21c59691-c78b-4a12-8d2b-19a4b4067769}
+  - {year: 1890, place: "Mlékosrby čp. 1-67", inv: "1203", id: 7d68c28d-9a30-46e0-a8bf-661f66e50f9e}
+  - {year: 1900, place: "Mlékosrby čp. 1-71, bouda bez čp.", inv: "1293", id: 0d8448a1-e053-4d59-9394-6afdb9a697a9}
+  - {year: 1910, place: "Mlékosrby čp. 1-77", inv: "1388", id: 943e0e24-67bd-472d-9dbe-317d791709ce}
+  - {year: 1921, place: "Mlékosrby čp. 1-79", inv: "1487", id: 08578935-d083-4246-802a-56387b140d7b}
+  - {year: 1910, place: "Nepolisy čp. 1-174", inv: "1390", id: dfc0738e-e02a-4e21-83bc-06da26561600}
+  - {year: 1921, place: "Nepolisy čp. 1-181", inv: "1489", id: a27b4b84-deed-4eea-a837-bea7dbf3907a}
+  - {year: 1869, place: "Nepolisy, Luková", inv: "1038", id: 10b41c41-389e-4d7b-b11b-e87dff0d4715}
+  - {year: 1880, place: "Nepolisy, Luková", inv: "1119", id: 9aab368d-ff84-43e7-a5bc-12ad6983815e}
+  - {year: 1890, place: "Nepolisy, Luková", inv: "1205", id: ddf58e58-d088-4a3d-94e2-ce538525ae2b}
+  - {year: 1900, place: "Nepolisy, Luková", inv: "1295", id: 2df0353d-7054-4032-9738-4b0eee15f26f}
+  - {year: 1869, place: "Nové Město čp. 1-54", inv: "1040", id: edac2305-4906-488a-bb44-c97b0b1321c7}
+  - {year: 1880, place: "Nové Město čp. 1-62", inv: "1121", id: 6ed81a0e-3f75-4306-9945-d9dfef0576f8}
+  - {year: 1890, place: "Nové Město čp. 1-63", inv: "1207", id: 2e876b97-e050-4d07-acbb-1e3da30254a5}
+  - {year: 1900, place: "Nové Město čp. 1-13, 15-66", inv: "1297", id: d656e8ba-f35f-48e8-a469-08f88ca07897}
+  - {year: 1910, place: "Nové Město čp. 1-5, 7-13, 15-52, 54-76", inv: "1392", id: eda477f8-05d7-4528-8290-0daab6393079}
+  - {year: 1921, place: "Nové Město čp. 1-36, 38-52, 54-80", inv: "1491", id: 62718c74-aee3-4b15-99ec-cfcac899fca4}
+  - {year: 1900, place: "Olešnice, Levín", inv: "1306", id: 62ff2b77-8939-4730-afbe-5d6592c0dced}
+  - {year: 1910, place: "Olešnice, Levín", inv: "1401", id: 39e87c83-8a2c-44af-b77f-9205894a34aa}
+  - {year: 1921, place: "Olešnice, Levín", inv: "1500", id: 4a8bc3e4-9a32-480d-a5a5-d9086cd04f52}
+  - {year: 1910, place: "Polní Chrčice čp. 1-19, 21-28, 31, 33-46, 48-70", inv: "1404", id: af807b22-3c75-413e-8dd5-9d35bd16e112}
+  - {year: 1921, place: "Polní Chrčice čp. 1-19, 21-28, 31, 33-46, 48-69, 71, 72", inv: "1503", id: 2f80a7a9-d6c3-43de-89a8-309f6a635091}
+  - {year: 1869, place: "Polní Chrčice, Dománovice", inv: "1049", id: 0a286003-87d2-4903-9d85-b3239fd101c0}
+  - {year: 1880, place: "Polní Chrčice, Dománovice", inv: "1130", id: 542d1fa0-6340-4e1a-b49b-b957d829ebaf}
+  - {year: 1890, place: "Polní Chrčice, Dománovice", inv: "1217", id: c291f9e2-ef43-4032-87c7-1099d545f006}
+  - {year: 1900, place: "Polní Chrčice, Dománovice", inv: "1309", id: 357cacc4-3c4b-4c6f-b3c2-662e42d881a5}
+  - {year: 1869, place: "Písek čp. 1-47", inv: "1048", id: bda16987-66f1-46c4-9ce8-f6fa591eeeaf}
+  - {year: 1890, place: "Písek čp. 1-65", inv: "1215", id: b13bc9c8-157a-423b-91cb-b6776e6e3a28}
+  - {year: 1900, place: "Písek čp. 1-32, 34, 35, 37-67", inv: "1307", id: 9bd0bf9b-edfe-4f5f-aa71-92297cce66c8}
+  - {year: 1910, place: "Písek čp. 1-75", inv: "1402", id: c858e506-2e00-46b3-8144-afb7b0530007}
+  - {year: 1921, place: "Písek čp. 1-30, 32-77", inv: "1501", id: 0fdcbf1f-4f84-40de-a945-2727ed8c66e1}
+  - {year: 1900, place: "Přepychy čp. 1-32", inv: "1311", id: 3e89a59e-71b4-40ba-a7cc-e6cbce62f026}
+  - {year: 1910, place: "Přepychy čp. 1-38", inv: "1406", id: 97c2659b-facf-4dbe-93c3-de9481a7fd37}
+  - {year: 1921, place: "Přepychy čp. 1-40", inv: "1505", id: ae69a287-bae1-4c12-94b1-1d6828d83aa4}
+  - {year: 1880, place: "Převýšov čp. 1-65", inv: "1132", id: 921398af-f7ff-496d-90bd-ebe86d74f31a}
+  - {year: 1890, place: "Převýšov čp. 1-67", inv: "1219", id: 42a9f063-68f0-442f-bb62-45d7397ed4a0}
+  - {year: 1900, place: "Převýšov čp. 1-33, 35-55, 57-67", inv: "1312", id: 9fd54063-1f37-4139-a393-08bf68fbd43d}
+  - {year: 1910, place: "Převýšov čp. 1-76", inv: "1407", id: 00fe86b0-859c-444e-a9f1-363c43b85daa}
+  - {year: 1921, place: "Převýšov čp. 1-34, 36-55, 57-84, (čp. 68 viz čp. 31)", inv: "1506", id: 65e2f3e5-f91b-4ec8-9c6f-4aa2b838c4a0}
+  - {year: 1869, place: "Radovesnice čp. 1-81", inv: "1051", id: fc263a7f-1490-4920-ae2a-05cd389a0b45}
+  - {year: 1880, place: "Radovesnice čp. 1-106", inv: "1133", id: 78c3d700-2407-45c5-8dfd-e2f5ec65d708}
+  - {year: 1890, place: "Radovesnice čp. 1-109", inv: "1220", id: c46f0b85-346d-4c14-9bb9-9a18b45bdb2a}
+  - {year: 1900, place: "Radovesnice čp. 1-126", inv: "1313", id: a96eeb37-8639-4a63-827d-eddd2e9c3842}
+  - {year: 1910, place: "Radovesnice čp. 1-139, boudy bez čp.", inv: "1408", id: 6b83e9cc-45d5-47a9-bffd-5d82b995fad8}
+  - {year: 1921, place: "Radovesnice čp. 1-37, 39-75, 77-121, 123-142, bez čp.", inv: "1507", id: 45601431-76e3-41c5-b378-5ce1104d07f9}
+  - {year: 1869, place: "Stará Voda čp. 1-39", inv: "1059", id: 668d3ccf-d364-43d6-a8e4-4762395f89cd}
+  - {year: 1880, place: "Stará Voda čp. 1-43", inv: "1141", id: 28101559-3a52-4d56-9950-4ad3a3434070}
+  - {year: 1890, place: "Stará Voda čp. 1-43", inv: "1228", id: 8f4e0030-29ad-4e88-b17c-301ff410afd5}
+  - {year: 1900, place: "Stará Voda čp. 1-50", inv: "1321", id: 6aaa7e72-e299-4412-a2c3-e3b90b8fc2a3}
+  - {year: 1910, place: "Stará Voda čp. 1-53", inv: "1416", id: 240682a1-eee8-4af6-8284-c893bb14998e}
+  - {year: 1921, place: "Stará Voda čp. 1-56", inv: "1515", id: 2ad8074d-dfcc-48f5-8aa5-7260420ec6ae}
+  - {year: 1869, place: "Strašov čp. 1-51", inv: "1062", id: 247c8427-28d7-4fe1-9e5a-d1f8bdbf0b84}
+  - {year: 1880, place: "Strašov čp. 1-64", inv: "1144", id: 644bd71a-885c-4122-846b-5391ab436ec5}
+  - {year: 1890, place: "Strašov čp. 1-66", inv: "1231", id: ff8a2ec0-b75c-421d-b0cb-d58a4b019bd9}
+  - {year: 1900, place: "Strašov čp. 1-70", inv: "1324", id: b4212b81-e15b-4322-b7fa-80759312a907}
+  - {year: 1910, place: "Strašov čp. 1-79", inv: "1419", id: 40d435fd-4bc5-4287-8517-1463c8df1895}
+  - {year: 1921, place: "Strašov čp. 1-5, 7-80", inv: "1518", id: 7e5a703d-7610-409d-a7dd-131af6a00fad}
+  - {year: 1880, place: "Uhlířská Lhota čp. 1-62", inv: "1147", id: 2089cadd-0ce7-4e98-ad3e-c0be65d15bef}
+  - {year: 1890, place: "Uhlířská Lhota čp. 1-63", inv: "1234", id: 5dc5b42a-ffd9-4e6f-b998-cba92066c68e}
+  - {year: 1900, place: "Uhlířská Lhota čp. 1-63", inv: "1327", id: 4bcc5eb2-1831-42dd-a1bf-af78c65e5a6d}
+  - {year: 1910, place: "Uhlířská Lhota čp. 1-48, 50-74", inv: "1423", id: 1e28c3fa-9ae7-40fb-ac53-b9d96ea69983}
+  - {year: 1921, place: "Uhlířská Lhota čp. 1-22, 24-27, 29-48, 50-66, 68-75, bez čp.", inv: "1522", id: da2a12b4-ca25-437a-89ea-bac99641c9e4}
+  - {year: 1900, place: "Vápno čp. 1-44", inv: "1329", id: c7b084d8-4afd-4e70-aab8-ae27eb0f2d1b}
+  - {year: 1910, place: "Vápno čp. 1-48", inv: "1425", id: 1c872c7b-160b-435e-ba4a-e22e713470f6}
+  - {year: 1921, place: "Vápno čp. 1-38, 40-50, komediantský vůz bez čp.", inv: "1524", id: 9246e547-dc75-4190-921d-c0b2a9e9736a}
+  - {year: 1869, place: "Vápno, Malé Výkleky, Přepychy", inv: "1065", id: 9916d8c3-dea4-4f97-b04b-353f9bb2086c}
+  - {year: 1890, place: "Vápno, Malé Výkleky, Přepychy", inv: "1236", id: 5d878898-2d10-41db-88bc-23ae4d454b2d}
+  - {year: 1910, place: "Újezd čp. 1-54", inv: "1424", id: ed85ed84-6fc2-4903-937b-30287f919c1d}
+  - {year: 1921, place: "Újezd čp. 1-5, 7-56", inv: "1523", id: 75556659-9442-43df-94bb-0ebb3f38b2d7}
+  - {year: 1869, place: "Újezd, Štít", inv: "1064", id: 810958c9-cc41-42df-a752-a055a51d950f}
+  - {year: 1880, place: "Újezd, Štít", inv: "1148", id: 20283146-d1f0-45a3-b6f0-9cdbf5a8c658}
+  - {year: 1890, place: "Újezd, Štít", inv: "1235", id: 32eca2c6-ae7b-4ecc-a7fe-f21785005199}
+  - {year: 1900, place: "Újezd, Štít", inv: "1328", id: 170daffb-419a-417a-8f50-5cb4e52e9b84}
+  - {year: 1910, place: "Štít čp. 1-40", inv: "1421", id: 05cb6905-c6ae-4452-8677-f961d299adea}
+  - {year: 1921, place: "Štít čp. 1-41", inv: "1520", id: 6c00f428-ebdb-46b3-930e-ebc3e6e06794}
+  - {year: 1869, place: "Žiželice čp. 1-305", inv: "1075", id: 6e5d102e-1c91-4c93-9d87-5fa5084de490}
+  - {year: 1880, place: "Žiželice čp. 1-318", inv: "1158", id: 9e1841a5-2faa-4ed9-910b-f882a68cc2bd}
+  - {year: 1890, place: "Žiželice čp. 1-123, 125-318", inv: "1246", id: 4f1b11b9-1e4d-4fe2-880d-f5ec711884b1}
+  - {year: 1900, place: "Žiželice čp. 1, 3-14, 16-91, 93-123, 126-136, 138-141, 143-180, 183-211, 213-216, 218-220, 222, 223, 225-229, 231-260, 262-275, 277-311, 313-319", inv: "1338", id: 09c952c2-f77d-4607-a748-a681938b78c4}
+  - {year: 1910, place: "Žiželice čp. 1-352", inv: "1435", id: 017df0a5-7270-419d-a4f4-7cae26eb345f}
+  - {year: 1921, place: "Žiželice", inv: "1534", id: fece147b-6559-404b-a9f1-a3acf1091adc}
