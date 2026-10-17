@@ -231,3 +231,9 @@ table.evt td.n { text-align: center; font-size: 14px; white-space: nowrap; curso
 table.evt tr.one td.n:first-of-type { color: #b06a00; }
 table.evt tr.one { background: #fff8ea; }
 @media (max-width: 900px) { .kmain { flex-direction: column; } .kshot { flex: none; width: 100%; } }
+
+/* příběh a kontext */
+.story { font-size: 14px; line-height: 1.55; }
+.story .md h1 { font-size: 17px; margin: 4px 0 8px; }
+.kontext { background: #fff8e1; border: 1px solid #ecd9a0; border-left: 4px solid #d6a516; border-radius: 5px; padding: 2px 10px; }
+.kontext .md ul { padding-left: 18px; margin: 6px 0; }

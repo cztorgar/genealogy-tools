@@ -331,6 +331,7 @@ class Tree:
             "sidecars": [y for d in source_dirs for y in sorted(d.glob("*.yml"))],
             "source_dirs": source_dirs,
             "kontroly": kontroly.files(r),
+            "pribehy": [p for p in ls(r / "research/pribehy", "*.md") if p.name != "README.md"],
         }
 
     def version(self, files: dict[str, list[Path]], sessions: list[dict]) -> str:
@@ -480,6 +481,7 @@ class Tree:
         patches = self.patches(files)
         todos = self.todos(files)
         src_ids = {d.name for d in files["source_dirs"]}
+        stories = {p.stem for p in files["pribehy"]}
         checks = self.kontroly(files)
         events = self.events(files)
 
@@ -489,6 +491,7 @@ class Tree:
             d["todo"] = 0
             d["todo_open"] = 0
             d["sources"] = pid in src_ids
+            d["story"] = pid in stories
         for pt in patches:
             if pt["id"] in people:
                 st = people[pt["id"]]["patches"]
@@ -500,7 +503,7 @@ class Tree:
                         people[pid]["todo"] += 1
                         people[pid]["todo_open"] += int(e["open"])
         # osoby jen s nápovědou / patchem / kontrolou bez dossieru — ať jsou ve stromu vidět
-        for pid in list(hints) + [p["id"] for p in patches if p["id"]] + [k["osoba"] for k in checks if k["osoba"]]:
+        for pid in list(hints) + [p["id"] for p in patches if p["id"]] + [k["osoba"] for k in checks if k["osoba"]] + sorted(stories):
             if pid not in people and ID_FULL_RE.match(pid):
                 people[pid] = {"id": pid, "name": "", "rel": "", "stav": None, "file": None,
                                "hints": len(hints.get(pid, [])), "patches": {}, "todo": 0, "todo_open": 0,
@@ -606,6 +609,11 @@ class Tree:
         d = people.get(pid, {"id": pid, "name": "", "file": None})
         out = dict(d)
         out["dossier"] = read_text(self.root / d["file"]) if d.get("file") else None
+        out["kontext"] = section(sections(split_front_matter(out["dossier"])[1]), "Kontext").strip() \
+            if out["dossier"] else ""
+        story = self.root / "research/pribehy" / f"{pid}.md"
+        out["story"] = {"file": str(story.relative_to(self.root)), "text": read_text(story),
+                        "mtime": story.stat().st_mtime} if story.is_file() else None
         out["hints"] = [{"file": str(p.relative_to(self.root)), "text": read_text(p)}
                         for p in self.hints(files).get(pid, [])]
         out["patches"] = []

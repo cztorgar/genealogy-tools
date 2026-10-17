@@ -40,6 +40,8 @@ Poslouchá jen na `127.0.0.1`. Závislost jen PyYAML (inline metadata pro `uv`).
 | prameny | sidecary `T/sources/**/*.yml` ve složce osoby nebo s osobou v `persons:`; snímky a přepisy |
 | doklady (souhrn) | `T/research/doklady.md` |
 | výzkumný log | `T/research/log.md` (posledních 25) |
+| příběh | `T/research/pribehy/<ID>.md` (pravidla `docs/metodika/pribehy.md`) — nahoře v panelu osoby, ve stromu 📖 |
+| kontext | sekce `## Kontext` dossieru — v panelu zvýrazněně pod příběhem |
 | kontroly | `T/research/kontroly/<ID>-<nn>.yml`, `G-<nn>.yml` |
 | doložení údajů | události z aplikovaných patchů + sidecary citací |
 | běžící session | `herdr agent list` — agent se jménem ve tvaru ID (`k0056`, `k0001-s2-p2`) nebo `vetev-*` (session větve) s cwd ve workbenchi/stromu |

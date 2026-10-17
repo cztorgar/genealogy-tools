@@ -225,6 +225,7 @@ function render() {
       if (p.todo) b.push(`☐${p.todo_open}/${p.todo}`);
       if (p.docs && p.docs.open) b.push(`📄${p.docs.open}`);
       if (p.sources) b.push("🗂");
+      if (p.story) b.push("📖");
       const bt = el("text", { class: "badges", x: 7, y: 45 }, g);
       bt.textContent = b.join("  ");
       const k = p.kontroly;
@@ -391,7 +392,7 @@ function renderLegend() {
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
-    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
+    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
@@ -438,9 +439,9 @@ function pick(id) {
 
 // ------------------------------------------------------------------ panel osoby
 
-function md(text) {
+function md(text, breaks) {
   if (!text) return "";
-  if (window.marked && window.DOMPurify) return `<div class="md">${DOMPurify.sanitize(marked.parse(text))}</div>`;
+  if (window.marked && window.DOMPurify) return `<div class="md">${DOMPurify.sanitize(marked.parse(text, { breaks: !!breaks }))}</div>`;
   return `<pre>${esc(text)}</pre>`;
 }
 const stripFm = (t) => (t && t.startsWith("---") ? t.replace(/^---[\s\S]*?\n---\s*\n/, "") : t);
@@ -525,6 +526,14 @@ function renderPerson(d) {
     h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   }
 
+  if (d.story) {
+    const when = new Date(d.story.mtime * 1000).toLocaleDateString("cs-CZ");
+    h += `<h2 class="sec">Příběh <small class="path">${esc(d.story.file)} · ${esc(when)}</small></h2>`;
+    h += `<div class="story">${md(d.story.text, true)}</div>`;
+  }
+  if (d.kontext) {
+    h += `<h2 class="sec">Kontext <small>(z dossieru — surové poznámky sessions)</small></h2><div class="kontext">${md(d.kontext)}</div>`;
+  }
   if (d.kontroly && d.kontroly.length) {
     const rows = d.kontroly.map((k) => `<li><a href="#" data-kontrola="${esc(k.id)}">${esc(k.id)}</a>
       ${k.blokuje ? `<span class="tag block">blokuje</span>` : ""} <span class="tag">${esc(k.typ || "")}</span>
