@@ -19,6 +19,7 @@ import mimetypes
 import re
 import sys
 import unicodedata
+import urllib.parse
 from datetime import date
 from pathlib import Path
 
@@ -116,7 +117,7 @@ class Applier:
 
     def find(self, kind: str, gid: str) -> dict | None:
         try:
-            res = self.gw.get(f"/{kind}/?gramps_id={gid}")
+            res = self.gw.get(f"/{kind}/?gramps_id={urllib.parse.quote(gid)}")
         except RuntimeError as e:
             if "HTTP 404" in str(e):
                 return None
@@ -153,6 +154,8 @@ class Applier:
         # (`original: doklady/…/IMG_3967.HEIC`), jinak název souboru sidecaru
         orig = meta.get("original") or ""
         gid = f"S-{Path(str(orig)).stem}" if orig else f"S-{sidecar.stem}"
+        # Gramps ID bez mezer a diakritiky (např. original „RODOKMEN - Rod Ornstů.pdf“ → S-RODOKMEN-Rod-Ornstu)
+        gid = re.sub(r"[^A-Za-z0-9_.-]+", "-", unicodedata.normalize("NFKD", gid).encode("ascii", "ignore").decode()).strip("-")
         if "ústní" in str(meta.get("type", "")).lower() and "Bereščák" in str(meta.get("informant", meta)):
             gid = "S-USTNE-K0001"   # ústní sdělení uživatele = jeden společný zdroj (ensure_family.py)
         s = self.find("sources", gid)
