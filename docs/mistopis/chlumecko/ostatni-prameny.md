@@ -162,6 +162,10 @@ Hledání v ARONu: `find_registers(place, kind="S")` v MCP `czech-archives`, neb
   (dotaz 2026-10-16). Pro obce Chlumecka **není mezi nimi nic**: prošel jsem úplný seznam všech
   1 533 záznamů. Ze SOkA Hradec Králové jsou tam jen Hradec Králové, fara Hněvčeves, Třebechovice,
   Smiřice a Nový Bydžov (matrika obyvatel 1890). **Doloženo** (výsledek „nenalezeno“).
+- **Oprava 2026-10-17 (index pramenů):** závěr výše platí jen pro typ „kronika“. Kroniky a pamětní knihy obcí, far a škol
+  Chlumecka jsou v ARONu popsané jako **„úřední kniha“ uvnitř fondů** SOkA HK/Pardubice — 74 jednotek (např. Chlumec
+  1715–1839, Mlékosrby 1725–1918, fara Vápno 1775–1835, Nechanice 1865–1949), **jen popis, bez digitalizátu**.
+  Přehled: [`docs/prameny/digitalizovane/chlumecko.md`](../../prameny/digitalizovane/chlumecko.md).
 - Originály obecních, školních a farních kronik budou nejspíš ve **SOkA Hradec Králové** (archivy
   obcí, MNV) a u obcí ve SOkA Kolín / SOkA Pardubice. **Neověřeno.** Pamětní kniha fary Vápno je
   od 1836, starší shořela (wiki).
