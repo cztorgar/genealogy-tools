@@ -160,6 +160,25 @@ dávej do uvozovek.
 Manager patch zkontroluje, aplikuje do Gramps, doplní `gramps_id` do dossieru, nastaví `stav: zapsáno`
 a commitne.
 
+### Závora — proč linie dál nejde
+
+Kdykoli se linie (nebo jedna osoba) zastaví, zapíše session do dossieru **poslední osoby té linie** sekci
+**`## Závora`** — i když se jen předává jiné session. Pevná struktura:
+
+```
+## Závora
+- **kde:** <osoba / generace, na které to končí; co přesně chybí — např. křest ~1783, sňatek rodičů>
+- **proč:** <typ závory> — matriky nezachovány (požár, začátek řady) | nedigitalizováno (které svazky, kde fyzicky) |
+  nenalezeno v prohledaném rozsahu | nečitelné | nejistá totožnost (kontrola …) | mimo dosah (jiný archiv, lhůta) | rozpočet/kontext
+- **prohledáno bez výsledku:** <svazky, roky, snímky — totéž co v Logu hledání, souhrnně>
+- **co by závoru prolomilo:** <konkrétní další pramen: originál místo rejstříku, jiná farnost, pozemková kniha,
+  badatelna archivu X, rozhodnutí kontroly …> + odhad šance (vysoká / malá / prakticky žádná)
+- **datum, kdo:** YYYY-MM-DD, <session>
+```
+
+Dashboard ukazuje osoby se závorou ve stromu (konec linie) a v panelu osoby. Když se závora později prolomí,
+sekce se nemaže — připíše se „prolomeno YYYY-MM-DD: …“.
+
 ## Autonomní režim (na pokyn uživatele)
 
 Pravidla čtení, totožnosti, jistoty a **fronty kontrol** jsou v [`autonomie.md`](autonomie.md). Autonomní

@@ -58,7 +58,9 @@ vůči originálu **nejsou** nezávislé (rejstřík se počítá jako podpůrn�
 3. Narazí-li na **blokující kontrolu**: zapíše ji, **tu větev dál nestaví** a pokračuje v jiných bodech checklistu.
 4. Na konci jeden souhrnný patch (`status: schváleno`, hromadný souhlas uživatele s autonomním režimem)
    s tím, co je jisté (jistota ≥ 2). Sporné věci jsou ve frontě, ne v patchi jako fakta.
-5. Před dokončením: sekce `## Kontext` v dossieru doplněná a příběh `research/pribehy/<ID>.md` ([`pribehy.md`](pribehy.md)).
+5. Zastaví-li se linie (hranice pramenů, nenalezeno, blokující kontrola, konec session): sekce `## Závora` v dossieru
+   poslední osoby ([`workflow-sessions.md`](workflow-sessions.md#závora--proč-linie-dál-nejde)).
+6. Před dokončením: sekce `## Kontext` v dossieru doplněná a příběh `research/pribehy/<ID>.md` ([`pribehy.md`](pribehy.md)).
    Stav dossieru `dokončeno`. Jsou-li otevřené **blokující** kontroly, stav je `pozastaveno` a důvod se zapíše
    do `## Odloženo`.
 6. Zpráva managerovi: co je zapsáno, kolik kontrol (z toho blokujících), co nenalezeno.

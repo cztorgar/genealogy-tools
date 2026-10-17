@@ -157,3 +157,9 @@ Průběžně zapisuj do dossieru sekci `## Kontext` (surové poznámky s odkazem
 kmotři, stěhování, gramotnost, zajímavosti o obci) — hned, ne až na konci. Při dokončení osoby napiš
 `research/pribehy/<ID>.md` — krátký článek bez fikce, každé tvrzení s oporou. Pravidla a šablona:
 `docs/metodika/pribehy.md`.
+
+## Závora
+
+Když se linie nebo osoba zastaví (nic dál nejde, nebo končíš session), zapiš do dossieru poslední osoby sekci
+`## Závora` — kde to končí, proč (typ závory), co bylo prohledáno bez výsledku, co by ji prolomilo a s jakou šancí.
+Formát: `docs/metodika/workflow-sessions.md`, oddíl Závora.
