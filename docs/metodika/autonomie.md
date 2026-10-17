@@ -96,6 +96,8 @@ zapracovano: null                  # vyplní ten, kdo rozhodnutí promítl: {pat
 ```
 
 - **Řazení ve frontě:** blokující → priorita → nejstarší.
+- **Aplikovaný patch se nemění.** Úprava souboru `status: aplikováno` do Gramps nic nezapíše. Zapracování
+  rozhodnutí = **nový patch** (`P-<ID>-<další nn>`; `update_citation` podle Gramps ID citace z `applied:`).
 - **Rozhodnuto → zapracovat:** manager (nebo běžící session té osoby) vytvoří patch (`update_citation` zvedne
   jistotu, `update_event` opraví údaj, případně založí rodinu) a vyplní `zapracovano`.
 - **Typ `vzorek`** (audit): namátkou ~1 z 10 přijatých klíčových polí (R2) dá session do fronty jako
