@@ -150,3 +150,10 @@ Když manager (na pokyn uživatele) řekne „autonomně“: řiď se `docs/meto
 nic ke kontrole neposílej, intro kartu jen vypiš a pokračuj. Sporné čtení, totožnost a rozpory zapiš jako
 kontroly `research/kontroly/<ID>-<nn>.yml` (formát tamtéž). Na blokující kontrole nestav další generaci.
 V patchi uváděj u každé události **všechny** zápisy, které údaj potvrzují (počet nezávislých pramenů).
+
+## Kontext a příběh
+
+Průběžně zapisuj do dossieru sekci `## Kontext` (surové poznámky s odkazem na pramen: epidemie, přípisky,
+kmotři, stěhování, gramotnost, zajímavosti o obci) — hned, ne až na konci. Při dokončení osoby napiš
+`research/pribehy/<ID>.md` — krátký článek bez fikce, každé tvrzení s oporou. Pravidla a šablona:
+`docs/metodika/pribehy.md`.
