@@ -142,7 +142,13 @@ class Applier:
                                       "name": {"_class": "PlaceName", "value": name}}, "Place")
 
     def source(self, sidecar: Path, pid: str) -> str:
-        meta = yaml.safe_load(sidecar.read_text(encoding="utf-8"))
+        txt = sidecar.read_text(encoding="utf-8")
+        # nejisté ID v seznamu bez uvozovek („persons: [K0448?]“) je neplatný YAML — opravit tiše, je to častá chyba
+        txt = re.sub(r"(?m)^(persons:.*?)(?<![\"'\w])([A-Z][\w-]*\?)", r'\1"\2"', txt)
+        try:
+            meta = yaml.safe_load(txt)
+        except yaml.YAMLError as e:
+            sys.exit(f"sidecar {sidecar} není platný YAML: {e}")
         # jeden zdroj na doklad (sdílí ho všechny osoby, které cituje): klíč = původní fotka dokladu
         # (`original: doklady/…/IMG_3967.HEIC`), jinak název souboru sidecaru
         orig = meta.get("original") or ""
