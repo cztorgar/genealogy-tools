@@ -169,7 +169,15 @@ function waitingPatches(p) {
   if (!p || !p.patches) return 0;
   return (p.patches["navrženo"] || 0) + (p.patches["schváleno"] || 0);
 }
+// původ osoby (front-matter `původ`, docs/metodika/workflow-sessions.md) → štítek v rámečku
+const ORIGIN = {
+  myheritage: { tag: "MH", cls: "o-mh", title: "MyHeritage (nápověda z cizího stromu)" },
+  pramen: { tag: "★P", cls: "o-pr", title: "nově objevená z pramene" },
+  "ústně": { tag: "Ú", cls: "o-us", title: "ústní sdělení" },
+};
 function matchesFilter(id, p) {
+  const orig = $("#f-orig").value;
+  if (orig && !(orig === "-" ? !(p && p["původ"]) : p && p["původ"] === orig)) return false;
   const work = $("#f-work").checked, wait = $("#f-wait").checked;
   if ($("#f-single").checked && !(p && p.events && p.events.single)) return false;
   if ($("#f-nokx").checked && !(p && p.kontext_missing && p.kontext_missing.length)) return false;
@@ -216,7 +224,12 @@ function render() {
         (p.zavora ? `\n${zavoraTip(p.zavora)}` : "");
 
     const name = missing ? "nesáhnuto" : (p.name || "(bez jména)");
-    el("text", { class: "name", x: 7, y: 15 }, g).textContent = trunc(name, 25);
+    const o = p && ORIGIN[p["původ"]];
+    el("text", { class: "name", x: 7, y: 15 }, g).textContent = trunc(name, o ? 21 : 25);
+    if (o) {
+      el("rect", { class: `orig ${o.cls}`, x: BW - 25, y: 4, width: 21, height: 13, rx: 3 }, g);
+      el("text", { class: "orig-t", x: BW - 14.5, y: 14, "text-anchor": "middle" }, g).textContent = o.tag;
+    }
     const meta = missing ? `${id} · ${relLabel(id).split(" ")[0]}` : [id, years(p)].filter(Boolean).join(" · ");
     el("text", { class: "meta", x: 7, y: 29 }, g).textContent = trunc(meta, 34);
 
@@ -431,6 +444,7 @@ function renderLegend() {
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
     <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <span class="zav">⛔</span> závora · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
+    <div class="row"><span>původ: ${Object.values(ORIGIN).map((o) => `<b class="orig-l ${o.cls}">${o.tag}</b> ${o.title}`).join(" · ")}</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
@@ -686,6 +700,8 @@ $("#lightbox").addEventListener("click", (ev) => { if (ev.target.tagName !== "A"
 
 // ------------------------------------------------------------------ filtry, polling
 
+$("#f-orig").value = store.get("f-orig", "");
+$("#f-orig").addEventListener("change", () => { store.set("f-orig", $("#f-orig").value); render(); });
 for (const f of ["f-work", "f-wait", "f-empty", "f-single", "f-nokx"]) {
   const box = $("#" + f);
   box.checked = store.get(f, box.checked);

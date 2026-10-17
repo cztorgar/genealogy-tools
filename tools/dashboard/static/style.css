@@ -251,3 +251,9 @@ ul.zavory select { font-size: 12px; max-width: 100%; }
 .zav-typ { font-size: 11px; background: #fdecea; color: #8b1a1a; border-radius: 3px; padding: 0 4px; }
 .sance { font-size: 11px; border-radius: 3px; padding: 0 4px; background: #eee; }
 .sance.hi { background: #d8f0d8; } .sance.mid { background: #fff2c4; } .sance.lo { background: #fde0c8; } .sance.none { background: #e6e6e6; color: #777; }
+
+/* původ osoby */
+.node rect.orig { stroke: none; }
+.o-mh { fill: #2f6fd0; background: #2f6fd0; } .o-pr { fill: #2d8a3a; background: #2d8a3a; } .o-us { fill: #e07b00; background: #e07b00; }
+.node text.orig-t { fill: #fff; font-size: 9px; font-weight: 700; pointer-events: none; }
+b.orig-l { color: #fff; font-size: 10px; padding: 0 3px; border-radius: 3px; }
