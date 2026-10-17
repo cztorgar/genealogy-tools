@@ -199,3 +199,11 @@ se větví nestaví — na to je další session. Pravidla čtení a jistoty: [`
 - **Patch po každé osobě** (ne až na konci větve) → manager aplikuje průběžně.
 - Konec: hranice pramenů, jiný archiv bez přístupu, rozpočet, nebo **plný kontext** — pak zapíše do dossieru
   poslední osoby `## Předání` (co dál, kde) a ohlásí managerovi, ten otevře navazující session.
+
+## Parkování session (paměť)
+
+Nečinná session drží v paměti celý Claude Code proces. Proto: **session, která skončila nebo je v pauze, manager zaparkuje**
+— `tools/sessions/park.sh <jméno>` (nebo `--idle` = všechny nečinné kromě managera a dashboardu) uloží její Claude session ID
+do `~/.cache/genealogy-workbench/parked.tsv` a zavře tab. **Obnova s celým kontextem:** `tools/sessions/unpark.sh <jméno> ["zpráva"]`
+(`claude --resume <id>` v novém tabu se stejným názvem). Seznam: `unpark.sh --list`. Pauza kvůli limitu účtu = pauza → potvrzení
+session → zaparkovat; po resetu limitu unpark. Pozor: obnovená session běží na **aktuálně aktivním** účtu.

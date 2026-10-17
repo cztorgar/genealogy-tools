@@ -17,6 +17,9 @@ while :; do
     msg="manager — PAUZA (limit účtu ${acct}: 5h ${five} %, 7d ${week} %, práh ${limit} %): dokonči rozdělaný krok (ulož přepis/sidecar, log hledání, rozpracovaný patch jako navrženo), pak ZASTAV a čekej na pokyn. Nic nového nespouštěj."
     herdr agent list 2>/dev/null | jq -r '.result.agents[] | select((.cwd // "") | test("genealogy")) | select(.name != "manager" and .name != "dashboard") | select(.agent_status == "working") | .name' | grep -E "$only" |
       while read -r a; do herdr agent prompt "$a" "$msg" >/dev/null && echo "pauza → $a"; done
+    # po potvrzení pauzy (session přestanou pracovat) je zaparkuj — uvolní paměť; obnova unpark.sh
+    for i in $(seq 1 20); do sleep 30; busy=$(herdr agent list 2>/dev/null | jq -r '.result.agents[] | select((.cwd // "") | test("genealogy")) | select(.name != "manager" and .name != "dashboard") | select(.agent_status == "working") | .name' | grep -cE "$only"); [ "$busy" = 0 ] && break; done
+    "$(dirname "$0")/park.sh" --idle
     [ -n "$switch_to" ] && claude-account "$switch_to" >/dev/null 2>&1 && echo "přepnuto na účet $switch_to"
     echo "PAUZA provedena (${acct}): 5h ${five} %, 7d ${week} % (práh ${limit} %), cache $(date -r "$cache" +%H:%M)"
     exit 0
