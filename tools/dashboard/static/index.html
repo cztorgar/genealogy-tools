@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="dashboard-token" content="__CSRF_TOKEN__">
 <title>Workbench dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="/static/style.css">
@@ -13,7 +14,7 @@
 <body>
 <header id="bar">
   <strong id="title">Workbench</strong>
-  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button></nav>
+  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button><button data-tab="kontroly" title="Fronta kontrol — co musíš rozhodnout ty">Kontroly <span id="k-count"></span></button></nav>
   <div id="counts"></div>
   <div class="spacer"></div>
   <div class="search">
@@ -22,6 +23,7 @@
   </div>
   <label class="tree-only"><input type="checkbox" id="f-work"> jen rozpracované</label>
   <label class="tree-only"><input type="checkbox" id="f-wait"> čeká na mě</label>
+  <label class="tree-only" title="jen osoby, které mají aspoň jeden údaj doložený jediným pramenem"><input type="checkbox" id="f-single"> údaje jen s 1 pramenem</label>
   <label class="tree-only" title="u přímých předků ukázat prázdné rámečky jejich rodičů"><input type="checkbox" id="f-empty" checked> prázdní rodiče</label>
   <button class="tree-only" id="fit" title="Zobrazit celý strom">celý strom</button>
   <span id="live" title="Automatické obnovení (polling 5 s)">●</span>
@@ -50,6 +52,15 @@
     </div>
     <div id="maplegend"></div>
   </section>
+  <section id="kontrolywrap" hidden>
+    <div id="k-filters">
+      <label>stav <select id="kf-stav"><option value="otevřeno">otevřené</option><option value="rozhodnuto">rozhodnuté</option><option value="hotovo">zapracované / zamítnuté</option><option value="">vše</option></select></label>
+      <label>osoba <select id="kf-osoba"><option value="">všechny</option></select></label>
+      <label>typ <select id="kf-typ"><option value="">všechny</option></select></label>
+      <span id="k-summary"></span>
+    </div>
+    <div id="k-list"></div>
+  </section>
   <aside id="panel" hidden>
     <button id="close" title="Zavřít (Esc)">×</button>
     <div id="panel-body"></div>
@@ -58,5 +69,6 @@
 <div id="lightbox" hidden><img alt=""><a target="_blank" rel="noopener">otevřít v nové kartě</a></div>
 <script src="/static/app.js"></script>
 <script src="/static/map.js"></script>
+<script src="/static/kontroly.js"></script>
 </body>
 </html>

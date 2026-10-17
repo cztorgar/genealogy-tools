@@ -13,7 +13,9 @@ const STATE_HELP = {
   "rozpracováno": "session na osobě pracuje", "pozastaveno": "rozpracováno, odloženo",
   "dokončeno": "výzkum hotový, čeká na zápis", "zapsáno": "zapsáno do Gramps",
 };
-const TYPE_CS = { Birth: "narození", Death: "úmrtí", Residence: "bydliště", Census: "sčítání", Occupation: "povolání / bytem" };
+const TYPE_CS = { Birth: "narození", Death: "úmrtí", Residence: "bydliště", Census: "sčítání", Occupation: "povolání / bytem",
+                  Christening: "křest", Baptism: "křest", Burial: "pohřeb", Marriage: "sňatek", Religion: "vyznání" };
+const circled = (n) => (n === 0 ? "⓪" : n <= 20 ? String.fromCharCode(0x2460 + n - 1) : `(${n})`);
 const SVGNS = "http://www.w3.org/2000/svg";
 const $ = (s) => document.querySelector(s);
 
@@ -156,6 +158,7 @@ function waitingPatches(p) {
 }
 function matchesFilter(id, p) {
   const work = $("#f-work").checked, wait = $("#f-wait").checked;
+  if ($("#f-single").checked && !(p && p.events && p.events.single)) return false;
   if (!work && !wait) return true;
   const ses = sessionOf(id);
   let ok = false;
@@ -209,7 +212,16 @@ function render() {
       if (p.todo) b.push(`☐${p.todo_open}/${p.todo}`);
       if (p.docs && p.docs.open) b.push(`📄${p.docs.open}`);
       if (p.sources) b.push("🗂");
-      el("text", { class: "badges", x: 7, y: 45 }, g).textContent = b.join("  ");
+      const bt = el("text", { class: "badges", x: 7, y: 45 }, g);
+      bt.textContent = b.join("  ");
+      const k = p.kontroly;
+      if (k && k.open) {
+        const ts = el("tspan", { class: k.blocking ? "kb block" : "kb" }, bt);
+        ts.textContent = `${b.length ? "  " : ""}⚑${k.open}`;
+      }
+      if ($("#f-single").checked && p.events && p.events.single) {
+        el("tspan", { class: "single" }, bt).textContent = `  ①×${p.events.single}`;
+      }
       if (p.checklist) drawChecklist(g, p.checklist);
     }
     const ses = sessionOf(id);
@@ -359,7 +371,7 @@ function renderLegend() {
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session: <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
-    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny</span></div>
+    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
@@ -493,6 +505,28 @@ function renderPerson(d) {
     h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   }
 
+  if (d.kontroly && d.kontroly.length) {
+    const rows = d.kontroly.map((k) => `<li><a href="#" data-kontrola="${esc(k.id)}">${esc(k.id)}</a>
+      ${k.blokuje ? `<span class="tag block">blokuje</span>` : ""} <span class="tag">${esc(k.typ || "")}</span>
+      <span class="kstav ${esc(k.stav)}">${esc(k.stav)}</span><br><small>${esc(k.otazka || "")}</small></li>`).join("");
+    h += `<h2 class="sec">Kontroly (${d.kontroly.filter((k) => k.stav === "otevřeno").length} otevřeno)</h2><ul class="klist">${rows}</ul>`;
+  }
+  if (d.events && d.events.length) {
+    const yr = (e) => { const m = String(e.date || "").match(/\d{4}/); return m ? +m[0] : 9999; };
+    const rows = d.events.slice().sort((a, b) => yr(a) - yr(b)).map((e) => {
+      const recs = e.records.map((r) => `${r.label}${r.confidence != null ? ` (jistota ${r.confidence})` : ""}${r.patch ? ` — ${r.patch}` : ""}`).join("\n");
+      return `<tr class="${e.sources <= 1 ? "one" : ""}">
+        <td>${esc(TYPE_CS[e.type] || e.type || "?")}${e.family ? " <small>(rodina)</small>" : ""}</td>
+        <td>${esc(e.date)}</td><td>${esc(e.place)}</td>
+        <td class="n" title="${esc(recs)}">${circled(e.sources)}${e.support ? ` <small title="rejstřík — podpůrně, nepočítá se">+R${e.support}</small>` : ""}</td>
+        <td class="n">${e.confidence ?? "—"}</td>
+        <td><small>${esc(trunc(e.description || "", 70))}</small></td></tr>`;
+    }).join("");
+    const one = d.events.filter((e) => e.sources <= 1).length;
+    h += det("events", `Doložení údajů <small>(${d.events.length} událostí, ${one} s jediným pramenem; z aplikovaných patchů)</small>`,
+      `<table class="evt"><thead><tr><th>událost</th><th>datum</th><th>místo</th><th title="počet nezávislých zápisů v citacích">pramenů</th><th title="nejvyšší jistota citace">jist.</th><th>popis</th></tr></thead><tbody>${rows}</tbody></table>
+       <p><small>Pramen = různý zápis (dvě fotky téhož zápisu = jeden, rejstřík se nepočítá). Najetím na počet se ukážou zápisy.</small></p>`, true);
+  }
   if (d.residences && d.residences.length) {
     const rows = d.residences.slice().sort((a, b) => a.year - b.year).map((r) =>
       `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
@@ -575,7 +609,7 @@ $("#lightbox").addEventListener("click", (ev) => { if (ev.target.tagName !== "A"
 
 // ------------------------------------------------------------------ filtry, polling
 
-for (const f of ["f-work", "f-wait", "f-empty"]) {
+for (const f of ["f-work", "f-wait", "f-empty", "f-single"]) {
   const box = $("#" + f);
   box.checked = store.get(f, box.checked);
   box.addEventListener("change", () => { store.set(f, box.checked); render(); });

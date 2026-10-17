@@ -19,11 +19,14 @@ const foldPlace = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, ""
 function setTab(tab) {
   const isMap = tab === "mapa";
   document.body.classList.toggle("tab-mapa", isMap);
+  document.body.classList.toggle("tab-kontroly", tab === "kontroly");
   document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
-  $("#canvas").hidden = isMap;
+  $("#canvas").hidden = tab !== "strom";
   $("#mapwrap").hidden = !isMap;
+  $("#kontrolywrap").hidden = tab !== "kontroly";
   store.set("tab", tab);
   if (isMap) { ensureMap(); setTimeout(() => lmap && lmap.invalidateSize(), 0); }
+  else if (tab === "kontroly") { if (window.renderKontroly) renderKontroly(true); }
   else if (selected) setTimeout(() => focusNode(selected), 0);
 }
 document.querySelectorAll("#tabs button").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.tab)));
@@ -342,4 +345,4 @@ async function showOnMap(place, cp, year) {
 // živé obnovení — nová verze stavu (patche) → znovu načíst mapová data
 window.onStateChange = () => { if (lmap) loadMapData(); };
 
-if (store.get("tab", "strom") === "mapa") setTab("mapa");
+

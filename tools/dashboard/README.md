@@ -2,7 +2,8 @@
 
 Lokální stránka s živým přehledem stavu výzkumu nad stromem: rodokmen s barvou stavu u každé osoby,
 odznaky (běžící session, čekající patch, nápovědy, todo, doklady), panel osoby s dossierem a vším k ní,
-přehled session / patchů / sdílených seznamů / výzkumného logu.
+přehled session / patchů / sdílených seznamů / výzkumného logu, mapa „kde kdo žil“ a **fronta kontrol**
+s rozhodováním a doložením údajů počtem nezávislých pramenů.
 
 Není to výstup stromu (rodinný web) — je to vizualizace **workbenche**.
 
@@ -22,8 +23,8 @@ Poslouchá jen na `127.0.0.1`. Závislost jen PyYAML (inline metadata pro `uv`).
 - **Žádná druhá kopie dat.** Server čte živé soubory stromu při každém požadavku (paměťová cache podle
   mtime). Stránka se dotazuje `/api/state` každých 5 s; když se změní verze (mtime souborů nebo stav
   session), překreslí strom i otevřený panel.
-- **Jen čtení.** Do stromu nic nezapisuje, necommituje, Gramps nevolá (jen odkaz
-  `<gramps-url>/person/<gramps_id>`).
+- **Jen čtení — s jedinou výjimkou:** rozhodnutí kontroly (viz níže). Jinak do stromu nic nezapisuje,
+  necommituje, Gramps nevolá (jen odkaz `<gramps-url>/person/<gramps_id>`).
 - `/api/file` vydá jen soubory uvnitř stromu (snímky, přepisy, sidecary jako text).
 
 ## Zdroje dat (`T = ../genealogy-trees/<strom>/`)
@@ -39,6 +40,8 @@ Poslouchá jen na `127.0.0.1`. Závislost jen PyYAML (inline metadata pro `uv`).
 | prameny | sidecary `T/sources/**/*.yml` ve složce osoby nebo s osobou v `persons:`; snímky a přepisy |
 | doklady (souhrn) | `T/research/doklady.md` |
 | výzkumný log | `T/research/log.md` (posledních 25) |
+| kontroly | `T/research/kontroly/<ID>-<nn>.yml`, `G-<nn>.yml` |
+| doložení údajů | události z aplikovaných patchů + sidecary citací |
 | běžící session | `herdr agent list` — agent se jménem ve tvaru ID (`k0056`, `k0001-s2-p2`) s cwd ve workbenchi/stromu |
 
 ## Strom z ID
@@ -49,6 +52,8 @@ ve stejném sloupci (∞ / d.); mají-li vlastní rodiče, dostanou pás pod rod
 pedigree pokračuje doprava. Větve jdou sbalit (±, pamatuje si prohlížeč).
 
 Volba **prázdní rodiče** ukáže u každého přímého předka s dossierem prázdné rámečky rodičů — kam se dá jít.
+Odznak **⚑N** = otevřené kontroly osoby (červeně, je-li některá blokující). Filtr **údaje jen s 1 pramenem**
+nechá osoby, které mají aspoň jednu událost doloženou jediným zápisem (u nich `①×N`).
 Filtry: **jen rozpracované** (rozpracováno / pozastaveno / běží session), **čeká na mě**
 (patch `navrženo` nebo session ve stavu idle/done).
 
@@ -74,3 +79,33 @@ sekce **Bydliště** s odkazem „na mapě“.
   ve `vrstvy.yml`, „aktuální“ = letos). Katastrální mapa jde přes podklad zvlášť.
 - Do mapy jde jen to, co je v patchích (navržené i aplikované; neaplikované má v historii domu stav).
   Nálezy jen v dossierech nebo přepisech se na mapě neobjeví, dokud nejsou v patchi.
+
+## Fronta kontrol (záložka Kontroly)
+
+Formát a pravidla: [`docs/metodika/autonomie.md`](../../docs/metodika/autonomie.md), kap. 5. Počet otevřených
+(a za tečkou blokujících) je na záložce v horní liště. Řazení: blokující → priorita → nejstarší (`vzniklo.kdy`);
+filtr podle stavu (výchozí otevřené), osoby a typu. U položky otázka, kontext, výřez snímku (klik = zvětšit,
+odkaz na celý snímek a portál), varianty vedle sebe s oporou (★ = doporučení session), doporučení, související soubory.
+
+**Rozhodnutí** — volba varianty nebo vlastní znění + poznámka → *Zapsat rozhodnutí*. Je to **jediný zápis
+dashboardu**:
+
+- jen do `T/research/kontroly/*.yml`, jen klíče `stav: rozhodnuto` a
+  `rozhodnuti: {volba, poznamka, kdo: uzivatel, kdy}`; textová úprava řádků, zbytek souboru (komentáře,
+  pořadí) zůstane. Výsledek se ověří parserem (jiná pole se nesmí změnit), soubor se nahradí atomicky;
+  změnil-li se mezitím na disku, zápis se odmítne.
+- měnit jde jen stav `otevřeno` / `rozhodnuto` (tlačítko *změnit*); po `zapracováno` / `zamítnuto` ne.
+- `POST /api/kontrola/<id>` přijme jen spojení z 127.0.0.1, JSON, hlavičku `X-Dashboard-Token` (token se vkládá
+  do stránky a mění se při každém startu serveru → po restartu obnov stránku) a `Origin`/`Host` tohoto serveru.
+- Běží-li session té osoby (herdr), dostane `kontrola <id>: rozhodnuto — <volba>`. Jinak rozhodnutí
+  vyzvedne manager. Zapracování (`zapracovano`) dělá patchem session nebo manager, ne dashboard.
+
+## Doložení údajů (panel osoby)
+
+Tabulka událostí osoby z **aplikovaných** patchů: `add_event` (handle z `applied.items`), k nim citace z
+`add_citation` a `update_event … citation` (i z patchů jiných osob), rodinné události u obou manželů.
+Sloupec **pramenů** ①②③ = počet **různých zápisů** v citacích (pravidlo D2): jeden sidecar = jeden zápis,
+sidecar s `pair` a jeho dvojče = jeden, rejstřík (typ/forma „rejstřík“, „index“) se nepočítá (`+R1`),
+citace odkazem na Gramps (`C0013`) = jeden zápis. **jist.** = nejvyšší jistota citace. Najetí na počet ukáže
+zápisy. Neaplikované patche se nepočítají (`remove_citation` se neprojevuje; duplicitní citace téhož zápisu
+se sloučí).

@@ -5,8 +5,9 @@
 # ///
 """Workbench dashboard — živý přehled stavu výzkumu nad stromem.
 
-Čte **živé soubory stromu** při každém požadavku (jen paměťová cache podle mtime), nic negeneruje,
-nic nezapisuje. Poslouchá jen na 127.0.0.1.
+Čte **živé soubory stromu** při každém požadavku (jen paměťová cache podle mtime), nic negeneruje.
+Jediný zápis: rozhodnutí kontroly do `research/kontroly/<id>.yml` (POST z této stránky, token proti CSRF).
+Poslouchá jen na 127.0.0.1.
 
     uv run tools/dashboard/server.py [--tree berescak] [--port 5056]
 
@@ -14,6 +15,7 @@ API:
     GET /api/state[?v=<verze>]   souhrn (osoby, session, patche, todo, log); při stejné verzi {"unchanged": true}
     GET /api/person/<ID>         vše k osobě (dossier, nápovědy, patche, todo, prameny)
     GET /api/file?p=<cesta>      soubor stromu (snímky, přepisy) — jen čtení, jen uvnitř stromu
+    POST /api/kontrola/<id>      rozhodnutí kontroly {volba, poznamka}; hlavička X-Dashboard-Token
 """
 from __future__ import annotations
 
@@ -23,6 +25,7 @@ import json
 import mimetypes
 import os
 import re
+import secrets
 import subprocess
 import threading
 import time
@@ -33,6 +36,8 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import yaml
 
+import evidence
+import kontroly
 import mapdata
 
 WORKBENCH = Path(__file__).resolve().parents[2]
@@ -49,6 +54,7 @@ PATCH_WAITING = {"navrženo", "schváleno"}
 TODO_CLOSED = ("nalezeno", "nenalezeno", "zodpovězeno", "neví", "hotovo", "vyřízeno", "uzavřeno")
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".tif", ".tiff"}
 TEXT_EXT = {".md", ".yml", ".yaml", ".json", ".txt", ".xml"}
+CSRF_TOKEN = secrets.token_urlsafe(24)   # nový při každém startu; vkládá se do stránky
 
 
 def norm_id(num: str, suffix: str = "") -> str:
@@ -275,6 +281,7 @@ class Tree:
             "research": [p for p in (r / "research/log.md", r / "research/doklady.md") if p.exists()],
             "sidecars": [y for d in source_dirs for y in sorted(d.glob("*.yml"))],
             "source_dirs": source_dirs,
+            "kontroly": kontroly.files(r),
         }
 
     def version(self, files: dict[str, list[Path]], sessions: list[dict]) -> str:
@@ -385,6 +392,8 @@ class Tree:
         patches = self.patches(files)
         todos = self.todos(files)
         src_ids = {d.name for d in files["source_dirs"]}
+        checks = self.kontroly(files)
+        events = self.events(files)
 
         for pid, d in people.items():
             d["hints"] = len(hints.get(pid, []))
@@ -402,12 +411,19 @@ class Tree:
                     if pid in people:
                         people[pid]["todo"] += 1
                         people[pid]["todo_open"] += int(e["open"])
-        # osoby jen s nápovědou / patchem bez dossieru — ať jsou ve stromu vidět
-        for pid in list(hints) + [p["id"] for p in patches if p["id"]]:
+        # osoby jen s nápovědou / patchem / kontrolou bez dossieru — ať jsou ve stromu vidět
+        for pid in list(hints) + [p["id"] for p in patches if p["id"]] + [k["osoba"] for k in checks if k["osoba"]]:
             if pid not in people and ID_FULL_RE.match(pid):
                 people[pid] = {"id": pid, "name": "", "rel": "", "stav": None, "file": None,
                                "hints": len(hints.get(pid, [])), "patches": {}, "todo": 0, "todo_open": 0,
                                "checklist": None, "docs": None, "sources": pid in src_ids, "orphan": True}
+
+        for pid, d in people.items():
+            mine = [k for k in checks if k["osoba"] == pid and k["stav"] == kontroly.OPEN]
+            d["kontroly"] = {"open": len(mine), "blocking": sum(k["blokuje"] for k in mine)}
+            evs = events.get(pid, [])
+            d["events"] = {"total": len(evs), "single": sum(e["sources"] == 1 for e in evs),
+                           "none": sum(e["sources"] == 0 for e in evs)}
 
         counts: dict[str, int] = {}
         for d in people.values():
@@ -426,9 +442,30 @@ class Tree:
                       for t in todos],
             "log": self.log_tail(),
             "doklady": self.doklady_summary(),
+            "kontroly": checks,
             "counts": counts,
             "states": STATES,
         }
+
+    def kontroly(self, files) -> list[dict]:
+        return kontroly.load(files["kontroly"], CACHE, load_yaml, self.root, norm_any)
+
+    def events(self, files) -> dict[str, list[dict]]:
+        return evidence.events(files["patches"], CACHE, load_yaml, self.root, norm_any)
+
+    def notify_session(self, pid: str | None, text: str) -> str | None:
+        """Pošle zprávu běžící session osoby (herdr). → jméno session, nebo None."""
+        if not pid:
+            return None
+        self._herdr = (0.0, [])
+        ses = next((s for s in self.sessions() if s["id"] == pid.upper()), None)
+        if not ses:
+            return None
+        try:
+            subprocess.run(["herdr", "agent", "prompt", ses["name"], text], capture_output=True, timeout=10, check=True)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        return ses["name"]
 
     # --- mapa
     def map(self) -> dict:
@@ -482,6 +519,8 @@ class Tree:
         out["session"] = next((s for s in self.sessions() if s["id"] == pid), None)
         out["residences"] = [r for r in mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
                              if r["id"] == pid]
+        out["events"] = self.events(files).get(pid, [])
+        out["kontroly"] = [k for k in self.kontroly(files) if k["osoba"] == pid]
         return out
 
     def sources(self, pid: str, files) -> dict:
@@ -564,7 +603,14 @@ class Handler(BaseHTTPRequestHandler):
         q = parse_qs(url.query)
         try:
             if path in ("/", "/index.html"):
-                return self.send_file(STATIC / "index.html", "text/html; charset=utf-8")
+                html = read_text(STATIC / "index.html").replace("__CSRF_TOKEN__", CSRF_TOKEN).encode()
+                self.send_response(HTTPStatus.OK)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(html)
+                return
             if path.startswith("/static/"):
                 f = (STATIC / path[len("/static/"):]).resolve()
                 if f.is_file() and f.is_relative_to(STATIC):
@@ -602,6 +648,46 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_file(f, "text/plain; charset=utf-8")
                 return self.send_error(HTTPStatus.FORBIDDEN)
             return self.send_error(HTTPStatus.NOT_FOUND)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+
+
+    def do_POST(self):
+        """Jediný zápis: rozhodnutí kontroly. Jen z 127.0.0.1, s tokenem ze stránky a stejným původem."""
+        path = unquote(urlparse(self.path).path)
+        try:
+            m = re.match(r"^/api/kontrola/((?:K\d+(?:-[SCP]\d+)*|G)-\d+)$", path)
+            if not m:
+                return self.send_error(HTTPStatus.NOT_FOUND)
+            if self.client_address[0] != "127.0.0.1":
+                return self.send_json({"error": "jen z 127.0.0.1"}, HTTPStatus.FORBIDDEN)
+            if not secrets.compare_digest(self.headers.get("X-Dashboard-Token", ""), CSRF_TOKEN):
+                return self.send_json({"error": "neplatný token — obnov stránku"}, HTTPStatus.FORBIDDEN)
+            port = self.server.server_address[1]
+            allowed = {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}
+            origin = self.headers.get("Origin")
+            if (origin and origin not in allowed) or self.headers.get("Host") not in {a[7:] for a in allowed}:
+                return self.send_json({"error": "cizí původ požadavku"}, HTTPStatus.FORBIDDEN)
+            if not (self.headers.get("Content-Type") or "").startswith("application/json"):
+                return self.send_json({"error": "očekávám JSON"}, HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
+            n = int(self.headers.get("Content-Length") or 0)
+            if n > 20000:
+                return self.send_json({"error": "příliš velké"}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+            try:
+                body = json.loads(self.rfile.read(n) or b"{}")
+            except json.JSONDecodeError:
+                return self.send_json({"error": "neplatný JSON"}, HTTPStatus.BAD_REQUEST)
+            if not isinstance(body, dict):
+                return self.send_json({"error": "neplatný JSON"}, HTTPStatus.BAD_REQUEST)
+            try:
+                res = kontroly.decide(self.tree.root, m.group(1), str(body.get("volba") or ""),
+                                      str(body.get("poznamka") or ""))
+            except kontroly.DecisionError as e:
+                return self.send_json({"error": str(e)}, HTTPStatus.CONFLICT)
+            volba = res["rozhodnuti"]["volba"].replace("\n", " ")
+            res["session"] = self.tree.notify_session(norm_any(res["osoba"]),
+                                                      f"kontrola {res['id']}: rozhodnuto — {volba[:300]}")
+            return self.send_json(res)
         except (BrokenPipeError, ConnectionResetError):
             pass
 
