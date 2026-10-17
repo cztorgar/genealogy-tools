@@ -304,7 +304,7 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                 obj = a.gw.get(f"/{kind}/{handle}")
                 obj["note_list"].append(h)
                 a.gw.put(f"/{kind}/{handle}", obj)
-            a.log.append(f"+ poznámka ({ntype}) {text[:60]!r}…")
+            a.log.append(f"+ poznámka ({ntype}) {note_text[:60]!r}…")
             applied.append({"op": op, "note": h, "event": ch.get("event")})
         elif op == "remove_citation":
             # odebrat citaci z události; smazat ji, pokud ji už nic jiného neodkazuje
