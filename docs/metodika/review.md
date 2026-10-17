@@ -70,6 +70,10 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 - Patche se `status: schváleno`, které nastavila session sama (nemá) — kdo schválil?
 - Stav dossierů (`zapsáno` jen po `dokončeno`), příznak `kontext: chybí`.
 
+### E2. Patche schválené managerem
+- Od 2026-10-17 patche schvaluje manager sám po dávkách — review je **jediná věcná kontrola**: projít všechny patche aplikované od té doby
+  (git log stromu, commity „Dávka … aplikována“) se stejnou důkladností jako schválení.
+
 ### F. Ruční zásahy do Gramps (mimo patche)
 - Projít `research/rozhodnuti-managera.md`: přejmenování (NN → příjmení), alternativní jména, smazané rodiny/události/citace,
   přesuny dossierů (Voderka), ručně změněné pohlaví. Každý zásah má mít důvod a pramen.

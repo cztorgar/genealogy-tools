@@ -214,3 +214,10 @@ session → zaparkovat; po resetu limitu unpark. Pozor: obnovená session běž�
 - **Sonnet** (`-- --model sonnet` při startu): index pramenů a místopis, dashboard a nástroje, zpětné Kontexty/příběhy z hotových
   patchů, reader-backlog (čte OpenAI), přepis rejstříků jen tam, kde je zápis potom ověřen. Důvod: slepý test 2026-10-17
   (`docs/nastroje/reader.md`) — Sonnet čte kurent výrazně hůř (34 % × 58 % shod, vymýšlí jména).
+
+## Schvalování patchů (od 2026-10-17)
+
+Uživatel pověřil managera, aby patche **schvaloval a aplikoval sám po dávkách** (uživatel při schvalování obsah nekontroloval).
+Kontrolní funkci přebírá **review session** (`docs/metodika/review.md`), kterou spouští uživatel. Manager proto: aplikuje
+dávky průběžně, před aplikací ověří jen technické předpoklady (osoby/rodiny existují, navazující ID citací), každý vlastní zásah
+zapíše do `research/rozhodnuti-managera.md`. Rozhodnutí kontrol v dashboardu zůstávají na uživateli.
