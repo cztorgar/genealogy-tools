@@ -143,3 +143,10 @@ Jinou osobu (např. manželku) smíš převzít, jen když chce uživatel a ta o
 pravidla v `workflow-sessions.md`, sekce Převzetí jiné osoby.
 
 Do Gramps `berescak` nezapisuj, necommituj a neměň workbench — to dělá manager.
+
+## Autonomní režim
+
+Když manager (na pokyn uživatele) řekne „autonomně“: řiď se `docs/metodika/autonomie.md`. Uživateli do tabu
+nic ke kontrole neposílej, intro kartu jen vypiš a pokračuj. Sporné čtení, totožnost a rozpory zapiš jako
+kontroly `research/kontroly/<ID>-<nn>.yml` (formát tamtéž). Na blokující kontrole nestav další generaci.
+V patchi uváděj u každé události **všechny** zápisy, které údaj potvrzují (počet nezávislých pramenů).
