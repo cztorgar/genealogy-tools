@@ -20,15 +20,17 @@
 
 - `~/.cache/genealogy-workbench/htr-venv/.venv` (Python 3.11 přes uv); instalace `kraken` byla při pauze přerušena —
   zkontrolovat/zopakovat `uv pip install kraken`.
-- `~/.cache/genealogy-workbench/htr-test/` a `htr-models/` jsou prázdné. Žádná testovací strana nestažena.
-- MCP `czech-archives`: `register_info` s `module=ebadatelna_praha` a ID z URL eBadatelny (3480, 238, 1612) vrátilo
-  „Error executing tool“ — ID archiválie asi není `register_id`; zjistit přes `find_registers` / `search_registers_live`.
-  Zdroje: Kouty školní kronika (archivalieId 3480, 120 snímků), Liteň kronika 1914–1940 (238, 96 snímků),
-  Žiželice pamětní kniha 1752–1848 (1612, 212 snímků).
+- `htr-models/` zatím prázdné.
+
+## Testovací data (vyřešeno 2026-10-17)
+
+Modul `ebadatelna_praha` rozšířen o archiválie (`archivalie_info`, `fetch_archivalie_page`; prohlížeč `/a/<ID>/<snímek>`).
+Staženo 13 stran do `~/.cache/genealogy-workbench/htr-test/` (se sidecary `.yml`):
+`kouty/` snímky 10, 30, 60, 90, 110 (archivalieId 3480); `liten/` 6, 20, 40, 60, 85 (238); `ziz/` 20, 60, 120 (1612).
 
 ## Předání
 
-Hotov jen průzkum kroků 1–2 (část). Dále: (1) dořešit `register_id` a stáhnout 5+5+3 strany do `htr-test/`;
+Hotov jen průzkum kroků 1–2 (část). Dále: (1) hotovo (13 stran staženo);
 (2) doinstalovat kraken, stáhnout Baránkův model a McCATMuS, zapsat licence, změřit čas/stranu na CPU;
 (3) ruční reference ~20 řádků a CER/WER + nález jmen a letopočtů; (4) případně `tools/htr/`; (5) doplnit tento dokument.
 Nic necommitnuto.

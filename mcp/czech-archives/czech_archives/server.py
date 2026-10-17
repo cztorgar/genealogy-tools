@@ -81,6 +81,26 @@ def fetch_page(register_id: str, image: int, dest_dir: str, module: str = "aron_
 
 
 @mcp.tool()
+def archivalie_info(archivalie_id: str, module: str = "ebadatelna_praha") -> dict:
+    """Popis archiválie (kronika, pamětní kniha …; `archivalieId` z URL eBadatelny): název, fond/NAD, roky, počet snímků, URL."""
+    return modules.get(module).archivalie_info(archivalie_id)
+
+
+@mcp.tool()
+def fetch_archivalie_page(archivalie_id: str, image: int, dest_dir: str,
+                          module: str = "ebadatelna_praha", entry: str | None = None) -> dict:
+    """Stáhne JEDEN snímek archiválie (číslo snímku od 1) do dest_dir + sidecar .yml s citací. dest_dir jako u fetch_page."""
+    mod = modules.get(module)
+    dest = Path(dest_dir).expanduser()
+    if not dest.is_absolute():
+        dest = (WORKBENCH / dest).resolve()
+    path = mod.fetch_archivalie_page(archivalie_id, image, dest, entry=entry)
+    yml = path.with_suffix(".yml")
+    return {"image_path": str(path), "sidecar": str(yml) if yml.exists() else None,
+            "bytes": path.stat().st_size}
+
+
+@mcp.tool()
 def register_zip_info(register_id: str, module: str = "aron_zamrsk") -> dict:
     """URL a velikost oficiálního ZIPu celé sady snímků (jen HEAD, nic nestahuje)."""
     return modules.get(module).register_zip_info(register_id)

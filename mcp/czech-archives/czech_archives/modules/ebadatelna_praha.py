@@ -149,7 +149,7 @@ class EbadatelnaPraha:
 
     id = "ebadatelna_praha"
     archive = ARCHIVE
-    capabilities = {"registers", "fetch_page", "search_registers_live", "image_map"}
+    capabilities = {"registers", "fetch_page", "search_registers_live", "image_map", "archivalie"}
 
     def __init__(self, client: RateLimitedClient | None = None):
         self.http = client or RateLimitedClient(self.id, min_interval=2.5)
@@ -438,13 +438,15 @@ class EbadatelnaPraha:
         return regs[:limit]
 
     # --- snímky ---------------------------------------------------------------------------
-    def _viewer(self, register_id: str, image: int) -> dict:
-        """HTML prohlížeče /d/<ID>/<snímek> → odkaz na originál (cache 30 dní)."""
-        key = f"viewer:{int(register_id)}:{int(image)}"
+    def _viewer(self, register_id: str, image: int, kind: str = "matrika") -> dict:
+        """HTML prohlížeče /d/<ID>/<snímek> (archiválie: /a/<ID>/<snímek>) → odkaz na originál (cache 30 dní)."""
+        key = f"viewer:{int(register_id)}:{int(image)}" if kind == "matrika" \
+            else f"aviewer:{int(register_id)}:{int(image)}"
         hit = self._cached(key, 30 * 86400)
         if hit is not None:
             return hit
-        url = self.viewer_url(register_id, image)
+        url = self.viewer_url(register_id, image) if kind == "matrika" \
+            else self.archivalie_viewer_url(register_id, image)
         final, text = self.session.request(url)
         text = _RE_JSESSION.sub("", text)
         final = _RE_JSESSION.sub("", final)
@@ -523,6 +525,141 @@ class EbadatelnaPraha:
         if sidecar:
             extra = {"source_file": v.get("file_name") if v else None}
             write_sidecar(out, self.citation(reg, image, entry), extra)
+        return out
+
+    # --- archiválie (kroniky, pamětní knihy, školní kroniky …) -----------------------------
+    # Jiný typ jednotky než matrika: popis `/pages/ArchivaliePage/archivalieId/<ID>`, prohlížeč
+    # `/pages/DataArchivaliePage/idx/<snímek>/archivalieId/<ID>` = krátký odkaz `/a/<ID>/<snímek>`.
+    # Prohlížeč má stejnou stavbu jako u matrik, takže snímek se získává přes `_viewer(kind="archivalie")`.
+    # Záložka „Preview“ (PreviewDataArchivaliePage) hlásí „Register not digitized“ i u zdigitalizované
+    # jednotky — nepoužívat. Popisné štítky jsou podle jazyka session česky i anglicky.
+    def archivalie_url(self, archivalie_id: str) -> str:
+        return f"{BASE}/pages/ArchivaliePage/archivalieId/{int(archivalie_id)}"
+
+    def archivalie_viewer_url(self, archivalie_id: str, image: int) -> str:
+        return f"{BASE}/a/{int(archivalie_id)}/{int(image)}"
+
+    _ARCH_LABELS = {
+        "title_orig": ("Original title", "Původní název"),
+        "type": ("Archival type", "Typ archiválie"),
+        "fond": ("Archival fund", "Archivní fond"),
+        "storage": ("Storage location", "Místo uložení"),
+        "dates": ("Date from to", "Datace od do"),
+        "year": ("Date year", "Datace rok"),
+        "inv": ("Inventory number", "Inventární číslo"),
+        "signature": ("Signature", "Signatura"),
+        "language": ("Language", "Jazyk"),
+        "scans": ("Scans", "Snímky", "Počet snímků"),
+        "nad": ("NAD",),
+        "description": ("Description", "Popis", "Popis archiválie"),
+        "notes": ("Notes", "Poznámky"),
+    }
+
+    def _archivalie_html(self, archivalie_id: str) -> str:
+        key = f"archivalie:{int(archivalie_id)}"
+        hit = self._cached(key, 7 * 86400)
+        if hit is not None:
+            return hit
+        _, text = self.session.request(self.archivalie_url(archivalie_id))
+        if "tableMatrikaBasicInfo" not in text:
+            raise ValueError(f"archivalieId {archivalie_id}: stránka popisu neobsahuje údaje "
+                             "(neexistuje, nebo portál vrátil chybu)")
+        return self._store(key, text)
+
+    def archivalie_info(self, archivalie_id: str) -> dict:
+        """Popis archiválie: název, fond + NAD, uložení, roky, jazyk, počet snímků, URL, popis, lokality."""
+        text = self._archivalie_html(archivalie_id)
+        title = _clean((_RE_TITLE.search(text) or [None, ""])[1])
+        by_label: dict[str, str] = {}
+        for seg in text.split('class="tableMatrikaBasicInfoRow"')[1:]:
+            lab = re.search(r'tableMatrikaBasicInfoHeader1">\s*<div>([\s\S]*?)</div>', seg)
+            val = re.search(r'tableMatrikaBasicInfoHeader2">\s*<div[^>]*>([\s\S]*?)</div>\s*</div>', seg)
+            if lab and val:
+                by_label.setdefault(_clean(lab[1]), _clean(val[1]))   # první výskyt = základní tabulka
+
+        def get(name):
+            for lab in self._ARCH_LABELS[name]:
+                v = by_label.get(lab)
+                if v and v != "---":
+                    return v
+            return None
+
+        desc = [_clean(x) for x in re.findall(r'tableMatrikaDescriptionColumn tableMatrikaDescriptionHeader1">\s*<span>([\s\S]*?)</span>', text)]
+        desc = [d for d in desc if d and d != "---" and d not in ("Description", "Notes", "Popis", "Popis archiválie", "Poznámky")]
+        scans = get("scans")
+        years = get("dates") or get("year")
+        return {
+            "module": self.id, "kind": "archivalie", "id": str(int(archivalie_id)), "title": title,
+            "archival_type": get("type"), "fond": get("fond"), "fond_nad": get("nad"),
+            "archive": get("storage") or ARCHIVE, "years": years,
+            "inventory_number": get("inv"), "signature": get("signature"),
+            "original_title": get("title_orig"), "language": get("language"),
+            "image_count": int(scans) if scans and scans.isdigit() else None,
+            "localities": [_clean(x) for x in re.findall(r'obecCastLabel">([^<]+)<', text)],
+            "description": desc,
+            "url": self.archivalie_url(archivalie_id),
+            "viewer_url_pattern": f"{BASE}/a/{int(archivalie_id)}/<snímek>",
+        }
+
+    def archivalie_citation(self, info: dict, image: int | None, entry: str | None = None) -> Citation:
+        volume = info["title"] or None
+        if info.get("signature"):
+            volume = f"{volume}, sign. {info['signature']}" if volume else f"sign. {info['signature']}"
+        if info.get("inventory_number"):
+            volume = f"{volume}, inv. č. {info['inventory_number']}"
+        volume = f"{volume}, archivalieId {info['id']}"
+        c = Citation(
+            type="archivalie",
+            archive=info["archive"] or ARCHIVE,
+            fond=info.get("fond"),
+            fond_nad=info.get("fond_nad"),
+            parish=None,
+            confession=None,
+            book=None,
+            years=(info.get("years") or "").replace("\xa0", " ") or None,
+            volume=volume,
+            image=image,
+            url=self.archivalie_viewer_url(info["id"], image) if image is not None else info["url"],
+            accessed=today(),
+            entry=entry,
+            module=self.id,
+            register_id=info["id"],
+        )
+        c.text = citation_text(c)
+        return c
+
+    def fetch_archivalie_page(self, archivalie_id: str, image: int, dest: Path, sidecar: bool = True,
+                              entry: str | None = None) -> Path:
+        """Stáhne jeden snímek archiválie (originální JPG, přes cache) do `dest` + sidecar .yml."""
+        info = self.archivalie_info(archivalie_id)
+        n = info["image_count"]
+        if n and not 1 <= image <= n:
+            raise ValueError(f"snímek {image} mimo rozsah 1–{n}")
+        cache_name = f"a{info['id']}/a{info['id']}_{int(image):04d}"
+        existing = sorted((self.http.cache_dir / "files" / f"a{info['id']}").glob(f"a{info['id']}_{int(image):04d}.*"))
+        existing = [p for p in existing if p.suffix != ".part" and p.stat().st_size > 0]
+        v = None
+        if existing:
+            cached = existing[0]
+            v = self._cached(f"aviewer:{int(archivalie_id)}:{int(image)}", 365 * 86400)
+        else:
+            v = self._viewer(archivalie_id, image, kind="archivalie")
+            if v.get("download_url"):
+                ext = Path(v["file_name"] or "x.jpg").suffix.lower() or ".jpg"
+                cached = self.http.download(v["download_url"], cache_name + ext)
+            else:
+                cached = self._download_via_session(v["scan_url"], cache_name + ".jpg")
+            head = cached.read_bytes()[:8]
+            if not (head.startswith(b"\xff\xd8\xff") or head.startswith(b"\x89PNG")):
+                cached.unlink(missing_ok=True)
+                raise RuntimeError("portál nevrátil obrázek (HTML / přihlášení?) — nic neuloženo")
+        dest = Path(dest).expanduser()
+        if dest.suffix.lower() not in (".jpg", ".jpeg", ".png", ".tif", ".tiff"):
+            dest.mkdir(parents=True, exist_ok=True)
+        out = copy_to(cached, dest)
+        if sidecar:
+            write_sidecar(out, self.archivalie_citation(info, image, entry),
+                          {"source_file": v.get("file_name") if v else None})
         return out
 
     def register_zip_info(self, register_id: str) -> dict:
