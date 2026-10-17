@@ -346,7 +346,7 @@ def load_any(path: str) -> tuple[dict, dict]:
     if p.suffix.lower() == ".md":
         return load_markdown(p.read_text()), {"format": "markdown"}
     d = json.loads(p.read_text())
-    if "cteni" in d:
+    if isinstance(d.get("cteni"), dict):   # openai_read; session JSON může mít "cteni": "claude" (jen štítek)
         return load_openai(d), {"format": "openai_read", "model": d.get("model"), "typ": d.get("typ"),
                                 "zapis_nalezen": d["cteni"].get("zapis_nalezen"),
                                 "umisteni": d["cteni"].get("umisteni")}
