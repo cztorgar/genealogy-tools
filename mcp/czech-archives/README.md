@@ -105,4 +105,6 @@ generátor citací a sidecar `.yml`.
 - MCP tool pro `ebadatelna_praha.register_details` / `image_map` (navigace k oddílu obce ve svazku)
   — vyžaduje úpravu `server.py`.
 - `ebadatelna_praha`: fond pro citaci (portál ho neuvádí; ověřit v ARON SOA Praha).
+- **Nový modul SOA Třeboň** (digi.ceskearchivy.cz / Digitální badatelna SOA Třeboň) — potřeba pro Mirovice
+  (Petrovi/Voborníkovi, větev Brejchovi 2026-10-17); jižní a jihozápadní Čechy.
 - SQLite katalog svazků (`sync_catalog`), gazetteer → `find_registers` podle obce bez znalosti archivu.
