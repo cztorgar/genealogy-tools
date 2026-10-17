@@ -1,0 +1,40 @@
+{
+ "tokens": [
+  {
+   "t": "Jozeff",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wrbický",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Jakub",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Waclawa",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wrbického",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Žižělic",
+   "typ": "misto"
+  },
+  {
+   "t": "Barbory",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Kateřina",
+   "typ": "jmeno"
+  },
+  {
+   "t": "48",
+   "typ": "cp"
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{"tokens": [
+  {"t": "Rey", "typ": "prijmeni"},
+  {"t": "Karel", "typ": "jmeno"},
+  {"t": "Filip", "typ": "jmeno"},
+  {"t": "Švarcenberka", "typ": "prijmeni"},
+  {"t": "Matěj", "typ": "jmeno"},
+  {"t": "Vítek", "typ": "prijmeni"},
+  {"t": "Orlíku", "typ": "misto"},
+  {"t": "Bukovan", "typ": "misto"},
+  {"t": "Zbenic", "typ": "misto"},
+  {"t": "Prahy", "typ": "misto"},
+  {"t": "Pasova", "typ": "misto"},
+  {"t": "1815", "typ": "letopocet"},
+  {"t": "1816", "typ": "letopocet"},
+  {"t": "1812", "typ": "letopocet"}
+]}

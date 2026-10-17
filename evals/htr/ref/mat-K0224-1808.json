@@ -1,0 +1,36 @@
+{
+ "tokens": [
+  {
+   "t": "Jakub",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Waclawa",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Žiželic",
+   "typ": "misto"
+  },
+  {
+   "t": "Benedikt",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wischek",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "1808",
+   "typ": "letopocet"
+  },
+  {
+   "t": "168",
+   "typ": "cp"
+  },
+  {
+   "t": "49",
+   "typ": "cp"
+  }
+ ]
+}

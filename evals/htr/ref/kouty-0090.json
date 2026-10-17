@@ -1,0 +1,14 @@
+{"tokens": [
+  {"t": "Adolf", "typ": "jmeno"},
+  {"t": "Jan", "typ": "jmeno"},
+  {"t": "Votava", "typ": "prijmeni"},
+  {"t": "Kout", "typ": "prijmeni"},
+  {"t": "Jana", "typ": "jmeno"},
+  {"t": "Řeháka", "typ": "prijmeni"},
+  {"t": "Klacek", "typ": "prijmeni"},
+  {"t": "Drahovzal", "typ": "prijmeni"},
+  {"t": "Pátku", "typ": "misto"},
+  {"t": "Koutech", "typ": "misto"},
+  {"t": "Pišťanech", "typ": "misto"},
+  {"t": "1918", "typ": "letopocet"}
+]}

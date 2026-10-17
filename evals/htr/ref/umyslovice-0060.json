@@ -1,0 +1,10 @@
+{"tokens": [
+  {"t": "Josef", "typ": "jmeno"},
+  {"t": "Václava", "typ": "jmeno"},
+  {"t": "Krále", "typ": "prijmeni"},
+  {"t": "Kovanic", "typ": "misto"},
+  {"t": "Netřebic", "typ": "misto"},
+  {"t": "1884", "typ": "letopocet"},
+  {"t": "1885", "typ": "letopocet"},
+  {"t": "32", "typ": "cp"}
+]}

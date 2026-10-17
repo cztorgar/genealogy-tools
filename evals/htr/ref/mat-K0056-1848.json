@@ -1,0 +1,100 @@
+{
+ "tokens": [
+  {
+   "t": "Frantissek",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Josefa",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Haas",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Josef",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wrbický",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Jakuba",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wrbického",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Kateřiny",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Anna",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Slaniny",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Klajnerowé",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Kathařina",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wrbická",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Hradecká",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Žiželic",
+   "typ": "misto"
+  },
+  {
+   "t": "1848",
+   "typ": "letopocet"
+  },
+  {
+   "t": "53",
+   "typ": "cp"
+  },
+  {
+   "t": "49",
+   "typ": "cp"
+  },
+  {
+   "t": "240",
+   "typ": "cp"
+  },
+  {
+   "t": "26",
+   "typ": "cp"
+  },
+  {
+   "t": "17",
+   "typ": "cp"
+  },
+  {
+   "t": "247",
+   "typ": "cp"
+  },
+  {
+   "t": "27",
+   "typ": "cp"
+  },
+  {
+   "t": "188",
+   "typ": "cp"
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{"tokens": [
+  {"t": "Lisovice", "typ": "misto"},
+  {"t": "Jindřich", "typ": "jmeno"},
+  {"t": "Čížek", "typ": "prijmeni"},
+  {"t": "Karel", "typ": "jmeno"},
+  {"t": "Kačena", "typ": "prijmeni"},
+  {"t": "Petr", "typ": "jmeno"},
+  {"t": "Jan", "typ": "jmeno"},
+  {"t": "Kočovský", "typ": "prijmeni"},
+  {"t": "Marie", "typ": "jmeno"},
+  {"t": "Čížkova", "typ": "prijmeni"},
+  {"t": "Josef", "typ": "jmeno"},
+  {"t": "Růžena", "typ": "jmeno"},
+  {"t": "František", "typ": "jmeno"},
+  {"t": "Žáček", "typ": "prijmeni"},
+  {"t": "Sedlák", "typ": "prijmeni"},
+  {"t": "Bohumil", "typ": "jmeno"},
+  {"t": "Václav", "typ": "jmeno"}
+]}

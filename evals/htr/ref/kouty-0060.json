@@ -1,0 +1,17 @@
+{"tokens": [
+  {"t": "Jan", "typ": "jmeno"},
+  {"t": "Renč", "typ": "prijmeni"},
+  {"t": "Rezníček", "typ": "prijmeni"},
+  {"t": "Václav", "typ": "jmeno"},
+  {"t": "Sodoma", "typ": "prijmeni"},
+  {"t": "Strašrybka", "typ": "prijmeni"},
+  {"t": "Hanuš", "typ": "jmeno"},
+  {"t": "Karlík", "typ": "prijmeni"},
+  {"t": "Loučeni", "typ": "misto"},
+  {"t": "Poděbradech", "typ": "misto"},
+  {"t": "Záhornici", "typ": "misto"},
+  {"t": "Křinci", "typ": "misto"},
+  {"t": "Nymburce", "typ": "misto"},
+  {"t": "Úmyslovicích", "typ": "misto"},
+  {"t": "1910", "typ": "letopocet"}
+]}

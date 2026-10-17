@@ -1,0 +1,12 @@
+{"tokens": [
+  {"t": "Františku", "typ": "jmeno"},
+  {"t": "Komanovi", "typ": "prijmeni"},
+  {"t": "Josefu", "typ": "jmeno"},
+  {"t": "Dominiku", "typ": "jmeno"},
+  {"t": "Ježkovi", "typ": "prijmeni"},
+  {"t": "Horčápsku", "typ": "misto"},
+  {"t": "Blatné", "typ": "misto"},
+  {"t": "14", "typ": "cp"},
+  {"t": "20", "typ": "cp"},
+  {"t": "1921", "typ": "letopocet"}
+]}

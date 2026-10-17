@@ -45,8 +45,21 @@ def load_manifest() -> dict:
     return m
 
 
+def strip_markup(s: str) -> str:
+    """Značky přepisu (docs/metodika/prepis.md) pryč, ať CER měří čtení, ne značení: [okraj: x] → x,
+    [přeškrtnuto: …] → pryč, {^x^} → x, [a/b?] → a, [x?] → x, [?] → pryč."""
+    s = re.sub(r"\[(?:přeškrtnuto)[^\]]*\]", " ", s)
+    s = re.sub(r"\[(?:okraj|jiná ruka|vybledlé):\s*([^\]]*)\]", r"\1", s)
+    s = re.sub(r"\[(?:poškozeno)\]", " ", s)
+    s = re.sub(r"\{\^(.*?)\^\}", r"\1", s)
+    s = re.sub(r"\[([^\]/?]+)/[^\]]*\?\]", r"\1", s)
+    s = re.sub(r"\[([^\]?]+)\?\]", r"\1", s)
+    s = re.sub(r"\[\?\]", " ", s)
+    return s
+
+
 def norm(s: str) -> str:
-    s = unicodedata.normalize("NFC", s).casefold()
+    s = unicodedata.normalize("NFC", strip_markup(s)).casefold()
     return re.sub(r"\s+", " ", s).strip()
 
 
@@ -159,7 +172,7 @@ def cmd_score(a: argparse.Namespace) -> int:
     lines = [f"### {a.tool or res.name}", "",
              "| skupina | stran | CER | WER | recall přesně | recall ±1 | jména | příjmení | letopočty | č. p. |",
              "|---|---|---|---|---|---|---|---|---|---|"]
-    order = [g for g in ("latinka20", "kurent19", "kurent18", "matrika-kurent") if g in acc] + ["CELKEM"]
+    order = [g for g in ("latinka20", "latinka19", "kurent19", "kurent18", "matrika-kurent") if g in acc] + ["CELKEM"]
     for grp in order:
         if grp not in acc:
             continue

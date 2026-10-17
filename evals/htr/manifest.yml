@@ -158,7 +158,7 @@ polozky:
     citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 8. Online: https://ebadatelna.soapraha.cz/a/3345/8, cit. 17. 10. 2026."
     obrazek: umyslovice/a3345_0008.jpg
     vyrez: [153, 160, 1682, 1600]
-    poznamka: "písmo ověřit"
+    poznamka: "kurent, česky bratrským pravopisem (ověřeno)"
     ref: ref/umyslovice-0008.txt
     klic: ref/umyslovice-0008.json
   - id: umyslovice-0025
@@ -170,11 +170,11 @@ polozky:
     citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 25. Online: https://ebadatelna.soapraha.cz/a/3345/25, cit. 17. 10. 2026."
     obrazek: umyslovice/a3345_0025.jpg
     vyrez: [158, 160, 1739, 1600]
-    poznamka: "písmo ověřit; seznam"
+    poznamka: "kurent, česky; ceník (ověřeno)"
     ref: ref/umyslovice-0025.txt
     klic: ref/umyslovice-0025.json
   - id: umyslovice-0045
-    skupina: kurent19
+    skupina: latinka19
     typ: archivalie
     archivalie_id: 3345
     snimek: 45
@@ -182,11 +182,11 @@ polozky:
     citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 45. Online: https://ebadatelna.soapraha.cz/a/3345/45, cit. 17. 10. 2026."
     obrazek: umyslovice/a3345_0045.jpg
     vyrez: [1976, 160, 1858, 1600]
-    poznamka: "písmo ověřit (možná latinka)"
+    poznamka: "latinka 19. stol. (ověřeno při ref. přepisu)"
     ref: ref/umyslovice-0045.txt
     klic: ref/umyslovice-0045.json
   - id: umyslovice-0060
-    skupina: kurent19
+    skupina: latinka19
     typ: archivalie
     archivalie_id: 3345
     snimek: 60
@@ -194,7 +194,7 @@ polozky:
     citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 60. Online: https://ebadatelna.soapraha.cz/a/3345/60, cit. 17. 10. 2026."
     obrazek: umyslovice/a3345_0060.jpg
     vyrez: [119, 160, 1779, 1600]
-    poznamka: "písmo ověřit (možná latinka)"
+    poznamka: "latinka 19. stol. (ověřeno při ref. přepisu)"
     ref: ref/umyslovice-0060.txt
     klic: ref/umyslovice-0060.json
   - id: ziz-0020

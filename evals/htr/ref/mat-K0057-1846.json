@@ -1,0 +1,92 @@
+{
+ "tokens": [
+  {
+   "t": "Anna",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Josefa",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Haas",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Wáclaw",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Nowotný",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Nowotného",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Loukonos",
+   "typ": "misto"
+  },
+  {
+   "t": "Magdaleny",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Howorkowé",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Františka",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Klicpery",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Doroty",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Wackowé",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Barbora",
+   "typ": "jmeno"
+  },
+  {
+   "t": "Kudrnowá",
+   "typ": "prijmeni"
+  },
+  {
+   "t": "Žiželic",
+   "typ": "misto"
+  },
+  {
+   "t": "224",
+   "typ": "cp"
+  },
+  {
+   "t": "20",
+   "typ": "cp"
+  },
+  {
+   "t": "10",
+   "typ": "cp"
+  },
+  {
+   "t": "171",
+   "typ": "cp"
+  },
+  {
+   "t": "59",
+   "typ": "cp"
+  },
+  {
+   "t": "86",
+   "typ": "cp"
+  }
+ ]
+}
