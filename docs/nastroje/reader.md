@@ -83,3 +83,19 @@ dvojstrana (3300×2352 → 3200×2281, ~7 200 dlaždic) ≈ +$0.015 vstupu naví
 
 Obecně: OpenAI na kurentu občas vymýšlí jména (Wejmola, Skorvindová…) — jako kontrolní hlas je užitečné
 (odhalilo záměnu ohlášky a sňatku), jako jediný zdroj ne.
+
+## Claude Sonnet × Opus jako čtenář (slepý test 2026-10-17)
+
+10 výřezů s přepisem ověřeným uživatelem (N/O/Z 1808–1915, kurent, latinka; Žiželice, Chlumec), oba modely bez přístupu
+k přepisům, porovnání `compare.py` po klíčových polích (jména, data, č. p., rodiče):
+
+| model | shoda | podobné | neshoda | chybí |
+|---|---|---|---|---|
+| Opus | **36** (58 %) | 11 | **12** | 3 |
+| Sonnet | 21 (34 %) | 11 | **23** | 7 |
+
+Typické chyby Sonnetu: systematicky „Urbický“ místo „Wrbický“, špatná čísla domů (208 × 168, 53 × 224), posunutá data
+(2. × 7. 10.), **vymyšlená nevěsta** v O 1808 („Barbora dcera Jana Klingauera“). Opus chybuje hlavně v nečitelných místech
+a v doplňcích (svědci, kmotři); část jeho „neshod“ je artefakt porovnání (delší raw, přeškrtnutí).
+**Závěr:** čtení rukopisu a rozhodování o totožnosti = Opus. Sonnet jen na práci bez čtení kurentu (rešerše, index pramenů,
+místopis, nástroje, příběhy z hotových dat, řízení OpenAI čtení). Výsledky: scratchpad managera, `sonnet-test/`.

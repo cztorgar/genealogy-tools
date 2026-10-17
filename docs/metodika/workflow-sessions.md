@@ -207,3 +207,10 @@ Nečinná session drží v paměti celý Claude Code proces. Proto: **session, k
 do `~/.cache/genealogy-workbench/parked.tsv` a zavře tab. **Obnova s celým kontextem:** `tools/sessions/unpark.sh <jméno> ["zpráva"]`
 (`claude --resume <id>` v novém tabu se stejným názvem). Seznam: `unpark.sh --list`. Pauza kvůli limitu účtu = pauza → potvrzení
 session → zaparkovat; po resetu limitu unpark. Pozor: obnovená session běží na **aktuálně aktivním** účtu.
+
+## Volba modelu session
+
+- **Opus:** výzkumné větve (čtou kurent = jedno ze dvou nezávislých čtení, rozhodují totožnost), manager, review.
+- **Sonnet** (`-- --model sonnet` při startu): index pramenů a místopis, dashboard a nástroje, zpětné Kontexty/příběhy z hotových
+  patchů, reader-backlog (čte OpenAI), přepis rejstříků jen tam, kde je zápis potom ověřen. Důvod: slepý test 2026-10-17
+  (`docs/nastroje/reader.md`) — Sonnet čte kurent výrazně hůř (34 % × 58 % shod, vymýšlí jména).
