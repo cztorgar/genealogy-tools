@@ -4,8 +4,22 @@ Každý přepsaný záznam = `transcriptions/<id>.md` + `transcriptions/<id>.jso
 
 ## Čtyři vrstvy (nikdy nemíchat)
 
-1. **Doslovný přepis** — přesně jak je napsáno, včetně pravopisu, zkratek a chyb; nečitelné `[?]`,
-   nejisté `[Wáclaw?]`, doplněné `[…]`.
+1. **Doslovný přepis** — přesně jak je napsáno, včetně pravopisu, zkratek a chyb. Značky (jednotně pro Claude, OpenAI
+   i ruční přepis — porovnání čtení na nich stojí):
+
+   | značka | význam |
+|---|---|
+   | `[?]` | nečitelné slovo / znaky (`Wa[?]lav` = část slova) |
+   | `[Wáclaw?]` | nejisté čtení jedné varianty |
+   | `[Jan/Jiří?]` | dvě (víc) možná čtení, nerozhodnuto |
+   | `[…]` | doplněno přepisovatelem (zkratka, chybějící písmeno) |
+   | `{^Vávra^}` | vpisek nad řádkem / dodatečně vepsáno |
+   | `[přeškrtnuto: Wáclaw]` | přeškrtnutý text (pokud čitelný; jinak `[přeškrtnuto: ?]`) |
+   | `[okraj: …]` | přípisek na okraji / v jiné rubrice |
+   | `[jiná ruka: …]` | zápis jinou rukou nebo inkoustem (pozdější přípisek) |
+   | `[vybledlé: …]`, `[poškozeno]` | čitelnost omezená stavem listu |
+
+   Nejistotu nikdy neskrývat normalizací — nejisté místo zůstane označené i v `raw`.
 2. **Normalizace** — rozvedené zkratky, dnešní pravopis jmen a míst.
 3. **Překlad** — z latiny / němčiny do češtiny.
 4. **Interpretace** — co z toho plyne pro strom (kdo je kdo, vazby). Jen tady je místo pro úvahy.

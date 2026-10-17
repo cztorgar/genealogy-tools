@@ -226,8 +226,7 @@ def dossier(tree: Tree, pid: str, rel: str, indi: Node, idmap: dict[str, str]) -
     lines += ["", DOCS_HEADING, "", DOCS_HINT, ""]
     lines += ["", DEFERRED_HEADING, "", DEFERRED_HINT, ""]
     lines += ["", "## Log hledání", "",
-              "*Formát: `- YYYY-MM-DD | pramen (archiv, svazek, roky, snímky) | výsledek | odkaz`. "
-              "Zapisovat i „nenalezeno“.*", "",
+              "*Formát: `- YYYY-MM-DD | pramen (archiv, svazek, roky, snímky; hledané jméno + varianty) | výsledek | odkaz`. Zapisovat i „nenalezeno“ — u nenalezeného navíc `| proč na absenci záleží | příště zkusit`.*", "",
               "## Výzkum", "", "*(zjištění, rozbor rozporů, závěry — odkazy na přepisy a patche)*", ""]
     return "\n".join(lines)
 

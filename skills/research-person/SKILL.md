@@ -163,3 +163,9 @@ kmotři, stěhování, gramotnost, zajímavosti o obci) — hned, ne až na konc
 Když se linie nebo osoba zastaví (nic dál nejde, nebo končíš session), zapiš do dossieru poslední osoby sekci
 `## Závora` — kde to končí, proč (typ závory), co bylo prohledáno bez výsledku, co by ji prolomilo a s jakou šancí.
 Formát: `docs/metodika/workflow-sessions.md`, oddíl Závora.
+
+## Log hledání — negativní výsledky
+
+U každého „nenalezeno“ (dossier `## Log hledání` i `research/log.md`) uveď kromě rozsahu i **hledané jméno a varianty**,
+**proč na absenci záleží** (co z ní plyne — např. „rodina se přistěhovala“, „křest bude jinde“) a **co zkusit příště**.
+Přepis: jednotné značky nejistoty z `docs/metodika/prepis.md` (`[?]`, `[a/b?]`, `{^vpisek^}`, `[přeškrtnuto: …]`, `[okraj: …]`).

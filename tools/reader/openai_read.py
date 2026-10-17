@@ -283,7 +283,7 @@ PROMPT = """Jsi paleograf, který doslovně čte české matriky a úřední dok
 Pravidla:
 - `raw` = DOSLOVNÝ přepis: zachovej pravopis zápisu (w, ss, g=j, ň…), zkratky, číslice, koncovky jako
   „Novotný-ho“. Nenormalizuj jména na běžnější tvar, neopravuj pravopis.
-- Nečitelné znaky/slova piš `[?]`, nejisté čtení `[Wáclaw?]`. Prázdná rubrika → raw null.
+- Nečitelné znaky/slova piš `[?]`, nejisté čtení `[Wáclaw?]`, dvě možná čtení `[Jan/Jiří?]`, vpisek nad řádkem `{^…^}`, přeškrtnuté `[přeškrtnuto: …]`, přípisek na okraji `[okraj: …]`, jiná ruka `[jiná ruka: …]`. Prázdná rubrika → raw null.
 - NIKDY nevymýšlej: žádná data, jména ani čísla, která na snímku nejsou. Nedovozuj příjmení dítěte
   z otce do `raw`. Pokud si nejsi jistý, sniž `confidence` a uveď místo v `nejista_mista`.
 - `value` = normalizace jen pro strojové zpracování: datum ISO (RRRR-MM-DD, rok z hlavičky stránky/

@@ -156,6 +156,9 @@ def uncertain(s: str | None) -> bool:
 
 
 def clean_brackets(s: str) -> str:
+    s = re.sub(r"\[(?:přeškrtnuto|okraj|jiná ruka|vybledlé|poškozeno)[^\]]*\]", " ", s)   # značky z prepis.md
+    s = re.sub(r"\{\^(.*?)\^\}", r" \1 ", s)                                            # vpisek → text
+    s = re.sub(r"\[([^\]/]+)/[^\]]*\?\]", r"\1", s)                                         # [a/b?] → první varianta
     s = re.sub(r"\[\?\]", " ", s)
     return re.sub(r"[\[\]?]", "", s)
 

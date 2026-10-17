@@ -48,7 +48,7 @@ def main() -> int:
              "`[x]` doloženo · `[~]` slabý pramen · `[-]` hledáno, nenalezeno · `[n]` neexistuje · `[ ]` nehledáno", ""]
     lines += [f"- [ ] {it.label}{' — ' + note if note else ''}" for it, note in items]
     lines += ["", DOCS_HEADING, "", DOCS_HINT, "", DEFERRED_HEADING, "", DEFERRED_HINT, "",
-              "## Log hledání", "", "*Formát: `- YYYY-MM-DD | pramen | výsledek | odkaz`. Zapisovat i „nenalezeno“.*", "",
+              "## Log hledání", "", "*Formát: `- YYYY-MM-DD | pramen (archiv, svazek, roky, snímky; hledané jméno + varianty) | výsledek | odkaz`. Zapisovat i „nenalezeno“ — u nenalezeného navíc `| proč na absenci záleží | příště zkusit`.*", "",
               "## Výzkum", "", ""]
     path = people / f"{a.pid}-{slug(a.name)}.md"
     path.write_text("\n".join(lines), encoding="utf-8")
