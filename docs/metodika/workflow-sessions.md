@@ -166,3 +166,17 @@ Pravidla čtení, totožnosti, jistoty a **fronty kontrol** jsou v [`autonomie.m
 session uživateli nic ke kontrole do tabu neposílá. Co stroj nerozhodne, jde do `research/kontroly/` a
 uživatel to vyřizuje v dashboardu. Souhrnný patch má `status: schváleno` (hromadný souhlas) a manager ho
 aplikuje bez další kontroly. Poprvé: K0448–K0451, 2026-10-16.
+
+## Session větve
+
+Autonomní session nemusí být na jednu osobu: **session větve** zpracuje jednu rodovou linii **do hloubky**
+(otec → jeho otec …, u každé generace i manželku a vlastní sourozence z týchž matrik), protože generace
+jedné linie sdílejí farnost, svazky, rejstříky a čísla popisná. Do šířky (jiná příjmení, jiné farnosti)
+se větví nestaví — na to je další session. Pravidla čtení a jistoty: [`autonomie.md`](autonomie.md).
+
+- Píše do souborů osob své větve (dossiery, `sources/<ID>/`, `patches/P-<ID>-nn.yml`, `research/kontroly/`),
+  smí pouštět `tools/gramps/ensure_persons.py` a `tools/gramps/ensure_family.py --no-oral` pro osoby větve
+  (struktura bez faktů) a `tools/research/add_person.py` pro nové osoby větve. Fakta jen patchem přes managera.
+- **Patch po každé osobě** (ne až na konci větve) → manager aplikuje průběžně.
+- Konec: hranice pramenů, jiný archiv bez přístupu, rozpočet, nebo **plný kontext** — pak zapíše do dossieru
+  poslední osoby `## Předání` (co dál, kde) a ohlásí managerovi, ten otevře navazující session.
