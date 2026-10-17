@@ -83,6 +83,17 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 - Žijící osoby jen interně.
 - Závora: typ odpovídá (nedigitalizováno × nenalezeno × prohledáno jen rejstříkem); „co by ji prolomilo“ konkrétní.
 
+### G2. Příběhy proti datům (kontrola napříč soubory)
+- **Úplnost:** příběh osoby zmiňuje všechny doložené manžele a děti z Gramps (rodiny osoby) — chybějící dítě/manžel = nález
+  (případ 2026-10-17: K0120 Josef Doležal — v příběhu chyběli synové Jan a Václav).
+- **Zastaralé „Co nevíme“:** otázka, kterou mezitím rozhodla kontrola (`research/kontroly/*` stav zapracováno) nebo nový patch,
+  v příběhu nesmí zůstat jako otevřená (K0121: „Anna, nebo Magdalena?“ po rozhodnutí K0121-01).
+- **Role osob:** jména zmíněná v příběhu v jiné roli (porodní bába, kmotr, svědek) nesmí jít splést s rodiči — u stejného
+  příjmení/jména výslovně uvést roli (K0060: porodní bába Magdalena × matka Dorota).
+- **Shoda s dossierem:** jména a data v příběhu = hodnoty v Gramps (po přejmenování NN → příjmení, opravách dat).
+- Review session běží na **Opusu** (Sonnet čte data hůř — `docs/nastroje/reader.md`); pro tuhle kapitolu nejdřív vygenerovat
+  seznam rodin/dětí z Gramps a kontrol podle osoby, pak číst příběhy.
+
 ### H. Workbench
 - Metodika ↔ skilly ↔ nástroje si neodporují (autonomie R/I/D, pribehy, workflow, review).
 - Změny nástrojů v git logu: které ovlivnily už zapsaná data a jsou ošetřené (seznam „známé chyby a jejich dopad“ níže).
