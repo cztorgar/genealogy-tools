@@ -175,7 +175,7 @@ jedné linie sdílejí farnost, svazky, rejstříky a čísla popisná. Do ší�
 se větví nestaví — na to je další session. Pravidla čtení a jistoty: [`autonomie.md`](autonomie.md).
 
 - Píše do souborů osob své větve (dossiery, `sources/<ID>/`, `patches/P-<ID>-nn.yml`, `research/kontroly/`),
-  smí pouštět `tools/gramps/ensure_persons.py` a `tools/gramps/ensure_family.py --no-oral` pro osoby větve
+  o založení osob a rodin větve (`ensure_persons.py`, `ensure_family.py --no-oral`, `add_person.py`) žádá managera (session to auto-mode zamítá)
   (struktura bez faktů) a `tools/research/add_person.py` pro nové osoby větve. Fakta jen patchem přes managera.
 - **Patch po každé osobě** (ne až na konci větve) → manager aplikuje průběžně.
 - Konec: hranice pramenů, jiný archiv bez přístupu, rozpočet, nebo **plný kontext** — pak zapíše do dossieru
