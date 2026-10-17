@@ -47,6 +47,13 @@ def main(tree_dir: str, pids: list[str]) -> int:
         given, _, surname = full.rpartition(" ") if " " in full else ("", "", full)
         indi = ged.get(by_id.get(pid, ""))
         sex = indi.val("SEX") if indi else manual.get(pid, {}).get("sex", "")
+        # pozice v ID určuje pohlaví (otec -P1 / sudé Kekule = M, matka -P2 / liché = F) — MyHeritage se občas plete
+        pos = "M" if pid.endswith("-P1") else "F" if pid.endswith("-P2") else None
+        if re.fullmatch(r"K(\d{4})", pid) and int(pid[1:]) > 1:
+            pos = "M" if int(pid[1:]) % 2 == 0 else "F"
+        if pos and sex and sex != pos:
+            print(f"! {pid}: pohlaví z MyHeritage {sex} nesedí s pozicí v ID → {pos}")
+        sex = pos or sex
         uid = indi.val("_UID") if indi else ""
         existing = gw.person_by_gramps_id(pid)
         if existing:
