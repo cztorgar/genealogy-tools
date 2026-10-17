@@ -185,6 +185,22 @@ const ORIGIN = {
   pramen: { tag: "★P", cls: "o-pr", title: "nově objevená z pramene" },
   "ústně": { tag: "Ú", cls: "o-us", title: "ústní sdělení" },
 };
+// propojení větví z Gramps (S.links): osoba má rodiče z jiné větve ID → id → [popisy]
+const nm = (id) => `${(S.people[id] || {}).name || "?"} (${id})`;
+function linkText(l) {
+  return `${nm(l.child)} je v Gramps dítě ${l.parents.map(nm).join(" × ")}` +
+    (l.relation ? `\n→ ${nm(l.relation.a)} a ${nm(l.relation.b)}: ${l.relation.text}` : "\n→ stupeň příbuznosti nejde z ID spočítat");
+}
+function linksByPerson() {
+  const m = new Map();
+  for (const l of (S.links && S.links.links) || []) {
+    for (const id of [l.child, ...l.parents]) {
+      if (!m.has(id)) m.set(id, []);
+      m.get(id).push(l);
+    }
+  }
+  return m;
+}
 function matchesFilter(id, p) {
   const orig = $("#f-orig").value;
   if (orig && !(orig === "-" ? !(p && p["původ"]) : p && p["původ"] === orig)) return false;
@@ -219,6 +235,22 @@ function render() {
     }
   }
 
+  // propojení větví: čárkovaná spojnice dítě → skuteční rodiče (uzly se nekopírují)
+  const LBP = linksByPerson();
+  for (const l of (S.links && S.links.links) || []) {
+    const c = pos.get(l.child);
+    for (const pid of l.parents) {
+      const q = pos.get(pid);
+      if (!c || !q) continue;
+      const right = q.x >= c.x;
+      const x1 = right ? c.x + BW : c.x, y1 = c.y + BH / 2 + 6;
+      const x2 = right ? q.x : q.x + BW, y2 = q.y + BH / 2;
+      const dx = Math.max(60, Math.abs(x2 - x1) / 2) * (right ? 1 : -1);
+      const path = el("path", { class: "xlink", d: `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}` }, gE);
+      el("title", {}, path).textContent = "zhroucení předků: " + linkText(l);
+    }
+  }
+
   for (const [id, n] of pos) {
     const p = S.people[id] || null;
     const missing = !p;
@@ -231,7 +263,8 @@ function render() {
     tip.textContent = missing ? `${id} — nesáhnuto (${relLabel(id)})`
       : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}\nstav: ${stav}` +
         (p.kontext_missing && p.kontext_missing.length ? `\nchybí: ${p.kontext_missing.join(", ")} (docs/metodika/pribehy.md)` : "") +
-        (p.zavora ? `\n${zavoraTip(p.zavora)}` : "");
+        (p.zavora ? `\n${zavoraTip(p.zavora)}` : "") +
+        (LBP.has(id) ? `\nzhroucení předků:\n${LBP.get(id).map(linkText).join("\n")}` : "");
 
     const name = missing ? "nesáhnuto" : (p.name || "(bez jména)");
     const o = p && ORIGIN[p["původ"]];
@@ -257,6 +290,11 @@ function render() {
       const k = p.kontroly;
       if (p.kontext_missing && p.kontext_missing.length) {
         el("tspan", { class: "nokx" }, bt).textContent = `${bt.textContent ? "  " : ""}∅📖`;
+      }
+      if (LBP.has(id)) {
+        const xs = el("tspan", { class: "xl" }, bt);
+        xs.textContent = `${bt.textContent ? "  " : ""}⇄`;
+        el("title", {}, xs).textContent = "zhroucení předků:\n" + LBP.get(id).map(linkText).join("\n\n");
       }
       if (p.zavora) {
         const zs = el("tspan", { class: p.zavora.prolomeno ? "zav broken" : "zav" }, bt);
@@ -408,6 +446,16 @@ function renderZavory() {
 document.addEventListener("change", (ev) => {
   if (ev.target.id === "zav-typ") { store.set("zav-typ", ev.target.value); renderOverview(); }
 });
+function renderLinks() {
+  const L = S.links || {};
+  const err = L.error ? `<li class="empty" title="${esc(L.error)}">Gramps nedostupný — ${L.links && L.links.length ? "poslední známý stav" : "nic"}</li>` : "";
+  if (!L.links || !L.links.length) return err || `<li class="empty">žádné (Gramps ${esc(L.at || "?")})</li>`;
+  return err + L.links.map((l) => `<li>${personLabel(l.child)} <span class="xl">⇄</span> dítě ${l.parents.map(personLabel).join(" × ")}
+    <br><small>${l.relation ? `${personLabel(l.relation.a)} a ${personLabel(l.relation.b)}: <b>${esc(l.relation.text)}</b>`
+      : "stupeň příbuznosti nejde z ID spočítat"}</small>
+    <br><small class="path">${esc(l.family || "")} · podle ID by rodiče byli ${l.id_parents.map(esc).join(" / ")}</small></li>`).join("")
+    + `<li class="empty"><small>z Gramps ${esc(L.at || "")}, obnova po 5 min</small></li>`;
+}
 function personLabel(id) {
   const p = S.people[id];
   return `<span class="pid" data-pid="${id}">${id}</span> ${esc(p ? p.name : "")}`;
@@ -443,6 +491,7 @@ function renderOverview() {
   $("#overview").innerHTML = `
     <h3>Běžící session</h3><ul>${ses}</ul>
     <h3>Patche čekající</h3><ul>${pat}</ul>
+    <h3>Propojení větví</h3><ul class="xlinks">${renderLinks()}</ul>
     <h3>Závory</h3><ul class="zavory">${renderZavory()}</ul>
     <h3>Sdílené seznamy</h3><ul>${todos}</ul>
     <h3>Doklady k dohledání</h3><ul>${dok}</ul>
@@ -455,7 +504,7 @@ function renderLegend() {
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
-    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <span class="zav">⛔</span> závora · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
+    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <span class="zav">⛔</span> závora · <span class="xl">⇄</span> <span style="color:#c2185b">┄</span> propojení větví (rodiče z Gramps z jiné větve ID) · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>původ: ${Object.values(ORIGIN).map((o) => `<b class="orig-l ${o.cls}">${o.tag}</b> ${o.title}`).join(" · ")}</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;

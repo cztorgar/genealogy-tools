@@ -37,6 +37,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 import yaml
 
 import evidence
+import gramps_links
 import kontroly
 import mapdata
 
@@ -354,6 +355,7 @@ class Tree:
         self.root = root
         self.name = root.name
         self.gramps_url = gramps_url.rstrip("/")
+        self.links = gramps_links.Links(WORKBENCH)   # propojení větví z Gramps (jen čtení, cache v paměti)
         self._herdr = (0.0, [])
         self._herdr_lock = threading.Lock()
         self._prompt_roots: dict[tuple[str, str], str | None] = {}
@@ -387,6 +389,7 @@ class Tree:
                     continue
                 h.update(f"{p}:{st.st_mtime_ns}:{st.st_size}\n".encode())
         h.update(json.dumps(sessions, sort_keys=True).encode())
+        h.update(json.dumps(self.links.get(), sort_keys=True).encode())
         return h.hexdigest()[:16]
 
     # --- herdr session
@@ -598,6 +601,7 @@ class Tree:
             "doklady": self.doklady_summary(),
             "kontroly": checks,
             "counts": counts,
+            "links": self.links.get(),
             "states": STATES,
         }
 
