@@ -214,6 +214,12 @@ eBadatelna SOA Praha, kategorie *Města a obce*, fond **Archiv města Žiželice
 - Privilegijní listiny (1670–1796) se týkají práv městečka. Genealogicky jsou okrajové.
 - **Nedigitalizováno**: kronika 20. století a domovská matrika. Jsou jen v badatelně SOA Praha nebo
   v SOkA Kolín, to je potřeba ověřit.
+- **Doplnění 2026-10-17:** podle detailu archiválie leží fond **Archiv města Žiželice** ve **SOkA
+  Kolín (NAD 350)**, ne přímo v SOA Praha. eBadatelna je společný portál. **Doloženo.** Další
+  digitalizované nematriční prameny celé oblasti jsou v indexu
+  [docs/prameny/digitalizovane/zizelicko.md](../../prameny/digitalizovane/zizelicko.md). Hlavní z nich
+  jsou **sčítací operáty 1869–1921** všech osad fary v ARONu (SOkA Hradec Králové, fond Okresní úřad
+  Nový Bydžov).
 
 ## 8. Mapy a čísla popisná
 
