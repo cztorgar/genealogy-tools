@@ -13,8 +13,8 @@ a strojově v `mcp/czech-archives/gazetteer/chlumecko.yml` (oddíl `places`).
 - **Datace:** otisky pro Čechy pocházejí z let 1826–1843 (metadata
   https://geoportal.gov.cz/php/micka/record/basic/CZ-CUZK-COC-R). Pro Chlumecko lze čekat kolem roku
   1840 — **neověřeno**.
-- **Konkrétní listy (signatura, rok) pro Chlumec, Lučice, Kladruby, Žiželice a další obce:
-  nenalezeno.** Bez prohlížeče to nejde:
+- **Konkrétní listy (signatura, rok):** doplněny 2026-10-17 přes prohlížeč (tabulka níže). Z příkazové
+  řádky to nejde:
   - mapové služby `ags.cuzk.gov.cz/arcgis4/rest/services/Archiv/*` chtějí token aplikace;
   - digitální badatelna ÚAZK má anti-bot ochranu, kterou jsem neobcházel.
 - **Postup ručně:**
@@ -25,18 +25,49 @@ a strojově v `mcp/czech-archives/gazetteer/chlumecko.yml` (oddíl `places`).
      Objednací kód listu má tvar `NNNN-NNN` (číslo mapy, číslo listu). **Doloženo** z kódu aplikace,
      hodnoty jsem nevyplňoval.
   5. Rok a signaturu zapsat do tabulky níže a do `chlumecko.yml`.
-- **Pozor:** katastrální obec ze 40. let 19. stol. se nemusí krýt s dnešním KÚ. Kladruby dnes leží
-  v KÚ Chlumec nad Cidlinou (651800), tehdy mohly mít vlastní katastrální obec — **neověřeno**.
+- **Pozor:** katastrální obec ze 40. let 19. stol. se nekryje s dnešním KÚ. Kladruby dnes leží
+  v KÚ Chlumec nad Cidlinou (651800), roku 1841 ale patřily (i s Pamětníkem) do **k. o. Lučice**;
+  Tetov a Bílé Vchynice do k. o. Kundratice — **doloženo** (tabulka níže).
 - **Licence:** dataset je poskytován podle zákona 645/2004 (e-shop ČÚZK, produkt 63811). Prohlížení
   je volné, převzetí rastrů pro vlastní web je třeba ověřit. **Pravděpodobně.**
 
-| KÚ (dnes) | kód | rok otisku | signatura / list | pozn. |
-|---|---|---|---|---|
-| Chlumec nad Cidlinou | 651800 | ? | ? | vč. Kladrub |
-| Lučice u Chlumce nad Cidlinou | 688291 | ? | ? | „Lučice“ 688282 je jiná obec |
-| Pamětník | 717533 | ? | ? | |
-| Žiželice nad Cidlinou | 797481 | ? | ? | |
-| … ostatní viz [obce.md](obce.md) | | | | doplnit ručně |
+**Doplněno 2026-10-17** pro obce s adresami ve stromu (zadání místopis-adresy). Zdroj: aplikace
+Archiv ČÚZK, klik do mapy na bod adresního místa RÚIAN (souřadnice z `chlumecko-cp.csv`); aplikace
+při tom dotazuje vrstvu `arcgis4/rest/services/Archiv/klady/MapServer/3` (pole `cio_*`, `om_*`,
+`kme_*`, `S0X`). 24 dotazů ručně/po jednom s pauzou 2,5 s. **Doloženo.**
+
+Sloupce: **mapa** = číslo mapy SK (`AEC`); **otisk** = signatura císařského otisku (`cio_SIGN_INV`),
+listy jsou `<signatura>_1` … `_n`; **originál** = originální mapa SK (`om_SIGN_NOMEN`) a rok
+reambulance; **KME** = katastrální mapa evidenční (roky); **skica** = pole `S0X`, podle tvaru
+(kraj BYD = Bydžovský, číslo obce, rok 1841) **pravděpodobně** signatura indikační skici v NA —
+ověřit objednávkou.
+
+| k. o. 1841 (název na otisku) | dnešní KÚ | mapa | otisk (rok, listů) | originál, reambulace | KME | skica (`S0X`) | pozn. |
+|---|---|---|---|---|---|---|---|
+| Chlumec n. Cidl. — *Chlumetz (Chlumec)* | Chlumec nad Cidlinou 651800 | 2525-1 | B2_a_6C_2525-1 (1841, 8) | B2_a_4C_898, 1878 | 1906–1934 | BYD064018410 | město + 3 předměstí |
+| Lučice — *Lutschitz (Luczitz)* | Lučice u Chlumce n. C. 688291 | 4287-1 | B2_a_6C_4287-1 (1841, 4) | B2_a_4C_3952, 1877 | 1895–1944 | BYD243018410 | **zahrnuje Kladruby (dnes KÚ Chlumec) i Pamětník (dnes vlastní KÚ)** |
+| Převýšov — *Przebeischow (Přebegssow)* | Převýšov 735299 | 6221-1 | B2_a_6C_6221-1 (1841, 4) | B2_a_4C_5836, 1873 | 1895–1939 | BYD322018410 | |
+| Olešnice nad Cidlinou — *Wolleschnitz (Wollessnice)* | Olešnice n. C. 710351 | 5445-1 | B2_a_6C_5445-1 (1841, 3) | B2_a_4C_8388, 1877 | — | BYD449018410 | potvrzuje tvar „Volešnice“ |
+| Levín nad Cidlinou — *Lewin* | Levín n. C. 710342 | 3900-1 | B2_a_6C_3900-1 (1841, 2) | B2_a_4C_3593, 1875 | — | BYD213018410 | |
+| Písek u Chlumce n. C. — *Pisek* | Písek u Chlumce n. C. 720917 | 5780-1 | B2_a_6C_5780-1 (1841, 3) | B2_a_4C_5461, 1877 | 1877–1939 | BYD300018410 | |
+| Chudeřice — *Chuderzitz* | Chudeřice 654787 | 2674-1 | B2_a_6C_2674-1 (1841, 1) | B2_a_4C_2724, 1876 | — | BYD077018410 | |
+| Strašov — *Straschow (Strassow)* | Strašov 756318 | 7393-1 | B2_a_6C_7393-1 (1841, 6) | B2_a_4C_7288, 1876 | — | BYD385018410 | |
+| Vápno u Přelouče — *Wapno* | Vápno u Přelouče 776955 | 8330-1 | B2_a_6C_8330-1 (1841, 2) | B2_a_4C_8038, 1875 | — | BYD419018410 | |
+| Újezd u Přelouče — *Augezd* | Újezd u Přelouče 773689 | 8205-1 | B2_a_6C_8205-1 (1841, 3) | B2_a_4C_5254, 1876 | — | BYD007018410 | |
+| Komárov — *Komarow* | Komárov u Přelouče 668702 | 3300-1 | B2_a_6C_3300-1 (1841, 3) | B2_a_4C_3023, 1876 | — | BYD177018410 | bod Komárov čp. 1 padá do k. o. Kolesa |
+| Kolesa — *Kolles* | Kolesa 668079 | 3279-1 | B2_a_6C_3279-1 (1841, 5) | B2_a_4C_3002, 1876 | — | BYD176018410 | |
+| Kundratice u Žiželic — *Kundratitz* | Kundratice 797456, **Tetov 766968, Bílé Vchynice 604143** | 3698-1 | B2_a_6C_3698-1 (1841, 5) | B2_a_4C_3375, 1876 | 1895–1949 | BYD201018410 | Tetov a Bílé Vchynice 1841 bez vlastní k. o. |
+| Vlkov nad Lesy — *Wlkow* | Vlkov nad Lesy 603171 | 8703-1 | B2_a_6C_8703-1 (1841, 5) | B2_a_4C_8322, 1873 | — | BYD442018410 | 1841 v Bydžovském kraji |
+| Žiželice nad Cidlinou | 797481 | ? | ? | | | | viz [zizelice/mapy.md](../zizelice/mapy.md) |
+| Pamětník (dnešní KÚ 717533) | | — | — | | | | 1841 součást k. o. Lučice (viz výše) |
+
+Datace „1826–1843, pro Chlumecko neověřeno“ výše je tím pro tyto obce **upřesněna na 1841**.
+„Lučice“ 688282 v RÚIAN je jiná obec (u Chotěboře) — v tabulce je jen 688291.
+
+**Oblasti pro `tools/mapy/stahni.py`:** `tools/mapy/oblasti/chlumecko.geojson` (Chlumec, Lučice,
+Pamětník, Olešnice, Levín, Písek, Chudeřice) a `vapensko.geojson` (Strašov, Vápno, Újezd, Komárov,
+Kolesa, Tetov, Bílé Vchynice) — hranice k. ú. z RÚIAN 2026-10-17. Dlaždice stažené nejsou (rozhodne
+manager). Vlkov nad Lesy (jediná adresa, 7 km severně) do oblastí nezahrnut.
 
 ## 2. Vojenská mapování
 

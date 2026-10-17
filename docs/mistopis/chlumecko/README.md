@@ -15,6 +15,8 @@ Rešerše 2026-10-16. Bez osobních dat.
 - [ostatni-prameny.md](ostatni-prameny.md) — sčítání 1869–1921 po obcích, panství Chlumec (fondy),
   pozemkové knihy, kroniky, berní rula
 - [mapy.md](mapy.md) — císařské otisky, vojenská mapování, propojení čp. ↔ mapa, návrh mapové vrstvy
+- [cisla-popisna.md](cisla-popisna.md) — čísla popisná: dnešní body (RÚIAN), rozsahy řad ze sčítání
+  1869–1921, čtvrti Chlumce I–IV, katastrální obce 1841; strojově `gazetteer/chlumecko-cp.csv`
 - strojově: `mcp/czech-archives/gazetteer/chlumecko.yml` (farnosti → obce → svazky s ID; `places`
   se souřadnicemi; `census`)
 

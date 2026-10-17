@@ -72,7 +72,7 @@ Zámrsk (ARON), **P** = SOA Praha (eBadatelna).
 | Chýšť | Chýšť, Pardubice | 655686 | 50.1282, 15.5414 | Vápno (Z) | Chlumec | obec |
 | Malé Výkleky | Malé Výkleky, Pardubice | 655694 | 50.1194, 15.5386 | Vápno (Z) | Chlumec | osada Vápna 1868–1903 |
 | Strašov | Strašov, Pardubice | 756318 | 50.0875, 15.5228 | Vápno (Z) | Hradišťko → Chlumec | nenalezeno |
-| Újezd (u Přelouče) | Újezd u Přelouče, Pardubice | 773689 | 50.1020, 15.4946 | Žiželice → Vápno od 1721 (Z) | Chlumec | obec (se Štítem do 1904) |
+| Újezd u Přelouče (Oujezd) | Újezd u Přelouče, Pardubice | 773689 | 50.1020, 15.4946 | Žiželice → Vápno od 1721 (Z) | Chlumec | obec (se Štítem do 1904) |
 | Komárov | č. o. Kladruby n. L., Pardubice | 668702 | 50.0889, 15.4914 | Vápno (Z) | Hradišťko → Chlumec | obec (s Kolesy do 1930) |
 | Kolesa | č. o. Kladruby n. L., Pardubice | 668079 | 50.0858, 15.4769 | stř. fara → Vápno (Z) | Hradišťko → Chlumec | osada Komárova do 1930 |
 | **Žiželice** (Končice, Kundratice, Zbraň, Korce) | Žiželice, Kolín | 797481 | — | Žiželice od 1798 (P) | Hradišťko → Chlumec 1547 | viz [../zizelice/](../zizelice/README.md) |
@@ -130,6 +130,47 @@ V pramenech se objevuje holé „Lhotka“. Kandidáti:
 V dnešním Chlumci část „Lhotka“ podle RÚIAN neexistuje. **Doloženo.** Rozhodne kontext záznamu
 (fara, čp., sousední vsi).
 
+### Mimo oblast — jen místo událostí
+
+Obce, které nepatří k Chlumecku, ale objevují se v adresách stromu jako místo události (sňatek).
+Souřadnice = střed k. ú. (RÚIAN, obálka), slouží jen pro mapu.
+
+| Obec | Dnes | KÚ | lat, lon | Pozn. |
+|---|---|---|---|---|
+| Hradec Králové | statutární město, HK (obec 569810) | 646873 | 50.2112, 15.8331 | jen sňatky 1921, viz níže |
+
+**Hradec Králové — sňatky 1921 snoubenců z Chlumecka.** Kde se v Hradci 1921 oddávalo
+(katalog ARON, svazky oddaných pokrývající rok 1921, rešerše 2026-10-17; **doloženo**):
+
+| Původce | Vyznání | Svazek (sign.) | Roky | Pozn. |
+|---|---|---|---|---|
+| Děkanský úřad Hradec Králové (sv. Ducha) | ř. k. | 51-8109, pův. sign. „L.a.“, 401 fol. | 1907 – 8/1925 | jediný hradecký ř. k. svazek O s více než 263 folii |
+| Farní úřad Kukleny (Pražské Předměstí, Farářství, Šosteny, Temešvár) | ř. k. | 80-8106, pův. „XXVIII.“, 111 fol. | 8/1912 – 10/1933 | |
+| Okresní správa politická Hradec Králové | **civilní** | 8110, pův. „II.“ | 7/1919 – 8/1924 | civilní sňatky s. o. Hradec a Nechanice |
+| CČS, náboženská obec Hradec Králové | čsl. | 8114 | 4/1921 – 11/1923 | církev vznikla 1920 |
+| ČCE, farní sbor Hradec Králové | ev. | 8117 | 1920–1929 | |
+| Ev. a. v. Hradec Králové | ev. a. v. | 9721 | 1899–1923 (O jen 1903–1919) | 1921 už O nevede |
+
+Výklad pro Chlumecko (**pravděpodobně**):
+- Civilní sňatek se uzavíral u okresní správy politické **příslušné podle bydliště snoubenců**, tedy pro
+  Chlumecko v Novém Bydžově (civilní matrika OH/OSP Nový Bydžov, sign. 8717 aj., viz
+  [farnosti/evangelici-civilni-csl.md](farnosti/evangelici-civilni-csl.md)), ne v Hradci.
+- Přípis „Kopul. v Hradci Král. … Tom. XVIII fol. 263“ v ř. k. matrice narozených (Vápno) ukazuje na
+  **církevní** sňatek (kopulace) v ř. k. matrice o aspoň 263 foliích — z hradeckých svazků 1921 tomu
+  vyhovuje jen **děkanství** (51-8109). Číslo „Tom. XVIII“ se s pův. signaturou „L.a.“ neshoduje, proto
+  jen pravděpodobně; ověřit na snímku svazku 51-8109 kolem fol. 263.
+- Vojenská duchovní správa (posádka Hradec Králové) vedla vlastní matriky; po 1918 jsou ve Vojenském
+  historickém archivu, ne v ARONu. Přichází v úvahu, když byl ženich voják. **Neověřeno.**
+- Proč Hradec: v ř. k. praxi se oddávalo ve farnosti nevěsty; sňatek mimo ni vyžadoval propouštěcí
+  list (dimissoriale) — typicky když jeden ze snoubenců bydlel nebo sloužil v Hradci. **Neověřeno**,
+  rozhodne zápis v matrice.
+
+Svazky: https://aron.vychodoceskearchivy.cz/apu/8253eb70-dcd0-4216-8be0-108c98687717 ·
+https://aron.vychodoceskearchivy.cz/apu/3505a322-6185-4a5c-8acc-b72c3a032d1b ·
+https://aron.vychodoceskearchivy.cz/apu/6dfd2e03-ced6-41df-88ff-d39ecb778f3a ·
+https://aron.vychodoceskearchivy.cz/apu/51d89a0d-4125-42b4-b01d-d17cf33aee77 ·
+https://aron.vychodoceskearchivy.cz/apu/e08cd40b-893d-4f88-8e4b-61129132d19a
+
 ## Jmenovci — pozor při hledání
 
 | Obec | Snadno se splete s |
@@ -143,7 +184,7 @@ V dnešním Chlumci část „Lhotka“ podle RÚIAN neexistuje. **Doloženo.** 
 | Malé Výkleky | **Velké Výkleky** (u Městce Králové, také panství Chlumec) |
 | Choťovice | Chotovice (Svitavsko, ve fulltextu ARONu), Chotějovice |
 | Vlkov | Vlkov pod Oškobrhem (také okres Poděbrady) |
-| Olešnice | Olešnice v Orlických horách, Olešnice u Hostinného |
+| Olešnice (v pramenech i **Volešnice**, něm. *Wolleschnitz*) | Olešnice v Orlických horách, Olešnice u Hostinného, Levínská Olešnice, Zlatá Olešnice |
 | Písek, Nové Město, Újezd, Štít, Luková, Lučice | velmi častá jména; Lučice u Chotěboře mají v ARONu vlastní faru |
 | Chudeřice | Chudeřice u Bíliny (*Kutterschitz* patří těm) |
 
@@ -199,7 +240,13 @@ Zdroje: https://cs.wikipedia.org/wiki/Kladruby_(Chlumec_nad_Cidlinou) · https:/
 1. Dnes část města Chlumec n. C. (kód části 88293), KÚ 688291 Lučice u Chlumce nad Cidlinou. **Doloženo** (RÚIAN). Souřadnice 50.1378, 15.4625.
 2. **Jména:**
    - Profous II/687, heslo 2 „Lučice, ves nad Cidlinou 1½ km na jih od Chlumce“: 1110 „iuxta pagum qui dicitur Lucica“ (Kosmas); RDP 1369 Luczicz, 1384–99 Luticz, ok. 1405 Lizicz; 1835 Hft Chlumetz: Lutschitz (Lučice), Sommer III, 45.
-   - Úřední název podle mého čtení skenu: „úř. 1854 Lužce, 1886 Lučice“. **Ověřit na skenu**, mohlo jít o záměnu s Lužcem.
+   - Úřední název: „úř. 1854 Lužce, 1886 Lučice“ — znovu přečteno na skenu 2026-10-17 (rozlišení
+     600 px, čtení jisté). Jde o úřední tvar Profousem citovaného seznamu 1854, ne o záměnu hesla;
+     pro matriky to znamená, že „Lužce“ v úředních písemnostech 1854–1886 může být **Lučice**, ne
+     Lužec nad Cidlinou. **Doloženo** (Profous) / výklad **pravděpodobně**.
+   - Profous dál: 1465 „in Nowem Chlumczi in munic., opp. — in Olessniczi — in villa Lucziczich“;
+     1548 „zámek Chlumecz .. Pamienijk, Luczicze, Kladeruby .. s pod. kost. w Luczicy“ (podací právo
+     ke kostelu v Lučicích drží chlumecké panství). **Doloženo.**
    - Německy Lutschitz — **doloženo** (Sommer podle Profouse).
 3. **Fara a kostel:**
    - Fara Chlumec. **Doloženo** (ARON).
@@ -208,6 +255,14 @@ Zdroje: https://cs.wikipedia.org/wiki/Kladruby_(Chlumec_nad_Cidlinou) · https:/
 4. **Správa:** 1850–1985 samostatná obec, od 1. 7. 1985 část Chlumce. K obci patřily Převýšov (1850–1877), Levín, Loukonosy a Olešnice (1850–1886), Kladruby a Pamětník (1850–1955). **Doloženo (wiki).**
    - Důležité pro sčítání 1857–1880: Olešnice, Levín i Loukonosy se tehdy hledají pod obcí Lučice.
 5. **Zvláštnosti:** první písemná zmínka 1110; roku 1846 se zde konaly první dostihy (Oktavián Kinský). **Doloženo (wiki).**
+6. **Osada v 19. stol. a čísla domů:**
+   - **Katastrální obec Lučice (1841)** zahrnovala i **Kladruby a Pamětník** (císařský otisk
+     B2_a_6C_4287-1, 4 listy, 1841; originální mapa reambulována 1877). Indikační skicu Kladrub a
+     Pamětníku tedy hledat pod Lučicemi. **Doloženo** (Archiv ČÚZK, [mapy.md](mapy.md)).
+   - **Politická obec Lučice** 1850–1886 zahrnovala Převýšov (do 1877), Olešnici, Levín, Loukonosy;
+     sčítání ale vede každou osadu zvlášť s vlastní řadou čp.: Lučice 1869 čp. 1–40, 1921 čp. 1–67
+     (bez 47, 58, 59), dnes 1–93. Domů 1869 40, 1900 50, 1950 83 (wiki). **Doloženo** (ARON, wiki).
+   - Řada čp. Lučic 1869–1921 jen roste, přečíslování **nenalezeno** ([cisla-popisna.md](cisla-popisna.md)).
 
 Zdroje: https://cs.wikipedia.org/wiki/Lučice_(Chlumec_nad_Cidlinou) · https://mjc.ujc.cas.cz/jpg/II/II_0687.jpg
 
@@ -266,6 +321,11 @@ Zdroje: https://cs.wikipedia.org/wiki/Levín_(Olešnice) · https://mjc.ujc.cas.
    - **Pozor:** jmenovců je mnoho — Olešnice v Orlických horách (Gießhübel), Olešnice u Hostinného (Oels) a další.
 3. Fara Chlumec. **Doloženo** (ARON).
 4. **Správa:** 1850–1886 osada obce Lučice; od 1886 obec (okres Nový Bydžov, od 1960 Hradec Králové); 1. 1. 1989 – 28. 2. 1990 část Chlumce; od 1. 3. 1990 opět samostatná. **Doloženo (wiki).**
+   - **„Volešnice“ = tato Olešnice.** Císařský otisk 1841 (B2_a_6C_5445-1) nazývá k. o.
+     „Wolleschnitz (Wollessnice)“, tj. s protetickým V-. Zápis „Volešnice“ v matrikách Chlumce a
+     Lučic je tedy tatáž obec. **Doloženo** (Archiv ČÚZK) — u konkrétního záznamu přesto ověřit kontext
+     (fara Chlumec, sousední Lučice/Levín).
+   - Sčítání: 1890 čp. 1–37, 1910 1–52, 1921 1–57; dnes 1–130. Před 1886 hledat pod Lučicemi.
 5. První zmínka 1393. **Doloženo.**
 
 Zdroje: https://cs.wikipedia.org/wiki/Olešnice_(okres_Hradec_Králové) · https://mjc.ujc.cas.cz/jpg/III/III_0269.jpg
@@ -618,6 +678,17 @@ Zdroje: https://cs.wikipedia.org/wiki/Žantov_(Nový_Bydžov) · https://mjc.ujc
 3. **Fara:** dnes farnost Žiželice → **doloženo (wiki)**. Historicky Žiželice (lokality svazků v eBadatelně, rešerše Žiželic) → **doloženo**. Matriky v SOA Praha. Ev.: Krakovany (SOA Praha) → **doloženo** (rešerše Žiželic).
 4. **Panství:** Chlumec (1548 a 1559 „zámek Chlumec … Przibeyssow“) → **doloženo (Profous)**. **Správa:** 1850–1877 osada obce Lučice, od 1878 samostatná obec; okres Nový Bydžov do 1950, potom Hradec Králové → **doloženo (wiki)**.
 5. První zmínka 1386 → **doloženo (wiki + Profous)**. **Pozor:** v pramenech se píše jako Přibyšov/Přebejšov/Neudorf. Jména Přibyšov a Nová Ves jsou v Čechách velmi častá.
+6. **Osada v 19. stol. a čísla domů** (2026-10-17):
+   - Vlastní katastrální obec 1841: císařský otisk B2_a_6C_6221-1 (4 listy), na otisku
+     „Przebeischow (Přebegssow)“; originál reambulován 1873, katastrální mapa evidenční 1895–1939.
+     **Doloženo** (Archiv ČÚZK).
+   - Politicky 1850–1877 osada obce **Lučice** (fara přitom Žiželice, SOA Praha, kdežto Lučice fara
+     Chlumec, SOA Zámrsk) — matriky a obecní spisy se tedy rozcházejí. **Doloženo** (wiki, katalogy).
+   - Sčítání (OÚ Nový Bydžov): 1869 čp. 1–55, 1880 1–65, 1890 1–67, 1900 1–67 (bez 34, 56), 1910 1–76,
+     1921 1–84 (bez 35, 56; „čp. 68 viz čp. 31“); dnes 1–145 (RÚIAN, `zizelice-cp.csv`). Řada
+     navazuje, přečíslování **nenalezeno**. **Doloženo** (ARON).
+   - Jméno *Neudorf* (Sommer 1835) a lidové „Nová Ves“ ukazují na **obnovu vsi** (pustá po třicetileté
+     válce, nově osazená?) — **neověřeno**, pramen by byl urbář nebo berní rula 1654 panství Chlumec.
 
 ### Tetov
 1. **Dnes:** obec, okres Pardubice, Pardubický kraj → **doloženo (wiki)** https://cs.wikipedia.org/wiki/Tetov . KÚ Tetov **766968**, obec 575810 → **doloženo (RÚIAN)**. GPS 50.0805, 15.4457.
@@ -751,6 +822,18 @@ Zdroje: https://cs.wikipedia.org/wiki/Žantov_(Nový_Bydžov) · https://mjc.ujc
 3. **Fara:** Vápno → **doloženo (ARON + wiki)** → SOA Zámrsk.
 4. **Panství:** Žiželice/Hradišťko → Chlumec → **doloženo (Profous)** / **pravděpodobně**. **Správa:** v článku **nenalezeno**.
 5. První zmínka 1337 → **doloženo (wiki + Profous)**. Jmenovci: Strašnov, Strašnice. Úředně se psalo i Strášov.
+6. **Osada v 19. stol. a čísla domů** (2026-10-17):
+   - Vlastní katastrální obec už 1841: císařský otisk B2_a_6C_7393-1 (6 listů), na otisku
+     „Straschow (Strassow)“; originální mapa reambulována 1876. **Doloženo** (Archiv ČÚZK).
+   - Sčítání (fond OÚ Nový Bydžov — Strašov tedy patřil k politickému okresu **Nový Bydžov** a soudnímu
+     okresu Chlumec): 1869 čp. 1–51 (360 ob., 51 domů), 1880 1–64 (438 ob.), 1890 1–66 (466 ob.),
+     1900 1–70, 1910 1–79, 1921 1–5, 7–80; dnes 1–133 (+155, 161, 171). **Doloženo** (ARON; obyvatelé
+     wiki).
+   - Řada roste jen na konci → čp. ≤ 51 existovala už 1869; přečíslování **nenalezeno**.
+   - Samostatná obec od 1850? V civilním indexu O 8717 je Strašov mezi obcemi s. o. Chlumec
+     ([farnosti/evangelici-civilni-csl.md](farnosti/evangelici-civilni-csl.md)); osady k obci
+     **nenalezeny**, okresy po 1949 (Přelouč → Pardubice) **pravděpodobně** jako Vápno.
+   - Evangelíci: Trnávka (ev. a. v.) — **doloženo** (`gazetteer/chlumecko.yml`).
 
 ### Štít
 1. **Dnes:** vesnice a část obce Klamoš, okres Hradec Králové, Královéhradecký kraj → **doloženo (wiki)** https://cs.wikipedia.org/wiki/%C5%A0t%C3%ADt_(Klamo%C5%A1) . KÚ Štít **665436** (obec Klamoš 570168) → **doloženo (RÚIAN)**. GPS 50.1170, 15.4739.
@@ -785,7 +868,7 @@ Zdroje: https://cs.wikipedia.org/wiki/Žantov_(Nový_Bydžov) · https://mjc.ujc
 2. **Neidentifikované osady:** Strašovka (Mlékosrby 1850–1928), Lada (Lovčice), Číhary a Kopanina
    (Lužec). Hejlovec je rybník u Lužce, možná šlo o samotu. Hrázka v Mlékosrbech i v Kratonohách:
    jedna lokalita, nebo dvě?
-3. **Správní vývoj nenalezen:** Hlavečník, Strašov, Chýšť (před 1961), Vápno (okresy po 1949).
+3. **Správní vývoj nenalezen:** Hlavečník, Strašov (osady, okresy po 1949), Chýšť (před 1961), Vápno (okresy po 1949).
    Doplnit z Historického lexikonu obcí ČR 1869–2011 (ČSÚ).
 4. **Rozpory ponechané:**
    - Tetov: wiki 1716 × Profous založení 1791.
@@ -793,7 +876,7 @@ Zdroje: https://cs.wikipedia.org/wiki/Žantov_(Nový_Bydžov) · https://mjc.ujc
    - Božec + Krakovany: sloučení cs.wiki 1964 × en.wiki 1961.
    - Nepolisy: etymologie Profous „Lepolisy“ × wiki „Neopolis“.
    - Klamoš: německé jméno „Glattmoos“ (wiki) Profous nepovažuje za živé.
-   - Lučice: úř. 1854 „Lužce“? (čtení skenu ověřit).
+   - Lučice: úř. 1854 „Lužce“ — sken přečten znovu 2026-10-17, čtení potvrzeno.
 5. **Profous:** nepřečtené pokračování hesel Chudeřice (II/68), Třesice (IV/373) a Skochovice
    (IV/76). Hesla Stará Voda a Nové Město nenalezena, budou asi pod „Voda“ a „Město“.
 6. **Počty domů a obyvatel** (Sommer 1835, Palacký 1843) jsou doplněné jen pro Kosice a Káranice.

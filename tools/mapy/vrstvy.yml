@@ -103,3 +103,17 @@ vrstvy:
     format: png
     licence: "CC BY 4.0 — © ČÚZK"
     citace: "Katastrální mapa, WMS KN, © ČÚZK, CC BY 4.0"
+
+  # Stabilní katastr — císařské povinné otisky 1 : 2 880 (1841 pro Chlumecko a Vápensko).
+  # Zatím NEstahuje: služba ÚAZK chce token aplikace Archiv ČÚZK a archiválie nejsou otevřená data.
+  # Listy a signatury po k. o. (Chlumec 2525-1, Lučice 4287-1 vč. Kladrub a Pamětníku, Strašov 7393-1,
+  # Vápno 8330-1, Komárov 3300-1, Kolesa 3279-1, Kundratice 3698-1 vč. Tetova, …):
+  # docs/mistopis/chlumecko/mapy.md, oddíl 1. Oblasti pro stahování: oblasti/chlumecko.geojson,
+  # oblasti/vapensko.geojson.
+  # stabilni_katastr:
+  #   nazev: "Stabilní katastr — císařské povinné otisky 1826–1843, 1 : 2 880"
+  #   typ: arcgis_export
+  #   crs: EPSG:5514
+  #   url: https://ags.cuzk.gov.cz/arcgis4/rest/services/Archiv/archiv_spojene_cisarske_otisky/MapServer/export
+  #   licence: "archiválie ÚAZK (ČÚZK) — zveřejnění reprodukce s citací signatury, nejsou CC BY"
+  #   citace: "Ústřední archiv zeměměřictví a katastru, B2/a/6C <číslo mapy> Císařský povinný otisk"
