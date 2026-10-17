@@ -6,7 +6,7 @@
 # Použití: usage_guard.sh [práh=85] [interval_s=60]   (manager ho pouští na pozadí; konec = pauza provedena)
 set -uo pipefail
 limit=${1:-85}; interval=${2:-60}
-acct=$(claude-account list 2>/dev/null | sed -n 's/^\* *//p' | awk '{print $1}')
+acct=$(claude-account list 2>/dev/null | awk '/aktivní/{print $1; exit}')
 cache="$HOME/.claude/cache/usage-${acct:-osobni}.json"
 
 while :; do
