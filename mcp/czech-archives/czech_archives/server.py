@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+WORKBENCH = Path(__file__).resolve().parents[3]   # …/genealogy
+
 try:  # mcp >= 2.0
     from mcp.server.mcpserver import MCPServer as FastMCP
 except ImportError:  # mcp 1.x
@@ -64,10 +66,15 @@ def fetch_page(register_id: str, image: int, dest_dir: str, module: str = "aron_
                entry: str | None = None) -> dict:
     """Stáhne JEDEN snímek (číslo snímku v prohlížeči, od 1) do dest_dir + sidecar .yml s citací.
 
-    Typicky dest_dir = ../genealogy-trees/<strom>/sources/<ID>/ . Existující sidecar se nepřepisuje.
+    Typicky dest_dir = ../genealogy-trees/<strom>/sources/<ID>/ (relativně vůči kořeni workbenche, nebo absolutně).
+    Existující sidecar se nepřepisuje.
     """
     mod = modules.get(module)
-    path = mod.fetch_page(register_id, image, Path(dest_dir), entry=entry)
+    dest = Path(dest_dir).expanduser()
+    if not dest.is_absolute():
+        # relativní cesta = vůči kořeni workbenche (cwd MCP serveru je mcp/czech-archives, ne workbench)
+        dest = (WORKBENCH / dest).resolve()
+    path = mod.fetch_page(register_id, image, dest, entry=entry)
     yml = path.with_suffix(".yml")
     return {"image_path": str(path), "sidecar": str(yml) if yml.exists() else None,
             "bytes": path.stat().st_size}
