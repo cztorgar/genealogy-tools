@@ -239,3 +239,4 @@ table.evt tr.one { background: #fff8ea; }
 .kontext .md ul { padding-left: 18px; margin: 6px 0; }
 .node text.badges tspan.nokx, #legend .nokx { fill: #999; color: #999; opacity: .75; }
 .nokx-box { background: #f1f1ee; border: 1px dashed #bbb; border-radius: 4px; padding: 3px 8px; margin: 6px 0; color: #555; font-size: 12px; }
+small.warn { color: #a05a00; }

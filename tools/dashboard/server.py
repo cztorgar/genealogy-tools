@@ -582,13 +582,21 @@ class Tree:
         return ses["name"]
 
     # --- mapa
-    def map(self) -> dict:
-        files = self.files()
-        people = self.people(files)
+    def houses(self) -> dict[str, dict]:
         houses: dict[str, dict] = {}
         for csvp in sorted((WORKBENCH / "mcp/czech-archives/gazetteer").glob("*-cp.csv")):
             for obec, cps in (CACHE.get(csvp, "houses", mapdata.load_houses) or {}).items():
                 houses.setdefault(obec, {}).update(cps)
+        return houses
+
+    def residences(self, files, houses=None) -> list[dict]:
+        res = mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
+        return mapdata.resolve(res, houses if houses is not None else self.houses())
+
+    def map(self) -> dict:
+        files = self.files()
+        people = self.people(files)
+        houses = self.houses()
         places: dict[str, list] = {}
         regions = []
         for d in sorted(p for p in (WORKBENCH / "docs/mistopis").glob("*") if p.is_dir()):
@@ -601,7 +609,7 @@ class Tree:
             places.update(pl or {})
             regions.append({"id": d.name, "title": title, "places": sorted(pl) if pl else []})
         vrstvy = CACHE.get(WORKBENCH / "tools/mapy/vrstvy.yml", "yaml", load_yaml)
-        res = mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
+        res = self.residences(files, houses)
         for r in res:
             r["name"] = (people.get(r["id"]) or {}).get("name") or ""
         return {"residences": res, "houses": houses, "places": places, "regions": regions,
@@ -636,8 +644,7 @@ class Tree:
         out["gramps"] = f"{self.gramps_url}/person/{gid}" if gid else None
         out["abs_path"] = str(self.root / d["file"]) if d.get("file") else None
         out["session"] = self.session_of(pid, people=people)
-        out["residences"] = [r for r in mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
-                             if r["id"] == pid]
+        out["residences"] = [r for r in self.residences(files) if r["id"] == pid]
         out["events"] = self.events(files).get(pid, [])
         out["kontroly"] = [k for k in self.kontroly(files) if k["osoba"] == pid]
         return out

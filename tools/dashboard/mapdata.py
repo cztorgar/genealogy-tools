@@ -6,6 +6,9 @@ Vše se čte živě (cache podle mtime v serveru). Nic se negeneruje ani nezapis
   Bere se jen typ, u něhož č. p. znamená bydliště osoby (narození, úmrtí, bydliště, sčítání,
   povolání „bytem…“). Sňatek a křest ne — tam bývá dům nevěsty, kmotry nebo porodní báby.
 - Polohy domů: `mcp/czech-archives/gazetteer/*-cp.csv` (`cast_obce,cp,lat,lon,zdroj`, dnešní RÚIAN).
+  Adresa se páruje na část obce (`resolve`): čtvrť z římské číslice za lomítkem (`66/III` → „Chlumec nad
+  Cidlinou III“, čp. 66), část jmenovaná před č. p. („Chlumec nad Cidlinou, část Kladruby č. p. 40“ → Kladruby).
+  Obec s více čtvrtěmi bez uvedené čtvrti se nehádá — bydliště je „čtvrť neurčena“ (jen střed obce).
 - Polohy obcí: tabulky v `docs/mistopis/*/obce.md` (sloupec „lat, lon“) — pro obce bez dat o domech.
 - Vrstvy: `cache/mapy/<oblast>/<vrstva>/xyz/` + `tilejson.json`, názvy a citace z `tools/mapy/vrstvy.yml`.
 """
@@ -21,7 +24,8 @@ from pathlib import Path
 import yaml
 
 RESIDENCE_TYPES = {"Birth", "Death", "Residence", "Census", "Occupation"}
-CP_RE = re.compile(r"(?:čp\.|č\.\s?p\.|č\.)\s*(\d+)")
+CP_RE = re.compile(r"(?:čp\.|č\.\s?p\.|č\.)\s*(\d+)(?:\s*/\s*([IVX]{1,4})\b)?")
+ROMAN_END_RE = re.compile(r"^(.*\S)\s+([IVX]{1,4})$")
 CP_SKIP_BEFORE = ("poř", "pluk", "zápis u", "kniha", "matr")
 MONTHS = {m: i for i, m in enumerate(
     "JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC".split(), 1)}
@@ -30,17 +34,47 @@ MONTHS = {m: i for i, m in enumerate(
 def fold(s: str) -> str:
     s = unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
     s = s.replace(" nad cidlinou", " n. c.").replace(" n.c.", " n. c.")
-    s = re.sub(r"\s+ii$", "", s.strip())
-    return re.sub(r"\s+", " ", s)
+    return re.sub(r"\s+", " ", s.strip())
 
 
-def house_number(desc: str) -> str | None:
+def house_number(desc: str) -> tuple[str, str | None, str] | None:
+    """→ (čp., čtvrť římskou číslicí nebo None, text před č. p.)."""
     for m in CP_RE.finditer(desc):
         before = desc[max(0, m.start() - 12):m.start()].lower()
         if any(w in before for w in CP_SKIP_BEFORE):
             continue
-        return m.group(1)
+        return m.group(1), m.group(2), desc[max(0, m.start() - 60):m.start()]
     return None
+
+
+def resolve(residences: list[dict], houses: dict) -> list[dict]:
+    """Doplní `place` na část obce z gazetteeru (`place_orig` = místo z patche). Viz docstring modulu."""
+    names = {fold(n): n for n in houses}
+    quarters: dict[str, list[str]] = {}          # fold(obec) → části s římskou číslicí
+    for n in houses:
+        m = ROMAN_END_RE.match(n)
+        if m:
+            quarters.setdefault(fold(m.group(1)), []).append(n)
+    by_len = sorted(names, key=len, reverse=True)
+    for r in residences:
+        place = r["place_orig"] = r["place"]
+        f = fold(place)
+        pre = fold(r.pop("before", "")).rstrip(" ,;:")
+        part = next((n for n in by_len if n != f and (pre == n or pre.endswith((" " + n, "," + n)))), None)
+        quarter = r.get("quarter")
+        if part:                                 # „…, část Kladruby č. p. 40“
+            place = names[part]
+        elif quarter and f in quarters:          # „66/III“
+            place = names.get(fold(f"{place} {quarter}"), place)
+            if place == r["place_orig"]:
+                r["undetermined"] = f"čtvrť {quarter} není v gazetteeru"
+        elif f not in names and f in quarters:
+            if len(quarters[f]) == 1:            # jediná část s číslicí (Hradišťko II)
+                place = quarters[f][0]
+            else:                                # Chlumec I–IV bez čtvrti — nehádat
+                r["undetermined"] = "čtvrť neurčena (" + ", ".join(sorted(quarters[f])) + ")"
+        r["place"] = place
+    return residences
 
 
 def gedcom_years(value) -> tuple[int | None, int | None, str]:
@@ -72,15 +106,17 @@ def residences(patch_files: list[Path], cache, load_yaml, root: Path) -> list[di
             if ch.get("type") not in RESIDENCE_TYPES:
                 continue
             desc = str(ch.get("description") or "")
-            cp = house_number(desc)
-            if not cp:
+            hn = house_number(desc)
+            if not hn:
                 continue
+            cp, quarter, before = hn
             y, y2, iso = gedcom_years(ch.get("date"))
             if not y:
                 continue
             out.append({
                 "id": m.group(1), "type": ch.get("type"), "date": str(ch.get("date") or ""), "iso": iso,
                 "year": y, "year_to": y2, "place": str(ch.get("place") or ""), "cp": cp,
+                "quarter": quarter, "before": before,
                 "description": desc, "patch": p.name, "status": str(data.get("status") or "?"),
             })
     return out

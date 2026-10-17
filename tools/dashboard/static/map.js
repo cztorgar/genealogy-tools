@@ -11,8 +11,11 @@ let placePos = new Map();   // fold(obec) → [lat, lon]
 let playTimer = null;
 let openKey = null;         // dům s otevřeným popupem (obec|cp)
 
+// stejné jako mapdata.fold — čtvrti („Chlumec nad Cidlinou II“) se neslévají; část obce určuje server (mapdata.resolve)
 const foldPlace = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
-  .replace(" nad cidlinou", " n. c.").replace(/\s+ii$/, "").replace(/\s+/g, " ").trim();
+  .replace(" nad cidlinou", " n. c.").replace(" n.c.", " n. c.").replace(/\s+/g, " ").trim();
+const undeterminedOf = (place, cp) => (M.residences.find((r) => r.undetermined &&
+  foldPlace(r.place) === foldPlace(place) && String(r.cp) === String(cp)) || {}).undetermined;
 
 // ------------------------------------------------------------------ záložky
 
@@ -241,7 +244,8 @@ function draw() {
     const m = L.marker(v.ll, {
       icon: L.divIcon({ className: "", html: `<div style="background:#ff8c1a;border:2px solid #8a3b00;width:14px;height:14px"></div>`, iconSize: [14, 14] }),
     }).addTo(gHouses);
-    m.bindTooltip(`${v.place}: čp. ${v.houses.map((h) => h.cp).join(", ")}`, { permanent: true, direction: "right", offset: [8, 0], className: "cp-label" });
+    const und = v.houses.some((h) => undeterminedOf(h.place, h.cp)) ? " (čtvrť neurčena)" : "";
+    m.bindTooltip(`${v.place}${und}: čp. ${v.houses.map((h) => h.cp).join(", ")}`, { permanent: true, direction: "right", offset: [8, 0], className: "cp-label" });
     m.bindPopup(() => v.houses.map((h) => housePopup(h.place, h.cp, y, true)).join("<hr>"), { maxWidth: 420 });
   }
   drawAll();
@@ -290,7 +294,9 @@ function housePopup(place, cp, y, compact) {
     <b>Rok ${y}:</b>${who}
     ${compact ? "" : `<b>Všechny záznamy k domu:</b>${hist}`}
     ${compact ? hist : ""}
-    <div class="note">${loc && loc.precision === "dum" ? "poloha: dnešní čp. z RÚIAN (historicky mohlo být jinde)" : "poloha domu neznámá — jen střed obce"}</div></div>`;
+    <div class="note">${loc && loc.precision === "dum" ? "poloha: dnešní čp. z RÚIAN (historicky mohlo být jinde)"
+      : undeterminedOf(place, cp) ? `${esc(undeterminedOf(place, cp))} — poloha domu neurčena, jen střed obce`
+      : "poloha domu neznámá — jen střed obce"}</div></div>`;
 }
 
 // ------------------------------------------------------------------ ovládání

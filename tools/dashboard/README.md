@@ -72,6 +72,7 @@ sekce **Bydliště** s odkazem „na mapě“.
 |---|---|
 | bydliště | události `add_event` v `T/patches/*.yml` s č. p. v `description`, typy narození, úmrtí, bydliště, sčítání, povolání („bytem…“). Sňatek a křest se neberou (č. p. nevěsty, kmotry, porodní báby). Rok z `date`, `FROM a TO b` = rozmezí |
 | poloha domu | `mcp/czech-archives/gazetteer/*-cp.csv` — **dnešní** RÚIAN; historicky mohl dům stát jinde |
+| část obce u adresy | čtvrť z římské číslice za lomítkem (`66/III` → Chlumec nad Cidlinou III, čp. 66); část jmenovaná před č. p. („…, část Kladruby č. p. 40“ → Kladruby); obec se čtvrtěmi bez uvedené čtvrti se nehádá — „čtvrť neurčena“, jen střed obce |
 | poloha obce | tabulky `docs/mistopis/*/obce.md` (sloupec „lat, lon“) — obec bez dat o domech = čtvereček na středu obce |
 | oblasti | `cache/mapy/<oblast>/` (obálka z `tilejson.json`) a `docs/mistopis/<oblast>/` (obálka obcí); název z nadpisu README |
 | podklady | `cache/mapy/<oblast>/<vrstva>/xyz/` (stahuje `tools/mapy/stahni.py`), názvy a citace z `tools/mapy/vrstvy.yml`; přes `/tiles/…`. Pod nimi OpenStreetMap (online) |

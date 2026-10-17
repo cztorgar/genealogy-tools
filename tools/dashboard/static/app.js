@@ -566,7 +566,7 @@ function renderPerson(d) {
   }
   if (d.residences && d.residences.length) {
     const rows = d.residences.slice().sort((a, b) => a.year - b.year).map((r) =>
-      `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
+      `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)}${r.undetermined ? ` <small class="warn">${esc(r.undetermined)}</small>` : ""} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
        <a href="#" data-showmap="${esc(r.place)}|${esc(r.cp)}|${r.year}">na mapě</a></li>`).join("");
     h += `<h2 class="sec">Bydliště (z patchů)</h2><ul>${rows}</ul>`;
   }
