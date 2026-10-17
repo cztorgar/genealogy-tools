@@ -39,7 +39,7 @@ snímku — **stejný výřez pro všechna tři čtení**. Výřez ulož vedle s
 
 Pozor: shoda všech tří u **jmen** není důkaz — modely umí jméno „normalizovat“ stejně. Jména a data vždy
 nech uživatele potvrdit proti výřezu — **v autonomním režimu** místo toho platí pravidla R1–R8 z
-`docs/metodika/autonomie.md`: neshoda klíčového pole → rozhodčí čtení (`--model gpt-5.5 --effort medium`),
+`docs/metodika/autonomie.md`: neshoda klíčového pole → rozhodčí čtení (`--model gpt-5.5 --effort medium`; čte-li zjevně jiný text, zopakovat s `--model gpt-6.1-sol --effort medium|high`),
 pak kontext jiného pramene, a teprve pak kontrola `cteni` do `research/kontroly/`.
 
 **Hint nesmí obsahovat čtené jméno ani datum** (jen obec, rok, č. p., který řádek) — jinak OpenAI jméno

@@ -15,7 +15,7 @@ Navazuje na [`dukazni-standard.md`](dukazni-standard.md), [`prepis.md`](prepis.m
 |---|---|
 | R1 | Každý použitý zápis se čte **dvakrát nezávisle** ze stejného výřezu: Claude a OpenAI (`read-record`, `compare.py`). Claude nesmí nahlížet do čtení OpenAI, dokud nemá vlastní. |
 | R2 | **Shoda** v poli → pole se přijme. Jistota se řídí pramenem (kap. 3). |
-| R3 | **Neshoda** u klíčového pole (jméno, příjmení, datum, č. p., věk, rodiče, manžel/ka) → **rozhodčí čtení**: OpenAI s vyšším effortem / silnějším modelem (`--model gpt-5.5 --effort medium`) jen na sporné pole, ideálně z užšího výřezu. |
+| R3 | **Neshoda** u klíčového pole (jméno, příjmení, datum, č. p., věk, rodiče, manžel/ka) → **rozhodčí čtení**: OpenAI s vyšším effortem / silnějším modelem (`--model gpt-5.5 --effort medium`) jen na sporné pole, ideálně z užšího výřezu. **Když rozhodčí čtení zjevně čte jiný text** (nesedí ani jasně čitelná slova, jiná jména, jiné č. p. — gpt-5.5 to na kurentu dělá), zopakovat ho s `--model gpt-6.1-sol --effort medium` (případně `high`) a halucinované čtení nepočítat (rozhodl uživatel, kontrola K0451-03). |
 | R4 | Rozhodčí čtení se shoduje s jedním z prvních dvou → přijmout tu verzi, jistota **o stupeň níž**. Do `context` patří všechna tři čtení. |
 | R5 | Spor se dá rozhodnout **kontextem jiného pramene** (stejné jméno rodiče v jiném zápisu, rejstřík, souvislá řada č. p., věk z jiného zápisu) → session rozhodne, napíše **proč** a jistotu sníží o stupeň. |
 | R6 | Ani R4, ani R5 nepomohly → **kontrola `cteni`** do fronty (kap. 5). Do patche jdou všechny varianty s jistotou 1, nebo se pole vynechá, když na něm nic nestojí. |
