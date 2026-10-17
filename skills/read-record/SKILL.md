@@ -21,6 +21,7 @@ snímku — **stejný výřez pro všechna tři čtení**. Výřez ulož vedle s
    (rubriky podle typu, každé pole `{raw, value, confidence}`; doslovně, nic nenormalizovat, nečitelné `[?]`).
 2. **OpenAI**:
    `uv run tools/reader/openai_read.py read <výřez.jpg> --type <typ> --hint "<nápověda>" --out <snímek>.openai.json`
+   (výchozí model je levný `gpt-6-luna`; dražší jen při neshodě — žebříček R1b v `docs/metodika/autonomie.md`)
    (klíč z `~/.config/openai/genealogie.json` — nikdy nevypisovat).
 3. **PERO OCR**:
    `uv run tools/reader/pero_web.py ocr <výřez.jpg> --out <adresář>` → `<výřez>.pero.txt` (+ `.pero.xml`).

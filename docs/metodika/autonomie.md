@@ -13,7 +13,8 @@ Navazuje na [`dukazni-standard.md`](dukazni-standard.md), [`prepis.md`](prepis.m
 
 | # | Pravidlo |
 |---|---|
-| R1 | Každý použitý zápis se čte **dvakrát nezávisle** ze stejného výřezu: Claude a OpenAI (`read-record`, `compare.py`). Claude nesmí nahlížet do čtení OpenAI, dokud nemá vlastní. |
+| R1 | Každý použitý zápis se čte **dvakrát nezávisle** ze stejného výřezu: Claude a OpenAI (`read-record`, `compare.py`). Claude nesmí nahlížet do čtení OpenAI, dokud nemá vlastní. **OpenAI vždy nejdřív nejslabším modelem** (`gpt-6-luna`, výchozí v `openai_read.py`, ~0,003 USD/výřez; pokyn uživatele 2026-10-17). |
+| R1b | **Eskalační žebříček** jen u neshody klíčového pole: ① `gpt-6-luna` → ② `gpt-6.1-sol --effort low` (~0,05 USD) → ③ rozhodčí `gpt-5.5 --effort medium` (~0,2 USD), při halucinaci ③ `gpt-6.1-sol --effort medium/high`. Každý stupeň jen na sporné pole a užší výřez. Shoda na nižším stupni = konec. |
 | R2 | **Shoda** v poli → pole se přijme. Jistota se řídí pramenem (kap. 3). |
 | R3 | **Neshoda** u klíčového pole (jméno, příjmení, datum, č. p., věk, rodiče, manžel/ka) → **rozhodčí čtení**: OpenAI s vyšším effortem / silnějším modelem (`--model gpt-5.5 --effort medium`) jen na sporné pole, ideálně z užšího výřezu. **Když rozhodčí čtení zjevně čte jiný text** (nesedí ani jasně čitelná slova, jiná jména, jiné č. p. — gpt-5.5 to na kurentu dělá), zopakovat ho s `--model gpt-6.1-sol --effort medium` (případně `high`) a halucinované čtení nepočítat (rozhodl uživatel, kontrola K0451-03). |
 | R4 | Rozhodčí čtení se shoduje s jedním z prvních dvou → přijmout tu verzi, jistota **o stupeň níž**. Do `context` patří všechna tři čtení. |
