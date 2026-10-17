@@ -63,7 +63,7 @@ vůči originálu **nejsou** nezávislé (rejstřík se počítá jako podpůrn�
 6. Před dokončením: sekce `## Kontext` v dossieru doplněná a příběh `research/pribehy/<ID>.md` ([`pribehy.md`](pribehy.md)).
    Stav dossieru `dokončeno`. Jsou-li otevřené **blokující** kontroly, stav je `pozastaveno` a důvod se zapíše
    do `## Odloženo`.
-6. Zpráva managerovi: co je zapsáno, kolik kontrol (z toho blokujících), co nenalezeno.
+7. Zpráva managerovi: co je zapsáno, kolik kontrol (z toho blokujících), co nenalezeno.
 
 **Kdy se session zastaví úplně:** hranice pramenů (např. Žiželice před 10/1798), žijící osoby (jen ústní
 sdělení uživatele), anti-bot ochrana portálu, rozpočet čtení vyčerpán (viz kap. 7).
