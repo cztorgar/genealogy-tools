@@ -222,6 +222,45 @@ def first_year(text: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
+# Závora (docs/metodika/workflow-sessions.md, oddíl „Závora“): pevné odrážky `- **klíč:** hodnota`
+ZAVORA_KEYS = {"kde": "kde", "proč": "proc", "prohledáno": "prohledano", "co by": "prolomit", "datum": "datum"}
+ZAVORA_TYPES = [("nezachov", "matriky nezachovány"), ("nedigital", "nedigitalizováno"), ("nenalez", "nenalezeno"),
+                ("nečiteln", "nečitelné"), ("totožnost", "nejistá totožnost"), ("mimo dosah", "mimo dosah"),
+                ("rozpočet", "rozpočet/kontext"), ("nezkoum", "nezkoumáno")]
+ZAVORA_CHANCES = ["prakticky žádná", "žádná", "malá", "střední", "vysoká"]   # vzestupně
+ZAVORA_CHANCE_RE = re.compile(r"(prakticky žádná|žádná|vysoká|střední|malá)", re.I)
+
+
+def parse_zavora(text: str) -> dict | None:
+    if not text.strip():
+        return None
+    z: dict = {}
+    key = None
+    for ln in text.splitlines():
+        m = re.match(r"^\s*[-*]\s+\*\*([^*:]+):?\*\*:?\s*(.*)$", ln)
+        if m:
+            label = m.group(1).strip().lower()
+            key = next((v for k, v in ZAVORA_KEYS.items() if label.startswith(k)), None)
+            if key:
+                z[key] = m.group(2).strip()
+            continue
+        if key and ln.startswith((" ", "\t")) and ln.strip():
+            z[key] += " " + ln.strip()
+        elif not ln.strip():
+            key = None
+    proc = z.get("proc", "").lower()
+    # typ = klíčová slova podle pořadí v textu („rozpočet/kontext + nedigitalizováno“ → oba, první je hlavní)
+    hits = sorted((proc.find(k), t) for k, t in ZAVORA_TYPES if k in proc)
+    z["typy"] = list(dict.fromkeys(t for _, t in hits)) or (["jiné"] if proc else ["neuvedeno"])
+    z["typ"] = z["typy"][0]
+    # šance = nejlepší z uvedených cest („křest — šance vysoká; sňatek — šance malá“ → vysoká)
+    chances = [c.lower() for c in ZAVORA_CHANCE_RE.findall(z.get("prolomit", ""))]
+    z["sance"] = max(chances, key=ZAVORA_CHANCES.index) if chances else None
+    br = re.findall(r"prolomeno\s+(\d{4}-\d{2}-\d{2})", text, re.I)
+    z["prolomeno"] = br[-1] if br else None
+    return z
+
+
 def parse_dossier(path: Path) -> dict:
     text = read_text(path)
     fm, body = split_front_matter(text)
@@ -273,6 +312,7 @@ def parse_dossier(path: Path) -> dict:
         # `kontext: chybí` (tools/research/kontext_flags.py) + zda má dossier vyplněnou sekci Kontext
         "kontext_flag": str(fm.get("kontext") or "").strip() == "chybí",
         "has_kontext": bool(section(secs, "Kontext").strip()),
+        "zavora": parse_zavora(section(secs, "Závora")),
     }
 
 
@@ -622,8 +662,9 @@ class Tree:
         d = people.get(pid, {"id": pid, "name": "", "file": None})
         out = dict(d)
         out["dossier"] = read_text(self.root / d["file"]) if d.get("file") else None
-        out["kontext"] = section(sections(split_front_matter(out["dossier"])[1]), "Kontext").strip() \
-            if out["dossier"] else ""
+        secs = sections(split_front_matter(out["dossier"])[1]) if out["dossier"] else {}
+        out["kontext"] = section(secs, "Kontext").strip()
+        out["zavora_text"] = section(secs, "Závora").strip()
         story = self.root / "research/pribehy" / f"{pid}.md"
         out["story"] = {"file": str(story.relative_to(self.root)), "text": read_text(story),
                         "mtime": story.stat().st_mtime} if story.is_file() else None

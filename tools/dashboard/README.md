@@ -43,6 +43,7 @@ Poslouchá jen na `127.0.0.1`. Závislost jen PyYAML (inline metadata pro `uv`).
 | příběh | `T/research/pribehy/<ID>.md` (pravidla `docs/metodika/pribehy.md`) — nahoře v panelu osoby, ve stromu 📖 |
 | kontext | sekce `## Kontext` dossieru — v panelu zvýrazněně pod příběhem |
 | chybí kontext/příběh | front-matter `kontext: chybí` (`tools/research/kontext_flags.py`) — ve stromu šedé ∅📖, filtr „chybí kontext/příběh“, co přesně chybí (Kontext / příběh) dopočítá dashboard |
+| závora | sekce `## Závora` dossieru (formát `docs/metodika/workflow-sessions.md`, oddíl Závora) — ve stromu ⛔ (šedé = „prolomeno YYYY-MM-DD“) s tooltipem kde/proč, v panelu červený rámeček, v přehledu seznam s filtrem podle typu. Typ = klíčová slova z „proč“ (nezachovány, nedigitalizováno, nenalezeno, nečitelné, nejistá totožnost, mimo dosah, rozpočet/kontext, nezkoumáno; víc typů najednou možné), šance = nejlepší z uvedených v „co by závoru prolomilo“ |
 | kontroly | `T/research/kontroly/<ID>-<nn>.yml`, `G-<nn>.yml` |
 | doložení údajů | události z aplikovaných patchů + sidecary citací |
 | běžící session | `herdr agent list` — agent se jménem ve tvaru ID (`k0056`, `k0001-s2-p2`) nebo `vetev-*` (session větve) s cwd ve workbenchi/stromu |

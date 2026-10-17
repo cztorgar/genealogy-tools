@@ -212,7 +212,8 @@ function render() {
     const tip = el("title", {}, g);
     tip.textContent = missing ? `${id} — nesáhnuto (${relLabel(id)})`
       : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}\nstav: ${stav}` +
-        (p.kontext_missing && p.kontext_missing.length ? `\nchybí: ${p.kontext_missing.join(", ")} (docs/metodika/pribehy.md)` : "");
+        (p.kontext_missing && p.kontext_missing.length ? `\nchybí: ${p.kontext_missing.join(", ")} (docs/metodika/pribehy.md)` : "") +
+        (p.zavora ? `\n${zavoraTip(p.zavora)}` : "");
 
     const name = missing ? "nesáhnuto" : (p.name || "(bez jména)");
     el("text", { class: "name", x: 7, y: 15 }, g).textContent = trunc(name, 25);
@@ -233,6 +234,11 @@ function render() {
       const k = p.kontroly;
       if (p.kontext_missing && p.kontext_missing.length) {
         el("tspan", { class: "nokx" }, bt).textContent = `${bt.textContent ? "  " : ""}∅📖`;
+      }
+      if (p.zavora) {
+        const zs = el("tspan", { class: p.zavora.prolomeno ? "zav broken" : "zav" }, bt);
+        zs.textContent = `${bt.textContent ? "  " : ""}⛔`;
+        el("title", {}, zs).textContent = zavoraTip(p.zavora);
       }
       if (k && k.open) {
         const ts = el("tspan", { class: k.blocking ? "kb block" : "kb" }, bt);
@@ -353,6 +359,32 @@ function linkIds(text) {
     return `<span class="pid" data-pid="${id}">${m}</span>`;
   });
 }
+function zavoraTip(z) {
+  return (z.prolomeno ? `závora (prolomeno ${z.prolomeno})` : "závora") +
+    `\nkde: ${z.kde || "?"}\nproč: ${z.proc || "?"}` + (z.sance ? `\nšance prolomit: ${z.sance}` : "");
+}
+const ZAV_SANCE = { "vysoká": "hi", "střední": "mid", "malá": "lo", "žádná": "none", "prakticky žádná": "none" };
+function renderZavory() {
+  const all = Object.values(S.people).filter((p) => p.zavora);
+  if (!all.length) return `<li class="empty">žádná (sekce ## Závora v dossieru)</li>`;
+  const types = [...new Set(all.flatMap((p) => p.zavora.typy))].sort();
+  const sel = store.get("zav-typ", "");
+  const list = all.filter((p) => !sel || p.zavora.typy.includes(sel))
+    .sort((a, b) => (!!a.zavora.prolomeno - !!b.zavora.prolomeno) || a.id.localeCompare(b.id));
+  const opts = [`<option value="">všechny typy (${all.length})</option>`].concat(types.map((t) =>
+    `<option value="${esc(t)}" ${t === sel ? "selected" : ""}>${esc(t)} (${all.filter((p) => p.zavora.typy.includes(t)).length})</option>`)).join("");
+  return `<li><select id="zav-typ">${opts}</select></li>` + (list.map((p) => {
+    const z = p.zavora;
+    return `<li class="zav-item${z.prolomeno ? " broken" : ""}">${personLabel(p.id)} ${z.typy.map((t) => `<span class="zav-typ">${esc(t)}</span>`).join(" ")}
+      ${z.prolomeno ? `<small>prolomeno ${esc(z.prolomeno)}</small>` : ""}
+      ${z.kde ? `<br><small><b>kde:</b> ${esc(z.kde)}</small>` : ""}
+      ${z.prolomit ? `<br><small><b>prolomilo by:</b> ${esc(z.prolomit)}</small>` : ""}
+      ${z.sance ? ` <span class="sance ${ZAV_SANCE[z.sance] || ""}" title="nejlepší z uvedených cest">šance ${esc(z.sance)}</span>` : ""}</li>`;
+  }).join("") || `<li class="empty">žádná tohoto typu</li>`);
+}
+document.addEventListener("change", (ev) => {
+  if (ev.target.id === "zav-typ") { store.set("zav-typ", ev.target.value); renderOverview(); }
+});
 function personLabel(id) {
   const p = S.people[id];
   return `<span class="pid" data-pid="${id}">${id}</span> ${esc(p ? p.name : "")}`;
@@ -386,6 +418,7 @@ function renderOverview() {
   $("#overview").innerHTML = `
     <h3>Běžící session</h3><ul>${ses}</ul>
     <h3>Patche čekající</h3><ul>${pat}</ul>
+    <h3>Závory</h3><ul class="zavory">${renderZavory()}</ul>
     <h3>Sdílené seznamy</h3><ul>${todos}</ul>
     <h3>Doklady k dohledání</h3><ul>${dok}</ul>
     <h3>Výzkumný log (posledních 25)</h3><ul class="log">${log}</ul>`;
@@ -397,7 +430,7 @@ function renderLegend() {
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
-    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
+    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <span class="zav">⛔</span> závora · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
@@ -446,7 +479,9 @@ function pick(id) {
 
 function md(text, breaks) {
   if (!text) return "";
-  if (window.marked && window.DOMPurify) return `<div class="md">${DOMPurify.sanitize(marked.parse(text, { breaks: !!breaks }))}</div>`;
+  // jednoduchá vlnovka = „přibližně“ (~1783), ne přeškrtnutí GFM — escapovat, `~~…~~` zůstává
+  const src = text.replace(/(^|[^~\\])~(?!~)/g, "$1\\~");
+  if (window.marked && window.DOMPurify) return `<div class="md">${DOMPurify.sanitize(marked.parse(src, { breaks: !!breaks }))}</div>`;
   return `<pre>${esc(text)}</pre>`;
 }
 const stripFm = (t) => (t && t.startsWith("---") ? t.replace(/^---[\s\S]*?\n---\s*\n/, "") : t);
@@ -533,6 +568,11 @@ function renderPerson(d) {
 
   if (p && p.kontext_missing && p.kontext_missing.length) {
     h += `<div class="nokx-box">Chybí ${esc(p.kontext_missing.join(" a "))} — doplnit podle docs/metodika/pribehy.md (<code>kontext: chybí</code> v dossieru).</div>`;
+  }
+  if (d.zavora_text) {
+    const z = p && p.zavora;
+    h += `<h2 class="sec">Závora <small>${z ? esc(z.typy.join(" + ")) + (z.sance ? ` · šance ${esc(z.sance)}` : "") + (z.prolomeno ? ` · prolomeno ${esc(z.prolomeno)}` : "") : ""}</small></h2>`;
+    h += `<div class="zavora${z && z.prolomeno ? " broken" : ""}">${md(d.zavora_text)}</div>`;
   }
   if (d.story) {
     const when = new Date(d.story.mtime * 1000).toLocaleDateString("cs-CZ");

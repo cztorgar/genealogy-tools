@@ -240,3 +240,14 @@ table.evt tr.one { background: #fff8ea; }
 .node text.badges tspan.nokx, #legend .nokx { fill: #999; color: #999; opacity: .75; }
 .nokx-box { background: #f1f1ee; border: 1px dashed #bbb; border-radius: 4px; padding: 3px 8px; margin: 6px 0; color: #555; font-size: 12px; }
 small.warn { color: #a05a00; }
+
+/* závora (## Závora v dossieru) */
+.node text .zav, .zav { fill: #c00; color: #c00; }
+.node text .zav.broken { fill: #aaa; }
+.zavora { background: #fdecea; border-left: 4px solid #c62828; padding: 6px 10px; margin: 4px 0 10px; }
+.zavora.broken { background: #f3f3f3; border-left-color: #999; }
+ul.zavory select { font-size: 12px; max-width: 100%; }
+.zav-item.broken { opacity: .6; }
+.zav-typ { font-size: 11px; background: #fdecea; color: #8b1a1a; border-radius: 3px; padding: 0 4px; }
+.sance { font-size: 11px; border-radius: 3px; padding: 0 4px; background: #eee; }
+.sance.hi { background: #d8f0d8; } .sance.mid { background: #fff2c4; } .sance.lo { background: #fde0c8; } .sance.none { background: #e6e6e6; color: #777; }
