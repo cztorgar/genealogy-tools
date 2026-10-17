@@ -172,6 +172,7 @@ function waitingPatches(p) {
 function matchesFilter(id, p) {
   const work = $("#f-work").checked, wait = $("#f-wait").checked;
   if ($("#f-single").checked && !(p && p.events && p.events.single)) return false;
+  if ($("#f-nokx").checked && !(p && p.kontext_missing && p.kontext_missing.length)) return false;
   if (!work && !wait) return true;
   const ses = sessionOf(id);
   let ok = false;
@@ -210,7 +211,8 @@ function render() {
     el("rect", { class: "box", width: BW, height: BH, rx: 4, fill: STATE_COLORS[stav] || "#fff" }, g);
     const tip = el("title", {}, g);
     tip.textContent = missing ? `${id} — nesáhnuto (${relLabel(id)})`
-      : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}\nstav: ${stav}`;
+      : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}\nstav: ${stav}` +
+        (p.kontext_missing && p.kontext_missing.length ? `\nchybí: ${p.kontext_missing.join(", ")} (docs/metodika/pribehy.md)` : "");
 
     const name = missing ? "nesáhnuto" : (p.name || "(bez jména)");
     el("text", { class: "name", x: 7, y: 15 }, g).textContent = trunc(name, 25);
@@ -229,6 +231,9 @@ function render() {
       const bt = el("text", { class: "badges", x: 7, y: 45 }, g);
       bt.textContent = b.join("  ");
       const k = p.kontroly;
+      if (p.kontext_missing && p.kontext_missing.length) {
+        el("tspan", { class: "nokx" }, bt).textContent = `${bt.textContent ? "  " : ""}∅📖`;
+      }
       if (k && k.open) {
         const ts = el("tspan", { class: k.blocking ? "kb block" : "kb" }, bt);
         ts.textContent = `${b.length ? "  " : ""}⚑${k.open}`;
@@ -392,7 +397,7 @@ function renderLegend() {
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
-    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
+    <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
@@ -526,6 +531,9 @@ function renderPerson(d) {
     h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   }
 
+  if (p && p.kontext_missing && p.kontext_missing.length) {
+    h += `<div class="nokx-box">Chybí ${esc(p.kontext_missing.join(" a "))} — doplnit podle docs/metodika/pribehy.md (<code>kontext: chybí</code> v dossieru).</div>`;
+  }
   if (d.story) {
     const when = new Date(d.story.mtime * 1000).toLocaleDateString("cs-CZ");
     h += `<h2 class="sec">Příběh <small class="path">${esc(d.story.file)} · ${esc(when)}</small></h2>`;
@@ -638,7 +646,7 @@ $("#lightbox").addEventListener("click", (ev) => { if (ev.target.tagName !== "A"
 
 // ------------------------------------------------------------------ filtry, polling
 
-for (const f of ["f-work", "f-wait", "f-empty", "f-single"]) {
+for (const f of ["f-work", "f-wait", "f-empty", "f-single", "f-nokx"]) {
   const box = $("#" + f);
   box.checked = store.get(f, box.checked);
   box.addEventListener("change", () => { store.set(f, box.checked); render(); });

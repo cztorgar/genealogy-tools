@@ -270,6 +270,9 @@ def parse_dossier(path: Path) -> dict:
         "myheritage": fm.get("myheritage"),
         "checklist": checklist, "docs": docs, "deferred": deferred, "log": log_n,
         "birth": birth, "death": death,
+        # `kontext: chybí` (tools/research/kontext_flags.py) + zda má dossier vyplněnou sekci Kontext
+        "kontext_flag": str(fm.get("kontext") or "").strip() == "chybí",
+        "has_kontext": bool(section(secs, "Kontext").strip()),
     }
 
 
@@ -492,6 +495,8 @@ class Tree:
             d["todo_open"] = 0
             d["sources"] = pid in src_ids
             d["story"] = pid in stories
+            d["kontext_missing"] = [x for x, ok in (("Kontext", d.get("has_kontext")), ("příběh", d["story"])) if not ok] \
+                if d.get("kontext_flag") else []
         for pt in patches:
             if pt["id"] in people:
                 st = people[pt["id"]]["patches"]
