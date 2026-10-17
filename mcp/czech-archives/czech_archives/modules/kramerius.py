@@ -59,7 +59,7 @@ def surname_forms(surname: str) -> dict:
 
     Mužské příjmení → mužské pády + ženské tvary (manželka, dcery se v tisku objevují s ním).
     Ženské příjmení (-ová, -á) → jen ženské tvary: mužskou podobu nelze spolehlivě odvodit
-    (Vávrová → Vávra, Novotná → Novotný, Jiránková → Jiránek).
+    (Kolářová → Kolář, Novotná → Novotný, Dvořáková → Dvořák).
     Pád jednotného čísla: 1.–7.; množné číslo jen „Novákovi / Novákové“ (rodina, manželé).
     """
     s = " ".join(surname.split())
@@ -78,7 +78,7 @@ def surname_forms(surname: str) -> dict:
         forms = [s, stem + "ého", stem + "ému", stem + "ým", stem + "í"]
         female = [stem + "á", stem + "é", stem + "ou"]
         return {"sex": "m", "forms": _uniq(forms + female)}
-    if low.endswith("a"):                     # Svoboda, Vávra
+    if low.endswith("a"):                     # Svoboda, Hora
         stem = s[:-1]
         forms = [s, stem + "y", stem + "ovi", stem + "u", stem + "ou"]
         female_stem = stem
