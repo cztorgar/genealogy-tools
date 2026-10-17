@@ -366,7 +366,8 @@ def cmp_names(a: list[str], b: list[str]) -> str:
     for t in short:
         best.append(max((RANK[tok_match(t, u)] for u in long_), default=0))
     if all(x == 3 for x in best):
-        return "shoda"
+        # jedno čtení má víc tokenů (např. jen „Marie“ × „Marie Lhotáková“) → není to shoda, jen podobné
+        return "shoda" if len(a) == len(b) else "podobné"
     if all(x >= 2 for x in best):
         return "podobné"
     return "neshoda"
@@ -431,12 +432,21 @@ def cmp_field(key: str, a: dict | None, b: dict | None) -> str:
         if ta == tb or ta.startswith(tb) or tb.startswith(ta):
             return "shoda"
         return "podobné" if difflib.SequenceMatcher(None, ta, tb).ratio() > 0.75 else "neshoda"
-    # jména: nejlepší z value×value a raw×raw (value může být normalizovaná, raw doslovné)
+    # jména: value×value i raw×raw, rozhoduje HORŠÍ z dostupných (dřív nejlepší → falešné shody, kontrola G-01);
+    # křížové porovnání jen když jedno čtení nemá value ani raw
     order = ["chybí", "neshoda", "podobné", "shoda"]
-    res = [cmp_names(name_core(a.get("value")), name_core(b.get("value"))),
-           cmp_names(name_core(a.get("raw")), name_core(b.get("raw"))),
-           cmp_names(name_core(a.get("value") or a.get("raw")), name_core(b.get("raw") or b.get("value")))]
-    return max(res, key=order.index)
+    digits = lambda f: re.findall(r"\d+", f.get("raw") or f.get("value") or "")
+    da, db = digits(a), digits(b)
+    if da and db and da != db:
+        return "neshoda"          # čísla (datum ve věku, č. p.) se liší → nikdy shoda, i když jména sedí
+    res = [r for r in (cmp_names(name_core(a.get("value")), name_core(b.get("value"))),
+                       cmp_names(name_core(a.get("raw")), name_core(b.get("raw")))) if r != "chybí"]
+    if not res:
+        res = [cmp_names(name_core(a.get("value") or a.get("raw")), name_core(b.get("raw") or b.get("value")))]
+    worst = min(res, key=order.index)
+    if worst == "neshoda" and res[0] == "shoda" and len(res) > 1:
+        return "podobné"          # normalizované hodnoty sedí, doslovná čtení se liší (pravopis, pád) → jen k ověření
+    return worst
 
 
 # ---------------------------------------------------------------- PERO
