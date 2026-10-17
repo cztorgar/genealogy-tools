@@ -31,6 +31,7 @@ Navazuje na [`dukazni-standard.md`](dukazni-standard.md), [`prepis.md`](prepis.m
 | I2 | Sedí jen jeden údaj → **kandidát**. Do patche jde nanejvýš jako nápověda nebo s jistotou 1 a do fronty jde **kontrola `totoznost`, blokující**. Na kandidátovi se nestaví další generace. |
 | I3 | Víc kandidátů (jmenovci ve stejné obci a období) → **vždy kontrola `totoznost`**, s tabulkou kandidátů a toho, co u kterého sedí. |
 | I4 | Rodiče osoby se zakládají (`add_person`, `ensure_family`) jen z doloženého zápisu (I1). U kandidátů se rodina nezakládá. |
+| I0 | **Rozhodují důkazy, ne uživatel.** Je-li I1 splněno (≥ 2 nezávislé údaje kromě jména, bez rozporu, který by totožnost vyvracel), vazba se zapíše — i když vede ke zhroucení předků nebo propojení dvou větví. Rozpory se zapíšou do kontextu. Kontrola `totoznost` jen když I1 splněno není (I2/I3) nebo když na sporném čtení totožnost stojí. (Pokyn uživatele 2026-10-17.) |
 | I5 | Typická past: otec a syn stejného jména ve stejném domě, vdova po druhém sňatku, macecha. Když to nelze vyloučit, jde o kandidáta (I2). |
 
 ## 3. Jistota a doložení (pravidla D)
