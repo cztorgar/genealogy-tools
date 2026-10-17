@@ -42,7 +42,8 @@ Poslouchá jen na `127.0.0.1`. Závislost jen PyYAML (inline metadata pro `uv`).
 | výzkumný log | `T/research/log.md` (posledních 25) |
 | kontroly | `T/research/kontroly/<ID>-<nn>.yml`, `G-<nn>.yml` |
 | doložení údajů | události z aplikovaných patchů + sidecary citací |
-| běžící session | `herdr agent list` — agent se jménem ve tvaru ID (`k0056`, `k0001-s2-p2`) s cwd ve workbenchi/stromu |
+| běžící session | `herdr agent list` — agent se jménem ve tvaru ID (`k0056`, `k0001-s2-p2`) nebo `vetev-*` (session větve) s cwd ve workbenchi/stromu |
+| kořen větve | `T/research/vetve.yml` (`vetev-x: <ID kořene>`), jinak první ID v prvním promptu session (Claude transkript `~/.claude/projects/<cwd>/<agent_session>.jsonl`, čte se jen začátek) |
 
 ## Strom z ID
 
@@ -109,3 +110,18 @@ sidecar s `pair` a jeho dvojče = jeden, rejstřík (typ/forma „rejstřík“,
 citace odkazem na Gramps (`C0013`) = jeden zápis. **jist.** = nejvyšší jistota citace. Najetí na počet ukáže
 zápisy. Neaplikované patche se nepočítají (`remove_citation` se neprojevuje; duplicitní citace téhož zápisu
 se sloučí).
+
+## Session větví
+
+Agent `vetev-*` (viz `docs/metodika/workflow-sessions.md`, Session větve) se ukáže v přehledu běžících session
+s názvem, kořenem větve (a odkud se vzal) a osobou, na které teď pracuje. Ve stromu má tečku s kroužkem.
+
+- **Kořen větve:** `T/research/vetve.yml` má přednost (zapisuje manager při otevření větve, např.
+  `vetev-x: K0001-S2-P2-P2` nebo `vetev-x: {koren: …}`). Bez něj se vezme první ID osoby v prvním promptu
+  session — zadání větve začíná „Začni <ID> …“. Neznámý kořen = větev je jen v přehledu.
+- **Osoba patří větvi**, když je pod jejím kořenem ve struktuře ID (Kekule n → n//2, jinak bez poslední přípony);
+  víc větví nad sebou → vyhraje **nejbližší** kořen (vetev-boudys pod vetev-kubelka). Vlastní session `k<ID>`
+  má vždy přednost.
+- **Odznak** dostane osoba větve se stavem `rozpracováno`. Nemá-li větev žádnou (session je mezi osobami),
+  dostane bledou tečku osoba větve s naposledy změněným dossierem („naposledy“ v přehledu).
+- Rozhodnutí kontroly osoby, která patří větvi, se pošle session větve.

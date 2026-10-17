@@ -93,6 +93,8 @@ main { flex: 1; display: flex; min-height: 0; }
 .node .run.working { fill: var(--run-working); }
 .node .run.idle { fill: var(--run-idle); }
 .node .run.done { fill: var(--run-done); }
+.node .run.branch { stroke: #333; stroke-width: 1.6; }
+.node .run.guess { opacity: .55; }
 .node .run.working { animation: pulse 1.4s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .35; } }
 .edge { fill: none; stroke: var(--edge); stroke-width: 1.2; }

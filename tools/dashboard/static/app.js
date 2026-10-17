@@ -151,7 +151,20 @@ function years(p) {
   return `${p.birth || "?"}–${p.death || ""}`;
 }
 
-function sessionOf(id) { return (S.sessions || []).find((s) => s.id === id); }
+// vlastní session osoby (k<ID>), jinak session větve, pod kterou osoba spadá (server: people[id].branch)
+function sessionOf(id) {
+  const ss = S.sessions || [];
+  const own = ss.find((s) => s.id === id);
+  if (own) return own;
+  const p = S.people[id];
+  return p && p.branch ? ss.find((s) => s.name === p.branch) : undefined;
+}
+function sessionTip(ses, id) {
+  if (ses.kind !== "vetev") return `session ${ses.name}: ${ses.status}`;
+  const p = S.people[id];
+  return `session větve ${ses.name}: ${ses.status}\nkořen větve ${ses.root} (${ses.root_src})` +
+    (p && p.branch_guess ? "\nžádná osoba větve není rozpracovaná — tečka je u naposledy měněného dossieru" : "");
+}
 function waitingPatches(p) {
   if (!p || !p.patches) return 0;
   return (p.patches["navrženo"] || 0) + (p.patches["schváleno"] || 0);
@@ -226,8 +239,9 @@ function render() {
     }
     const ses = sessionOf(id);
     if (ses) {
-      const c = el("circle", { class: `run ${ses.status}`, cx: BW - 10, cy: 10, r: 5.5 }, g);
-      el("title", {}, c).textContent = `session ${ses.name}: ${ses.status}`;
+      const c = el("circle", { class: `run ${ses.status} ${ses.kind === "vetev" ? "branch" : ""} ${p && p.branch_guess ? "guess" : ""}`,
+                               cx: BW - 10, cy: 10, r: 5.5 }, g);
+      el("title", {}, c).textContent = sessionTip(ses, id);
     }
     if (n.hasKids) {
       const tg = el("g", { class: "toggle", transform: `translate(${BW - 16},${BH - 16})`, "data-toggle": id }, g);
@@ -345,8 +359,14 @@ function renderOverview() {
   $("#counts").innerHTML = order.filter((k) => S.counts[k]).map((k) =>
     `<span class="chip" style="background:${STATE_COLORS[k]}" title="${esc(STATE_HELP[k] || "")}">${esc(k)} <b>${S.counts[k]}</b></span>`).join("");
 
-  const ses = S.sessions.length ? S.sessions.map((s) =>
-    `<li><svg width="10" height="10"><circle class="run ${s.status}" cx="5" cy="5" r="4.5" style="fill:var(--run-${s.status})"/></svg> ${personLabel(s.id)} <small>${esc(s.status)}</small></li>`).join("")
+  const dot = (s) => `<svg width="10" height="10"><circle class="run ${s.status}" cx="5" cy="5" r="4.5" style="fill:var(--run-${s.status})"/></svg>`;
+  const ses = S.sessions.length ? S.sessions.map((s) => {
+    if (s.kind !== "vetev") return `<li>${dot(s)} ${personLabel(s.id)} <small>${esc(s.status)}</small></li>`;
+    const on = Object.values(S.people).filter((p) => p.branch === s.name);
+    return `<li>${dot(s)} <b>${esc(s.name)}</b> <small>${esc(s.status)}</small><br>
+      <small>kořen ${s.root ? `${personLabel(s.root)} <i title="odkud je kořen">(${esc(s.root_src)})</i>` : "neznámý — doplň research/vetve.yml"}</small>
+      ${on.length ? `<br><small>${on[0].branch_guess ? "naposledy" : "teď"}: ${on.map((p) => personLabel(p.id)).join(", ")}</small>` : ""}</li>`;
+  }).join("")
     : `<li class="empty">žádná osobní session</li>`;
   const waiting = S.patches.filter((p) => ["navrženo", "schváleno"].includes(p.status));
   const pat = waiting.length ? waiting.map((p) =>
@@ -370,7 +390,7 @@ function renderLegend() {
     `<span title="${esc(STATE_HELP[k] || "")}"><i class="sw" style="background:${STATE_COLORS[k]}"></i>${esc(k)}</span>`).join("");
   $("#legend").innerHTML = `
     <div class="row">${st}<span><i class="sw" style="background:#fff;border-style:dashed"></i>nesáhnuto (bez dossieru)</span></div>
-    <div class="row"><span>session: <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
+    <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
     <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
@@ -478,14 +498,14 @@ function renderPerson(d) {
   const p = S.people[d.id];
   const id = d.id;
   const stav = p ? (p.stav || "bez dossieru") : "nesáhnuto";
-  const ses = d.session;
+  const ses = sessionOf(id) || d.session;
   const c = p && p.checklist;
   const facts = [
     `<span class="chip" style="background:${STATE_COLORS[p ? stav : ""] || "#fff"}">${esc(stav)}</span>`,
     `<span class="tag">${esc(id)}</span>`,
     p && years(p) ? `<span class="tag">${esc(years(p))}</span>` : "",
     p && p["původ"] ? `<span class="tag">původ: ${esc(p["původ"])}</span>` : "",
-    ses ? `<span class="chip"><b style="color:var(--run-${ses.status})">●</b> session ${esc(ses.name)}: ${esc(ses.status)}</span>` : "",
+    ses ? `<span class="chip" title="${esc(sessionTip(ses, id))}"><b style="color:var(--run-${ses.status})">●</b> ${ses.kind === "vetev" ? "session větve" : "session"} ${esc(ses.name)}: ${esc(ses.status)}</span>` : "",
     d.gramps ? `<a href="${esc(d.gramps)}" target="_blank" rel="noopener">Gramps ↗</a>` : "",
   ].join(" ");
   const struct = [];

@@ -48,6 +48,8 @@ ID_RE = re.compile(r"\bK(\d{1,5})((?:-[SCP]\d+)*)\b")
 ID_FULL_RE = re.compile(r"^K\d+(?:-[SCP]\d+)*$")
 HINT_ID_RE = re.compile(r"^(K\d+(?:-[SCP]\d+)*)-")
 SESSION_NAME_RE = re.compile(r"^k\d+(?:-[scp]\d+)*$")
+BRANCH_NAME_RE = re.compile(r"^vetev-[\w-]+$")      # session větve (docs/metodika/workflow-sessions.md)
+CLAUDE_PROJECTS = Path.home() / ".claude/projects"
 
 STATES = ["zmínka", "převzato", "rozpracováno", "pozastaveno", "dokončeno", "zapsáno"]
 PATCH_WAITING = {"navrženo", "schváleno"}
@@ -66,6 +68,52 @@ def ids_in(text: str) -> list[str]:
     for m in ID_RE.finditer(text):
         seen[norm_id(m.group(1), m.group(2))] = None
     return list(seen)
+
+
+def struct_parent(pid: str) -> str | None:
+    """Strukturní rodič ID: Kekule n → n//2, jinak bez poslední přípony."""
+    m = re.match(r"^K(\d+)$", pid)
+    if m:
+        n = int(m.group(1))
+        return norm_id(str(n // 2)) if n > 1 else None
+    return re.sub(r"-[SCP]\d+$", "", pid)
+
+
+def depth_under(pid: str, root: str) -> int | None:
+    """Kolik kroků je `pid` pod `root` (0 = sám kořen), nebo None, když pod ním není."""
+    d, cur = 0, pid
+    while cur:
+        if cur == root:
+            return d
+        cur, d = struct_parent(cur), d + 1
+    return None
+
+
+def first_prompt_root(cwd: str, session_id: str) -> str | None:
+    """První ID osoby v prvním promptu session (Claude transkript) — záložní kořen větve.
+
+    Čte jen začátek souboru; obsah promptu je data (hledá se v něm jen ID)."""
+    if not session_id or not re.match(r"^[\w-]+$", session_id):
+        return None
+    path = CLAUDE_PROJECTS / re.sub(r"[^\w-]", "-", cwd) / f"{session_id}.jsonl"
+    try:
+        with path.open(encoding="utf-8", errors="replace") as fh:
+            for i, line in enumerate(fh):
+                if i > 200:
+                    break
+                try:
+                    o = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if o.get("type") != "user":
+                    continue
+                c = (o.get("message") or {}).get("content")
+                text = c if isinstance(c, str) else " ".join(x.get("text", "") for x in c or [] if isinstance(x, dict))
+                ids = ids_in(text)
+                return ids[0] if ids else None
+    except OSError:
+        return None
+    return None
 
 
 def norm_any(value) -> str | None:
@@ -265,6 +313,7 @@ class Tree:
         self.gramps_url = gramps_url.rstrip("/")
         self._herdr = (0.0, [])
         self._herdr_lock = threading.Lock()
+        self._prompt_roots: dict[tuple[str, str], str | None] = {}
 
     # --- výčet souborů (levný: jen stat)
     def files(self) -> dict[str, list[Path]]:
@@ -278,7 +327,7 @@ class Tree:
             "hints": ls(r / "research/hints", "*.md"),
             "patches": ls(r / "patches", "P-*.yml") + ls(r / "patches", "P-*.yaml"),
             "todos": ls(r / "research", "todo-*.md"),
-            "research": [p for p in (r / "research/log.md", r / "research/doklady.md") if p.exists()],
+            "research": [p for p in (r / "research/log.md", r / "research/doklady.md", r / "research/vetve.yml") if p.exists()],
             "sidecars": [y for d in source_dirs for y in sorted(d.glob("*.yml"))],
             "source_dirs": source_dirs,
             "kontroly": kontroly.files(r),
@@ -306,19 +355,58 @@ class Tree:
             try:
                 res = subprocess.run(["herdr", "agent", "list"], capture_output=True, text=True, timeout=3)
                 agents = json.loads(res.stdout).get("result", {}).get("agents", [])
+                config = self.branch_config()
                 for a in agents:
                     name = a.get("name") or ""
                     cwd = a.get("cwd") or ""
-                    if not SESSION_NAME_RE.match(name):
-                        continue
                     if not (cwd.startswith(str(WORKBENCH)) or cwd.startswith(str(self.root))):
                         continue
-                    out.append({"id": name.upper(), "name": name, "status": a.get("agent_status"),
-                                "title": a.get("terminal_title_stripped") or ""})
+                    base = {"name": name, "status": a.get("agent_status"),
+                            "title": a.get("terminal_title_stripped") or ""}
+                    if SESSION_NAME_RE.match(name):
+                        out.append({"id": name.upper(), "kind": "osoba", **base})
+                    elif BRANCH_NAME_RE.match(name):
+                        root, src = config.get(name), "research/vetve.yml"
+                        if not root:
+                            sid = str((a.get("agent_session") or {}).get("value") or "")
+                            key = (cwd, sid)
+                            if key not in self._prompt_roots:
+                                self._prompt_roots[key] = first_prompt_root(cwd, sid)
+                            root, src = self._prompt_roots[key], "první prompt"
+                        out.append({"id": None, "kind": "vetev", "root": root,
+                                    "root_src": src if root else None, **base})
             except (OSError, subprocess.SubprocessError, json.JSONDecodeError, AttributeError):
                 out = []
             self._herdr = (time.time(), out)
             return out
+
+    def branch_config(self) -> dict[str, str]:
+        """`T/research/vetve.yml`: `vetev-x: <kořen>` nebo `vetev-x: {koren: <ID>}` — přebíjí první prompt."""
+        data = CACHE.get(self.root / "research/vetve.yml", "yaml", load_yaml)
+        out = {}
+        for name, v in (data or {}).items() if isinstance(data, dict) else []:
+            root = norm_any(v.get("koren") if isinstance(v, dict) else v)
+            if root:
+                out[str(name)] = root
+        return out
+
+    def session_of(self, pid: str, sessions: list[dict] | None = None, people: dict | None = None) -> dict | None:
+        """Vlastní session osoby (k<ID>), jinak session větve s nejbližším kořenem nad ní.
+
+        Větev se osobě přiřadí jen u stavu rozpracováno (people), nebo vždy, když people není dáno."""
+        sessions = self.sessions() if sessions is None else sessions
+        own = next((s for s in sessions if s["id"] == pid), None)
+        if own:
+            return own
+        if people is not None and (people.get(pid) or {}).get("stav") != "rozpracováno":
+            return None
+        best = None
+        for s in sessions:
+            if s.get("kind") == "vetev" and s.get("root"):
+                d = depth_under(pid, s["root"])
+                if d is not None and (best is None or d < best[0]):
+                    best = (d, s)
+        return best[1] if best else None
 
     # --- souhrn
     def people(self, files) -> dict[str, dict]:
@@ -419,6 +507,24 @@ class Tree:
                                "checklist": None, "docs": None, "sources": pid in src_ids, "orphan": True}
 
         for pid, d in people.items():
+            ses = self.session_of(pid, sessions, people)
+            d["branch"] = ses["name"] if ses and ses.get("kind") == "vetev" else None
+            d["branch_guess"] = False
+        # větev bez osoby „rozpracováno“ (session je mezi osobami) → odznak na naposledy měněném dossieru větve
+        busy = {d["branch"] for d in people.values() if d.get("branch")}
+        for s in sessions:
+            if s.get("kind") != "vetev" or not s.get("root") or s["name"] in busy:
+                continue
+            best = None
+            for pid, d in people.items():
+                if not d.get("file") or self.session_of(pid, sessions) is not s:
+                    continue
+                mt = (self.root / d["file"]).stat().st_mtime
+                if best is None or mt > best[0]:
+                    best = (mt, pid)
+            if best:
+                people[best[1]]["branch"] = s["name"]
+                people[best[1]]["branch_guess"] = True
             mine = [k for k in checks if k["osoba"] == pid and k["stav"] == kontroly.OPEN]
             d["kontroly"] = {"open": len(mine), "blocking": sum(k["blokuje"] for k in mine)}
             evs = events.get(pid, [])
@@ -458,7 +564,7 @@ class Tree:
         if not pid:
             return None
         self._herdr = (0.0, [])
-        ses = next((s for s in self.sessions() if s["id"] == pid.upper()), None)
+        ses = self.session_of(pid.upper())
         if not ses:
             return None
         try:
@@ -516,7 +622,7 @@ class Tree:
         gid = d.get("gramps_id")
         out["gramps"] = f"{self.gramps_url}/person/{gid}" if gid else None
         out["abs_path"] = str(self.root / d["file"]) if d.get("file") else None
-        out["session"] = next((s for s in self.sessions() if s["id"] == pid), None)
+        out["session"] = self.session_of(pid, people=people)
         out["residences"] = [r for r in mapdata.residences(files["patches"], CACHE, load_yaml, self.root)
                              if r["id"] == pid]
         out["events"] = self.events(files).get(pid, [])
