@@ -1,0 +1,271 @@
+# Trvalá testovací sada HTR (viz docs/nastroje/htr.md). Snímky jsou veřejné archiválie SOA Praha;
+# obrázky se NEKOPÍRUJÍ do repa — jsou v cache (viz `obrazek`), znovu je stáhne
+# `tools/htr/eval.py prepare` přes MCP czech-archives (fetch_archivalie_page).
+# vyrez = [x, y, w, h] v pixelech původního snímku; ref/<id>.txt = referenční přepis výřezu (Opus, ručně).
+cache: ~/.cache/genealogy-workbench/htr-test
+strom: ../genealogy-trees/berescak
+polozky:
+  - id: kouty-0030
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 3480
+    snimek: 30
+    url: https://ebadatelna.soapraha.cz/a/3480/30
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Kouty (NAD 289), 1890 - 1929, Kouty: Kronika obecné školy 1868-1929, archivalieId 3480, snímek 30. Online: https://ebadatelna.soapraha.cz/a/3480/30, cit. 17. 10. 2026."
+    obrazek: kouty/a3480_0030.jpg
+    vyrez: [2062, 192, 1785, 1728]
+    poznamka: "pravá strana"
+    ref: ref/kouty-0030.txt
+    klic: ref/kouty-0030.json
+  - id: kouty-0060
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 3480
+    snimek: 60
+    url: https://ebadatelna.soapraha.cz/a/3480/60
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Kouty (NAD 289), 1890 - 1929, Kouty: Kronika obecné školy 1868-1929, archivalieId 3480, snímek 60. Online: https://ebadatelna.soapraha.cz/a/3480/60, cit. 17. 10. 2026."
+    obrazek: kouty/a3480_0060.jpg
+    vyrez: [159, 224, 1745, 1696]
+    poznamka: "levá strana"
+    ref: ref/kouty-0060.txt
+    klic: ref/kouty-0060.json
+  - id: kouty-0090
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 3480
+    snimek: 90
+    url: https://ebadatelna.soapraha.cz/a/3480/90
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Kouty (NAD 289), 1890 - 1929, Kouty: Kronika obecné školy 1868-1929, archivalieId 3480, snímek 90. Online: https://ebadatelna.soapraha.cz/a/3480/90, cit. 17. 10. 2026."
+    obrazek: kouty/a3480_0090.jpg
+    vyrez: [1982, 160, 1784, 1600]
+    poznamka: "pravá strana, zhuštěné"
+    ref: ref/kouty-0090.txt
+    klic: ref/kouty-0090.json
+  - id: liten-0006
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 238
+    snimek: 6
+    url: https://ebadatelna.soapraha.cz/a/238/6
+    citace: "Státní okresní archiv Beroun, Archiv obce Liteň (NAD 161), 1922 - 1974, Liteň: Kronika obce 1922-1940, inv. č. 4, archivalieId 238, snímek 6. Online: https://ebadatelna.soapraha.cz/a/238/6, cit. 17. 10. 2026."
+    obrazek: liten/a238_0006.jpg
+    vyrez: [120, 111, 1880, 998]
+    poznamka: "seznam jmen"
+    ref: ref/liten-0006.txt
+    klic: ref/liten-0006.json
+  - id: liten-0020
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 238
+    snimek: 20
+    url: https://ebadatelna.soapraha.cz/a/238/20
+    citace: "Státní okresní archiv Beroun, Archiv obce Liteň (NAD 161), 1922 - 1974, Liteň: Kronika obce 1922-1940, inv. č. 4, archivalieId 238, snímek 20. Online: https://ebadatelna.soapraha.cz/a/238/20, cit. 17. 10. 2026."
+    obrazek: liten/a238_0020.jpg
+    vyrez: [160, 140, 1800, 979]
+    poznamka: "souvislý text"
+    ref: ref/liten-0020.txt
+    klic: ref/liten-0020.json
+  - id: liten-0060
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 238
+    snimek: 60
+    url: https://ebadatelna.soapraha.cz/a/238/60
+    citace: "Státní okresní archiv Beroun, Archiv obce Liteň (NAD 161), 1922 - 1974, Liteň: Kronika obce 1922-1940, inv. č. 4, archivalieId 238, snímek 60. Online: https://ebadatelna.soapraha.cz/a/238/60, cit. 17. 10. 2026."
+    obrazek: liten/a238_0060.jpg
+    vyrez: [2000, 140, 1880, 979]
+    poznamka: "souvislý text"
+    ref: ref/liten-0060.txt
+    klic: ref/liten-0060.json
+  - id: horcapsko-0012
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 516
+    snimek: 12
+    url: https://ebadatelna.soapraha.cz/a/516/12
+    citace: "Státní okresní archiv Příbram, Místní národní výbor Horčápsko (NAD 1218), 1929 - 1964, Horčápsko: Kronika obce do 1938, archivalieId 516, snímek 12. Online: https://ebadatelna.soapraha.cz/a/516/12, cit. 17. 10. 2026."
+    obrazek: horcapsko/a516_0012.jpg
+    vyrez: [100, 227, 1800, 1051]
+    poznamka: "seznam jmen"
+    ref: ref/horcapsko-0012.txt
+    klic: ref/horcapsko-0012.json
+  - id: horcapsko-0040
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 516
+    snimek: 40
+    url: https://ebadatelna.soapraha.cz/a/516/40
+    citace: "Státní okresní archiv Příbram, Místní národní výbor Horčápsko (NAD 1218), 1929 - 1964, Horčápsko: Kronika obce do 1938, archivalieId 516, snímek 40. Online: https://ebadatelna.soapraha.cz/a/516/40, cit. 17. 10. 2026."
+    obrazek: horcapsko/a516_0040.jpg
+    vyrez: [100, 284, 1800, 994]
+    poznamka: "čísla a částky"
+    ref: ref/horcapsko-0040.txt
+    klic: ref/horcapsko-0040.json
+  - id: horcapsko-0075
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 516
+    snimek: 75
+    url: https://ebadatelna.soapraha.cz/a/516/75
+    citace: "Státní okresní archiv Příbram, Místní národní výbor Horčápsko (NAD 1218), 1929 - 1964, Horčápsko: Kronika obce do 1938, archivalieId 516, snímek 75. Online: https://ebadatelna.soapraha.cz/a/516/75, cit. 17. 10. 2026."
+    obrazek: horcapsko/a516_0075.jpg
+    vyrez: [100, 170, 1860, 1250]
+    poznamka: "souvislý text"
+    ref: ref/horcapsko-0075.txt
+    klic: ref/horcapsko-0075.json
+  - id: chrastice-0008
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 525
+    snimek: 8
+    url: https://ebadatelna.soapraha.cz/a/525/8
+    citace: "Státní okresní archiv Příbram, Archiv obce Chraštice (NAD 84), 1918 - 1939, Chraštice: Kronika obce do 1939, archivalieId 525, snímek 8. Online: https://ebadatelna.soapraha.cz/a/525/8, cit. 17. 10. 2026."
+    obrazek: chrastice/a525_0008.jpg
+    vyrez: [2079, 128, 1800, 1728]
+    poznamka: "modrý inkoust"
+    ref: ref/chrastice-0008.txt
+    klic: ref/chrastice-0008.json
+  - id: chrastice-0020
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 525
+    snimek: 20
+    url: https://ebadatelna.soapraha.cz/a/525/20
+    citace: "Státní okresní archiv Příbram, Archiv obce Chraštice (NAD 84), 1918 - 1939, Chraštice: Kronika obce do 1939, archivalieId 525, snímek 20. Online: https://ebadatelna.soapraha.cz/a/525/20, cit. 17. 10. 2026."
+    obrazek: chrastice/a525_0020.jpg
+    vyrez: [2066, 96, 1788, 1760]
+    poznamka: "souvislý text"
+    ref: ref/chrastice-0020.txt
+    klic: ref/chrastice-0020.json
+  - id: chrastice-0032
+    skupina: latinka20
+    typ: archivalie
+    archivalie_id: 525
+    snimek: 32
+    url: https://ebadatelna.soapraha.cz/a/525/32
+    citace: "Státní okresní archiv Příbram, Archiv obce Chraštice (NAD 84), 1918 - 1939, Chraštice: Kronika obce do 1939, archivalieId 525, snímek 32. Online: https://ebadatelna.soapraha.cz/a/525/32, cit. 17. 10. 2026."
+    obrazek: chrastice/a525_0032.jpg
+    vyrez: [2066, 96, 1788, 1568]
+    poznamka: "slabý kontrast"
+    ref: ref/chrastice-0032.txt
+    klic: ref/chrastice-0032.json
+  - id: umyslovice-0008
+    skupina: kurent19
+    typ: archivalie
+    archivalie_id: 3345
+    snimek: 8
+    url: https://ebadatelna.soapraha.cz/a/3345/8
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 8. Online: https://ebadatelna.soapraha.cz/a/3345/8, cit. 17. 10. 2026."
+    obrazek: umyslovice/a3345_0008.jpg
+    vyrez: [153, 160, 1682, 1600]
+    poznamka: "písmo ověřit"
+    ref: ref/umyslovice-0008.txt
+    klic: ref/umyslovice-0008.json
+  - id: umyslovice-0025
+    skupina: kurent19
+    typ: archivalie
+    archivalie_id: 3345
+    snimek: 25
+    url: https://ebadatelna.soapraha.cz/a/3345/25
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 25. Online: https://ebadatelna.soapraha.cz/a/3345/25, cit. 17. 10. 2026."
+    obrazek: umyslovice/a3345_0025.jpg
+    vyrez: [158, 160, 1739, 1600]
+    poznamka: "písmo ověřit; seznam"
+    ref: ref/umyslovice-0025.txt
+    klic: ref/umyslovice-0025.json
+  - id: umyslovice-0045
+    skupina: kurent19
+    typ: archivalie
+    archivalie_id: 3345
+    snimek: 45
+    url: https://ebadatelna.soapraha.cz/a/3345/45
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 45. Online: https://ebadatelna.soapraha.cz/a/3345/45, cit. 17. 10. 2026."
+    obrazek: umyslovice/a3345_0045.jpg
+    vyrez: [1976, 160, 1858, 1600]
+    poznamka: "písmo ověřit (možná latinka)"
+    ref: ref/umyslovice-0045.txt
+    klic: ref/umyslovice-0045.json
+  - id: umyslovice-0060
+    skupina: kurent19
+    typ: archivalie
+    archivalie_id: 3345
+    snimek: 60
+    url: https://ebadatelna.soapraha.cz/a/3345/60
+    citace: "Státní okresní archiv Nymburk se sídlem v Lysé nad Labem, Základní devítiletá škola Úmyslovice (NAD 310), 1834 - 1894, Úmyslovice: Kronika obecné školy do 1894, archivalieId 3345, snímek 60. Online: https://ebadatelna.soapraha.cz/a/3345/60, cit. 17. 10. 2026."
+    obrazek: umyslovice/a3345_0060.jpg
+    vyrez: [119, 160, 1779, 1600]
+    poznamka: "písmo ověřit (možná latinka)"
+    ref: ref/umyslovice-0060.txt
+    klic: ref/umyslovice-0060.json
+  - id: ziz-0020
+    skupina: kurent18
+    typ: archivalie
+    archivalie_id: 1612
+    snimek: 20
+    url: https://ebadatelna.soapraha.cz/a/1612/20
+    citace: "Státní okresní archiv Kolín, Archiv města Žiželice (NAD 350), 1752 - 1848, Žiželice: Pamětní kniha 1752-1848, inv. č. 7, archivalieId 1612, snímek 20. Online: https://ebadatelna.soapraha.cz/a/1612/20, cit. 17. 10. 2026."
+    obrazek: ziz/a1612_0020.jpg
+    vyrez: [2221, 128, 1922, 1472]
+    poznamka: ""
+    ref: ref/ziz-0020.txt
+    klic: ref/ziz-0020.json
+  - id: ziz-0060
+    skupina: kurent18
+    typ: archivalie
+    archivalie_id: 1612
+    snimek: 60
+    url: https://ebadatelna.soapraha.cz/a/1612/60
+    citace: "Státní okresní archiv Kolín, Archiv města Žiželice (NAD 350), 1752 - 1848, Žiželice: Pamětní kniha 1752-1848, inv. č. 7, archivalieId 1612, snímek 60. Online: https://ebadatelna.soapraha.cz/a/1612/60, cit. 17. 10. 2026."
+    obrazek: ziz/a1612_0060.jpg
+    vyrez: [2162, 128, 2033, 1472]
+    poznamka: "nadpis ozdobně"
+    ref: ref/ziz-0060.txt
+    klic: ref/ziz-0060.json
+  - id: ziz-0120
+    skupina: kurent18
+    typ: archivalie
+    archivalie_id: 1612
+    snimek: 120
+    url: https://ebadatelna.soapraha.cz/a/1612/120
+    citace: "Státní okresní archiv Kolín, Archiv města Žiželice (NAD 350), 1752 - 1848, Žiželice: Pamětní kniha 1752-1848, inv. č. 7, archivalieId 1612, snímek 120. Online: https://ebadatelna.soapraha.cz/a/1612/120, cit. 17. 10. 2026."
+    obrazek: ziz/a1612_0120.jpg
+    vyrez: [216, 128, 1860, 1472]
+    poznamka: ""
+    ref: ref/ziz-0120.txt
+    klic: ref/ziz-0120.json
+  - id: mat-K0112-1815
+    skupina: matrika-kurent
+    typ: matrika-vyrez
+    obrazek_ve_strome: sources/K0112/10053_0057.jpg.crop-1.jpg   # jen odkaz, kopie není
+    prepis_ve_strome: sources/K0112/N-1815-zizelice01-f56.md   # doslovný přepis uživatelem OVĚŘENÝ
+    prepis_overeny_uzivatelem: ano
+    poznamka: "N 1815 Žiželice, kurent, fol. 56"
+    ref: null   # referenční přepis = doslovný přepis ve stromě
+    klic: ref/mat-K0112-1815.json
+  - id: mat-K0057-1846
+    skupina: matrika-kurent
+    typ: matrika-vyrez
+    obrazek_ve_strome: sources/K0057/10056_0050.jpg.crop-1.jpg   # jen odkaz, kopie není
+    prepis_ve_strome: sources/K0057/N-1846-zizelice04-f47.md   # doslovný přepis uživatelem NEOVĚŘENÝ (draft/rozhodnuto uživatelem — viz hlavička souboru)
+    prepis_overeny_uzivatelem: ne-zjisteno
+    poznamka: "N 1846 Žiželice, kurent, fol. 47"
+    ref: null   # referenční přepis = doslovný přepis ve stromě
+    klic: ref/mat-K0057-1846.json
+  - id: mat-K0056-1848
+    skupina: matrika-kurent
+    typ: matrika-vyrez
+    obrazek_ve_strome: sources/K0056/10056_0066.jpg.crop-1.jpg   # jen odkaz, kopie není
+    prepis_ve_strome: sources/K0056/N-1848-zizelice04-f63.md   # doslovný přepis uživatelem NEOVĚŘENÝ (draft/rozhodnuto uživatelem — viz hlavička souboru)
+    prepis_overeny_uzivatelem: ne-zjisteno
+    poznamka: "N 1848 Žiželice, kurent, fol. 63"
+    ref: null   # referenční přepis = doslovný přepis ve stromě
+    klic: ref/mat-K0056-1848.json
+  - id: mat-K0224-1808
+    skupina: matrika-kurent
+    typ: matrika-vyrez
+    obrazek_ve_strome: sources/K0224/10060_0011.jpg.crop-1.jpg   # jen odkaz, kopie není
+    prepis_ve_strome: sources/K0224/O-1808-zizelice08-f9v.md   # doslovný přepis uživatelem NEOVĚŘENÝ (draft/rozhodnuto uživatelem — viz hlavička souboru)
+    prepis_overeny_uzivatelem: ne-zjisteno
+    poznamka: "O 1808 Žiželice, kurent, fol. 9v"
+    ref: null   # referenční přepis = doslovný přepis ve stromě
+    klic: ref/mat-K0224-1808.json
