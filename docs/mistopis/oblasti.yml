@@ -1,0 +1,11 @@
+# Přiřazení obcí k oblastem pro přehledy (tools/research/mista.py). Obecné, bez osobních dat.
+# Obce, které jsou v docs/mistopis/<oblast>/obce.md nebo v gazetteeru <oblast>-cp.csv, se přiřadí samy;
+# tady jen ty ostatní. Oblast = pracovní region výzkumu (farnosti / archivy), ne úřední okres.
+žiželicko: [Žiželice, Končice, Převýšov, Hradišťko II, Loukonosy, Kundratice, Zbraň, Pod Vinicí, Korce, Hlavečník, Tetov, Bílé Vchynice]
+chlumecko: [Chlumec nad Cidlinou, Lučice, Kladruby, Pamětník, Písek, Nové Město, Kosice, Mlékosrby, Olešnice, Chudeřice, Sovětice]
+vápensko: [Vápno, Komárov, Strašov, Přepychy, Chýšť, Malé Výkleky, Kolesa, Újezd u Přelouče, Klamoš, Štít]
+nechanicko: [Nechanice, Mokrovousy, Dohaličky, Kobylice, Tůně, Puchlovice, Obědovice]
+týnecko: [Týnec nad Labem, Labské Chrčice, Uhlířská Lhota, Chvaletice, Ohaře, Kojice]
+kolínsko a poděbradsko: [Kouty, Úmyslovice, Vlkov nad Lesy, Sopřeč]
+berounsko a příbramsko: [Liteň, Vlence, Lhotka, Horčápsko, Tochovice, Chraštice, Zalužany]
+mimo region: [Hradec Králové]
