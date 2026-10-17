@@ -54,8 +54,18 @@ function relLabel(id) {
   return `${what} ${p}`;
 }
 
+// „jen předci“: Kekule čísla a od kotvy (K0001-S2) jen řetězce -P1/-P2; kotva sama jen, když z ní předci vedou
+const ANC_RE = /^K\d+(?:-S\d+)?(?:-P[12])*$/;
+const ancOnly = () => $("#f-anc").checked;
+function isAncestorId(id) {
+  if (!ANC_RE.test(id)) return false;
+  if (!/-S\d+$/.test(id)) return true;
+  return Object.keys(S.people).some((k) => k.startsWith(id + "-P"));
+}
+const visiblePeople = () => Object.values(S.people).filter((p) => !ancOnly() || isAncestorId(p.id));
+
 function buildNodes() {
-  const people = S.people;
+  const people = Object.fromEntries(visiblePeople().map((p) => [p.id, p]));
   const ids = new Set(Object.keys(people));
   for (const id of Object.keys(people)) {          // chybějící články řetězce (K0113, když je K0226)
     let p = structParent(id);
@@ -378,7 +388,7 @@ function zavoraTip(z) {
 }
 const ZAV_SANCE = { "vysoká": "hi", "střední": "mid", "malá": "lo", "žádná": "none", "prakticky žádná": "none" };
 function renderZavory() {
-  const all = Object.values(S.people).filter((p) => p.zavora);
+  const all = visiblePeople().filter((p) => p.zavora);
   if (!all.length) return `<li class="empty">žádná (sekce ## Závora v dossieru)</li>`;
   const types = [...new Set(all.flatMap((p) => p.zavora.typy))].sort();
   const sel = store.get("zav-typ", "");
@@ -407,8 +417,10 @@ function renderOverview() {
   document.title = `Dashboard — ${S.tree}`;
   $("#title").textContent = `Strom ${S.tree}`;
   const order = [...S.states, "bez dossieru"];
-  $("#counts").innerHTML = order.filter((k) => S.counts[k]).map((k) =>
-    `<span class="chip" style="background:${STATE_COLORS[k]}" title="${esc(STATE_HELP[k] || "")}">${esc(k)} <b>${S.counts[k]}</b></span>`).join("");
+  const counts = {};
+  for (const p of visiblePeople()) { const k = p.stav || "bez dossieru"; counts[k] = (counts[k] || 0) + 1; }
+  $("#counts").innerHTML = order.filter((k) => counts[k]).map((k) =>
+    `<span class="chip" style="background:${STATE_COLORS[k]}" title="${esc(STATE_HELP[k] || "")}${ancOnly() ? " (jen předci)" : ""}">${esc(k)} <b>${counts[k]}</b></span>`).join("");
 
   const dot = (s) => `<svg width="10" height="10"><circle class="run ${s.status}" cx="5" cy="5" r="4.5" style="fill:var(--run-${s.status})"/></svg>`;
   const ses = S.sessions.length ? S.sessions.map((s) => {
@@ -462,7 +474,7 @@ function search() {
   const q = fold($("#q").value.trim());
   const ul = $("#results");
   if (!q) { ul.hidden = true; return; }
-  const res = Object.values(S.people).filter((p) => fold(p.name).includes(q) || fold(p.id).includes(q)).slice(0, 40);
+  const res = visiblePeople().filter((p) => fold(p.name).includes(q) || fold(p.id).includes(q)).slice(0, 40);
   resultIdx = 0;
   ul.innerHTML = res.map((p, i) => `<li data-id="${p.id}" class="${i === 0 ? "sel" : ""}">${esc(p.name || "(bez jména)")} <small>${p.id} ${esc(years(p))} · ${esc(p.stav || "")}</small></li>`).join("")
     || `<li><small>nic</small></li>`;
@@ -700,6 +712,8 @@ $("#lightbox").addEventListener("click", (ev) => { if (ev.target.tagName !== "A"
 
 // ------------------------------------------------------------------ filtry, polling
 
+$("#f-anc").checked = store.get("f-anc", false);
+$("#f-anc").addEventListener("change", () => { store.set("f-anc", $("#f-anc").checked); renderOverview(); render(); });
 $("#f-orig").value = store.get("f-orig", "");
 $("#f-orig").addEventListener("change", () => { store.set("f-orig", $("#f-orig").value); render(); });
 for (const f of ["f-work", "f-wait", "f-empty", "f-single", "f-nokx"]) {

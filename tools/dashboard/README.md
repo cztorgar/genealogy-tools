@@ -62,6 +62,9 @@ Odznak **⚑N** = otevřené kontroly osoby (červeně, je-li některá blokují
 nechá osoby, které mají aspoň jednu událost doloženou jediným zápisem (u nich `①×N`).
 Filtry: **jen rozpracované** (rozpracováno / pozastaveno / běží session), **čeká na mě**
 (patch `navrženo` nebo session ve stavu idle/done).
+Volba **jen předci** (pamatuje si prohlížeč) nechá jen přímou linii: Kekule `K…` a od kotvy vedlejší linie
+(`K0001-S2`) řetězce `-P1`/`-P2`. Kotva `-S<n>` zůstane, jen když z ní předci vedou. Sourozenci (`-C`), další manželé
+(`-S`) a jejich potomci se skryjí; počty stavů v liště, hledání a seznam závor berou totéž. Fronta kontrol ne.
 
 ## Mapa (záložka Mapa)
 
