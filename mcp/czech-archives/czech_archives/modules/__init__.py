@@ -2,10 +2,12 @@
 
 from .aron_zamrsk import AronZamrsk
 from .ebadatelna_praha import EbadatelnaPraha
+from .kramerius import Kramerius
 
 MODULES = {
     AronZamrsk.id: AronZamrsk,
     EbadatelnaPraha.id: EbadatelnaPraha,
+    Kramerius.id: Kramerius,
 }
 
 _instances: dict = {}

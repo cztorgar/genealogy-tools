@@ -102,6 +102,13 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
   Do té doby: dej uživateli přesný odkaz na svazek a požádej o snímek / screenshot stránky
   (nebo ji otevři přes Claude in Chrome, pokud to uživatel chce).
 - Snímek ulož do `sources/K<nnnn>/` + sidecar `.yml` s citací (vzor v `citace.md`).
+- **Tisk (noviny, adresáře, věstníky, vlastivědy) — MCP `kramerius_*`:** až po matrikách, u předků dospělých
+  v letech ~1880–1950 (parte, adresáře, spolky, úřední oznámení). Postup: `kramerius_plan(tree_dir, ID)` vygeneruje
+  tvary příjmení, obce a časové okno → dotazy spouštěj **po jednom** přes `kramerius_search` (obec nikdy samotnou;
+  u šumových obcí proximity 5) → zajímavou stránku přečti `kramerius_page_text` a jméno ověř proti snímku.
+  Nález je **nápověda (jistota 0)**: nejdřív totožnost (pravidlo jmenovce, dva nezávislé údaje), pak teprve patch.
+  Nápovědy ulož do `research/hints/` (citace + URL stránky z výsledku), každý dotaz včetně „nenalezeno“ do `research/log.md`.
+  Žijící a po ~1932 narození: plán vrátí prázdné okno — nehledej.
 - **Každé hledání zapiš** do „Log hledání“ v dossieru — i „nenalezeno“ (svazek, roky, snímky).
 
 ## 5. Přepis

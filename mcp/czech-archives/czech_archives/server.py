@@ -115,6 +115,51 @@ def cite(register_id: str, image: int | None = None, entry: str | None = None,
     return mod.citation(reg, image, entry).to_dict()
 
 
+# --- Kramerius (CDK): fulltext v digitalizovaném tisku — výsledky jsou nápovědy (jistota 0) ---
+
+@mcp.tool()
+def kramerius_search(terms: list[str], years: list[int] | None = None, title_pid: str | None = None,
+                     proximity: int = 10, rows: int = 20, public_only: bool = True) -> dict:
+    """Fulltext v tištěných digitalizovaných pramenech (Kramerius / Česká digitální knihovna).
+
+    terms: tvary hledaného výrazu; víceslovný („Nováková Lučice“) se hledá v okně `proximity` slov,
+    tvary se skládají přes OR (max 40). Diakritika se ignoruje, SKLOŇOVÁNÍ NE → vyjmenuj pády a rody
+    příjmení (`kramerius_plan` je vygeneruje). Obec nikdy samotnou — vždy s příjmením.
+    years: [od, do]; title_pid: `root_pid` z kramerius_titles (hledání v jednom titulu).
+    Vrací stránky (pid, titul, datum, strana, úryvky, URL, citace). Výsledek = NÁPOVĚDA (jistota 0).
+    """
+    return modules.get("kramerius").search(terms, years, title_pid, proximity, rows, public_only)
+
+
+@mcp.tool()
+def kramerius_page_text(pid: str, max_chars: int = 30000) -> dict:
+    """OCR text jedné stránky (pid `uuid:…` z kramerius_search) + citace. OCR je draft, jména ověřit proti snímku."""
+    return modules.get("kramerius").page_text(pid, max_chars)
+
+
+@mcp.tool()
+def kramerius_titles(query: str, rows: int = 15, public_only: bool = True) -> dict:
+    """Najde titul (periodikum / monografii) podle slov v názvu a vrátí jeho `root_pid`.
+
+    Hledání v názvech je citlivé na diakritiku a skloňování („Adresář Prahy“, ne „adresar Praha“).
+    """
+    return modules.get("kramerius").titles(query, rows, public_only)
+
+
+@mcp.tool()
+def kramerius_plan(tree_dir: str, person_id: str) -> dict:
+    """Z dossieru a patchů osoby vygeneruje dotazy pro kramerius_search (jen generuje, nespouští).
+
+    tree_dir např. `../genealogy-trees/berescak` (relativně vůči kořeni workbenche, nebo absolutně).
+    Vrací: tvary příjmení, obce s roky, časové okno (od 18 let do úmrtí, jinak +60 let, nejvýše 1950),
+    dotazy příjmení × obec (proximity 5 u šumových obcí) a doporučené tituly z docs/prameny/digitalizovane.
+    """
+    tree = Path(tree_dir).expanduser()
+    if not tree.is_absolute():
+        tree = (WORKBENCH / tree).resolve()
+    return modules.get("kramerius").plan(tree, person_id)
+
+
 def main() -> None:
     mcp.run()
 

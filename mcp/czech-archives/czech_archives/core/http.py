@@ -102,6 +102,23 @@ class RateLimitedClient:
         cf.write_text(json.dumps(data, ensure_ascii=False), "utf-8")
         return data
 
+    def text(self, url: str, ttl: float = 86400.0, accept: str = "text/plain") -> str:
+        """Textová odpověď (např. OCR) s cache na disku; `accept` jde do hlavičky tak, jak je."""
+        h = hashlib.sha256(f"TEXT {url} {accept}".encode()).hexdigest()[:24]
+        cf = self.cache_dir / "text" / h[:2] / f"{h}.txt"
+        if ttl > 0 and cf.exists() and time.time() - cf.stat().st_mtime < ttl:
+            return cf.read_text("utf-8")
+        with self._slot():
+            try:
+                with self._request(url, accept=accept) as resp:
+                    raw = resp.read()
+            except urllib.error.HTTPError as e:
+                raise HttpError(e.code, url, e.read().decode("utf-8", "replace")) from None
+        out = raw.decode("utf-8", "replace")
+        cf.parent.mkdir(parents=True, exist_ok=True)
+        cf.write_text(out, "utf-8")
+        return out
+
     def head(self, url: str) -> dict:
         with self._slot():
             try:
