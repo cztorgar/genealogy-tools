@@ -15,7 +15,7 @@ while :; do
   read -r five week < <(jq -r '[(.five_hour.utilization // 0), (.seven_day.utilization // 0)] | @tsv' "$cache" 2>/dev/null || echo "0 0")
   if awk -v f="$five" -v w="$week" -v l="$limit" 'BEGIN{exit !(f>=l || w>=l)}'; then
     msg="manager — PAUZA (limit účtu ${acct}: 5h ${five} %, 7d ${week} %, práh ${limit} %): dokonči rozdělaný krok (ulož přepis/sidecar, log hledání, rozpracovaný patch jako navrženo), pak ZASTAV a čekej na pokyn. Nic nového nespouštěj."
-    herdr agent list 2>/dev/null | jq -r '.result.agents[] | select((.cwd // "") | test("genealogy")) | select(.name != "manager" and .name != "dashboard") | .name' | grep -E "$only" |
+    herdr agent list 2>/dev/null | jq -r '.result.agents[] | select((.cwd // "") | test("genealogy")) | select(.name != "manager" and .name != "dashboard") | select(.agent_status == "working") | .name' | grep -E "$only" |
       while read -r a; do herdr agent prompt "$a" "$msg" >/dev/null && echo "pauza → $a"; done
     [ -n "$switch_to" ] && claude-account "$switch_to" >/dev/null 2>&1 && echo "přepnuto na účet $switch_to"
     echo "PAUZA provedena (${acct}): 5h ${five} %, 7d ${week} % (práh ${limit} %), cache $(date -r "$cache" +%H:%M)"
