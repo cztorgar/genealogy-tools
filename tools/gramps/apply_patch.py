@@ -41,6 +41,12 @@ def norm_id(pid: str) -> str:
     return f"K{int(m[1]):04d}{m[2] or ''}" if m else str(pid)
 
 
+def fam_id(fam) -> str:
+    """`family: [otec, matka]` → F-otec-matka; chybějící rodič (null / "X" / jen jeden prvek) → X."""
+    ids = [norm_id(x) if x and str(x).upper() != "X" else "X" for x in list(fam) + [None] * (2 - len(fam))]
+    return f"F-{ids[0]}-{ids[1]}"
+
+
 def _dmy(parts: list[str]) -> list:
     day = month = 0
     year = int(parts[-1])
@@ -265,10 +271,10 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
             h = a.create("events", ev, "Event")
             a.context_note(h, ch.get("context", ""))
             if ch.get("family"):
-                f, m = (norm_id(x) for x in ch["family"])
-                fam = a.find("families", f"F-{f}-{m}")
+                fid = fam_id(ch["family"])
+                fam = a.find("families", fid)
                 if not fam:
-                    sys.exit(f"rodina F-{f}-{m} v Gramps není")
+                    sys.exit(f"rodina {fid} v Gramps není")
                 a.attach_event("families", fam, h, "Family")
             else:
                 a.attach_event("people", person, h, "Primary")
@@ -336,18 +342,18 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
             applied.append({"op": op, "citation": c["gramps_id"]})
         elif op == "add_family_citation":
             # citace k rodině (doklad vazby rodiče → dítě nebo manželství), `family: [otec, matka]`
-            f, m = (norm_id(x) for x in ch["family"])
-            fam = a.find("families", f"F-{f}-{m}")
+            fid = fam_id(ch["family"])
+            fam = a.find("families", fid)
             if not fam:
-                sys.exit(f"rodina F-{f}-{m} v Gramps není")
+                sys.exit(f"rodina {fid} v Gramps není")
             if not dry:
                 fresh = a.gw.get(f"/families/{fam['handle']}")
                 for k in ([ch["citation"]] if ch.get("citation") else []) + list(ch.get("citations") or []):
                     if cites[k] not in fresh["citation_list"]:
                         fresh["citation_list"].append(cites[k])
                 a.gw.put(f"/families/{fam['handle']}", fresh)
-                a.log.append(f"+ citace k rodině F-{f}-{m}")
-            applied.append({"op": op, "family": f"F-{f}-{m}"})
+                a.log.append(f"+ citace k rodině {fid}")
+            applied.append({"op": op, "family": fid})
         elif op == "add_citation":
             # doplňková citace k už zapsané události (handle z `applied:` dřívějšího patche)
             cit = cites[ch["citation"]]
