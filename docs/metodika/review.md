@@ -112,4 +112,5 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 | 2026-10-17 | applier: ID zdroje s mezerou (rodokmen Ornstů) | 9 patchů spadlo | opraveno, aplikováno |
 | 2026-10-17 | duplicitní narození Jiřího Šandy (E0243) | 1 událost | smazáno |
 | 2026-10-17 | gpt-5.5 rozhodčí halucinuje na kurentu | čtení rozhodnutá jen jím | ověřit |
+| 2026-10-18 | kontroly se `snimek: ~/.cache/…` (predci-alena) | dashboard „soubor chybí“ (2 kontroly) | zkopírováno do sources/, pravidlo v autonomie.md |
 | 2026-10-18 | souběh: session upravila patch během aplikace (P-K0116-01 `c6`) | text patche ≠ `applied` | ověřeno v Gramps; review: porovnat `changes` × Gramps u patchů měněných v commitu aplikace |

@@ -100,6 +100,8 @@ rozhodnuti: null                   # vyplní dashboard: {volba, poznamka, kdo: u
 zapracovano: null                  # vyplní ten, kdo rozhodnutí promítl: {patch: P-…, kdy}
 ```
 
+- **`snimek` / `vyrez` = cesta relativně ke kořeni stromu, soubor v `sources/<ID>/`.** Nikdy cesta do cache
+  (`~/.cache/…`) — dashboard ji nezobrazí. Snímek z cache nejdřív zkopírovat do `sources/<ID>/` (se sidecarem).
 - **Řazení ve frontě:** blokující → priorita → nejstarší.
 - **Aplikovaný patch se nemění.** Úprava souboru `status: aplikováno` do Gramps nic nezapíše. Zapracování
   rozhodnutí = **nový patch** (`P-<ID>-<další nn>`; `update_citation` podle Gramps ID citace z `applied:`).
