@@ -22,7 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "gedcom"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from checklist import applicable  # noqa: E402
+import checklist as cl  # noqa: E402
 from gedparse import Node, name, parse, year  # noqa: E402
 
 EVENT_LABELS = {"BIRT": "narození", "CHR": "křest", "BAPM": "křest", "DEAT": "úmrtí", "BURI": "pohřeb",
@@ -158,9 +158,9 @@ def dossier(tree: Tree, pid: str, rel: str, indi: Node, idmap: dict[str, str]) -
         kids = [y for y in kids if y]
         if kids:
             birth, est = min(kids) - 28, f"odhad z narození nejstaršího dítěte ({min(kids)} − 28)"
-    items = applicable(birth, death, male=(sex == "M") if sex in ("M", "F") else None,
-                       married=bool(fams), dead=bool(indi.first("DEAT") or indi.first("BURI"))
-                       or bool(birth and birth < 1920))
+    facts = cl.finish(cl.Facts(birth=birth, death=death, birth_est=bool(est),
+                               male=(sex == "M") if sex in ("M", "F") else None, married=bool(fams),
+                               dead=bool(indi.first("DEAT") or indi.first("BURI"))), pid, None)
 
     lines = [
         "---",
@@ -218,11 +218,7 @@ def dossier(tree: Tree, pid: str, rel: str, indi: Node, idmap: dict[str, str]) -
         lines += ["", "### Média (v `media/`)", ""] + [f"- {m} — {o}" for m, o in
                                                        zip(media, [o.val("TITL") for o in indi.all("OBJE")])]
 
-    lines += ["", "## Checklist", "",
-              "`[x]` doloženo · `[~]` slabý pramen · `[-]` hledáno, nenalezeno · `[n]` neexistuje · `[ ]` nehledáno",
-              ""]
-    for it, note in items:
-        lines.append(f"- [ ] {it.label}{' — ' + note if note else ''}")
+    lines += ["", "## Checklist", "", cl.render(cl.evaluate(facts, {}), facts).rstrip()]
     lines += ["", DOCS_HEADING, "", DOCS_HINT, ""]
     lines += ["", DEFERRED_HEADING, "", DEFERRED_HINT, ""]
     lines += ["", "## Log hledání", "",

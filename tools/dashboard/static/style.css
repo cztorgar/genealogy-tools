@@ -14,7 +14,8 @@
   --s-rozpracovano: #ffd88a;
   --s-pozastaveno: #d9cdf0;
   --s-dokonceno: #b9dcf5;
-  --s-zapsano: #a9dcae;
+  --s-zapsano: #d6eed8;
+  --s-uzavreno: #8fd197;
 
   --run-working: #1f9d3a;
   --run-idle: #e0a400;
@@ -262,3 +263,9 @@ b.orig-l { color: #fff; font-size: 10px; padding: 0 3px; border-radius: 3px; }
 path.xlink { fill: none; stroke: #c2185b; stroke-width: 2.5; stroke-dasharray: 7 4; opacity: .85; }
 path.xlink:hover { stroke-width: 4; opacity: 1; }
 .node text .xl, .xl { fill: #c2185b; color: #c2185b; font-weight: 700; }
+
+/* checklist osoby */
+.chklist { list-style: none; padding-left: 4px; margin: 4px 0; }
+.chklist li { margin: 2px 0; }
+.chklist .sx b { color: #2d8a3a; } .chklist .sn b { color: #b5655e; } .chklist .so b { color: #9a9a9a; }
+.chklist .muted { color: var(--muted); }

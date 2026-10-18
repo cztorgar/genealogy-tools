@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_queue import DEFERRED_HEADING, DEFERRED_HINT, DOCS_HEADING, DOCS_HINT, STATES_HINT  # noqa: E402
-from checklist import applicable  # noqa: E402
+import checklist as cl  # noqa: E402
 
 
 def slug(text: str) -> str:
@@ -39,14 +39,12 @@ def main() -> int:
     manual = json.loads(mpath.read_text(encoding="utf-8")) if mpath.exists() else {}
     if a.pid in manual or list(people.glob(f"{a.pid}-[a-z]*.md")):
         sys.exit(f"{a.pid} už existuje")
-    items = applicable(a.birth, None, male=a.sex == "M", married="manžel" in a.rel, dead=bool(a.birth and a.birth < 1930))
+    facts = cl.finish(cl.Facts(birth=a.birth, male=a.sex == "M", married="manžel" in a.rel), a.pid, None)
     lines = ["---", f"id: {a.pid}", f"původ: {a.puvod}       # myheritage | pramen | ústně", "myheritage: null",
              "gramps_id: null", f"stav: zmínka          # {STATES_HINT}", "---", "",
              f"# {a.name} ({a.pid})", "", f"*{a.rel}*", "",
              f"## Nápovědy ({a.puvod}, {date.today().isoformat()})", "", f"- {a.hint}" if a.hint else "- —", "",
-             "## Checklist", "",
-             "`[x]` doloženo · `[~]` slabý pramen · `[-]` hledáno, nenalezeno · `[n]` neexistuje · `[ ]` nehledáno", ""]
-    lines += [f"- [ ] {it.label}{' — ' + note if note else ''}" for it, note in items]
+             "## Checklist", "", cl.render(cl.evaluate(facts, {}), facts)]
     lines += ["", DOCS_HEADING, "", DOCS_HINT, "", DEFERRED_HEADING, "", DEFERRED_HINT, "",
               "## Log hledání", "", "*Formát: `- YYYY-MM-DD | pramen (archiv, svazek, roky, snímky; hledané jméno + varianty) | výsledek | odkaz`. Zapisovat i „nenalezeno“ — u nenalezeného navíc `| proč na absenci záleží | příště zkusit`.*", "",
               "## Výzkum", "", ""]

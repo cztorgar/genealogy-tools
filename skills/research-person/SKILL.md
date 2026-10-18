@@ -43,7 +43,7 @@ Manželka: Magdaléna Bardová (K43) · Děti: … (K21 = naše linie)
 - odkazy do archivů z poznámek: …
 
 ### Checklist
-doloženo x/y · slabě z · hledáno bez výsledku w · nehledáno … (vypsat nehledané podle priority)
+základní: nalezeno x · nenalezeno y · neprohledáno z (vypsat neprohledané) · rozšířený jen souhrnně
 
 ### Odloženo (vědomě neřešeno)
 - … (ze sekce Odloženo v dossieru — připomenout, ať se to omylem nehledá znovu)
@@ -64,8 +64,9 @@ Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
   `herdr agent prompt manager "K0042 Jan Řezáč: začínám"`.
 - Pořadí hledání:
   1. odkazy do archivů z poznámek (už někdo něco našel),
-  2. křest / narození (N), 3. sňatek (O), 4. úmrtí (Z),
-  5. ostatní položky checklistu podle období.
+  2. **základní checklist** ([fáze I](../../docs/metodika/faze-vyzkumu.md)): křest (N) → rodiče → sňatek (O) →
+     úmrtí (Z) → sčítání lidu v jeho životě,
+  3. rozšířený checklist (fáze II) jen na pokyn.
 - U osob mladších 100 let (N) / 75 let (O, Z) se zeptej na **rodinné doklady** — online matriky nejsou.
 
 ### Sdílené seznamy `research/todo-*.md`
@@ -122,7 +123,8 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 
 - Pravidlo jmenovce: kromě jména aspoň dva nezávislé údaje. Rozpory s nápovědami z MyHeritage
   zapiš do „Výzkum“ v dossieru a nech rozhodnout uživatele.
-- Odškrtej checklist (`[x]`, `[~]`, `[-]`, `[n]`).
+- Odškrtej checklist: `[x]` nalezeno (zapsané v Gramps se doplní samo), `[-]` nenalezeno **s důvodem za pomlčkou**
+  (co prohledáno) nebo závorou. Neměň klíč ani štítek (`docs/metodika/checklist-osoby.md`).
 - Co se s uživatelem **vědomě rozhodnete neřešit**, zapiš do `## Odloženo (vědomě neřešeno)`:
   `- YYYY-MM-DD · **co** — proč / kde · kdo rozhodl` (odkaz na `todo-*` seznam, pokud tam je).
 - Co jsi zjistil o **jiných osobách** (rodiče ze záznamu o křtu, sourozenci, č. p.), zapiš jako nový

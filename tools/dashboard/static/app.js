@@ -6,12 +6,14 @@ const POLL_MS = 5000;
 const STATE_COLORS = {
   "": "var(--s-missing)", "zmínka": "var(--s-zminka)", "převzato": "var(--s-prevzato)",
   "rozpracováno": "var(--s-rozpracovano)", "pozastaveno": "var(--s-pozastaveno)",
-  "dokončeno": "var(--s-dokonceno)", "zapsáno": "var(--s-zapsano)", "bez dossieru": "var(--s-missing)",
+  "dokončeno": "var(--s-dokonceno)", "zapsáno": "var(--s-zapsano)", "uzavřeno": "var(--s-uzavreno)",
+  "bez dossieru": "var(--s-missing)",
 };
 const STATE_HELP = {
   "zmínka": "jen zmínka, nesáhnuto", "převzato": "převzato z MyHeritage, nesáhnuto",
   "rozpracováno": "session na osobě pracuje", "pozastaveno": "rozpracováno, odloženo",
-  "dokončeno": "výzkum hotový, čeká na zápis", "zapsáno": "zapsáno do Gramps",
+  "dokončeno": "výzkum hotový, základní checklist neúplný", "zapsáno": "zapsáno do Gramps, základní checklist neúplný",
+  "uzavřeno": "fáze I hotová — základní checklist celý nalezen, nebo nenalezen s důvodem / závorou",
 };
 const TYPE_CS = { Birth: "narození", Death: "úmrtí", Residence: "bydliště", Census: "sčítání", Occupation: "povolání / bytem",
                   Christening: "křest", Baptism: "křest", Burial: "pohřeb", Marriage: "sňatek", Religion: "vyznání" };
@@ -326,11 +328,15 @@ function render() {
   applyTransform();
 }
 
-function drawChecklist(g, c) {
-  const total = c.x + c["~"] + c["-"] + c.n + c[" "];
+const CHK_SEGS = [["x", "#2d8a3a", "nalezeno"], ["-", "#b5655e", "nenalezeno"], [" ", "#ffffff", "neprohledáno"]];
+const chkText = (c) => CHK_SEGS.map(([k, , t]) => `${c[k]} ${t}`).join(" · ");
+
+function drawChecklist(g, all) {
+  const c = all["základní"];   // pruh = jen základní checklist (fáze I)
+  const total = c.x + c["-"] + c[" "];
   if (!total) return;
   const w = BW - 30, x0 = 7, y = BH - 9;
-  const segs = [["x", "#2d8a3a"], ["~", "#d6a516"], ["-", "#b5655e"], ["n", "#9a9a9a"], [" ", "#ffffff"]];
+  const segs = CHK_SEGS;
   let x = x0;
   for (const [k, col] of segs) {
     if (!c[k]) continue;
@@ -339,8 +345,9 @@ function drawChecklist(g, c) {
     x += sw;
   }
   el("rect", { x: x0, y, width: w, height: 5, fill: "none", stroke: "#888", "stroke-width": 0.6 }, g);
+  const r = all["rozšířený"];
   el("title", {}, g.lastChild).textContent =
-    `checklist: ${c.x} doloženo, ${c["~"]} slabé, ${c["-"]} nenalezeno, ${c.n} neexistuje, ${c[" "]} nehledáno`;
+    `základní checklist: ${chkText(c)}\nrozšířený: ${chkText(r)}`;
 }
 
 // ------------------------------------------------------------------ pan + zoom
@@ -506,7 +513,7 @@ function renderLegend() {
     <div class="row"><span>session (kroužek = větev): <b style="color:var(--run-working)">●</b> pracuje <b style="color:var(--run-idle)">●</b> čeká na vstup <b style="color:var(--run-done)">●</b> hotovo</span>
     <span>✎ patch čeká · 💡 nápovědy · ☐ todo otevřeno/celkem · 📄 doklady chybí · 🗂 prameny · 📖 příběh · <span class="nokx">∅📖</span> chybí kontext/příběh · <span class="zav">⛔</span> závora · <span class="xl">⇄</span> <span style="color:#c2185b">┄</span> propojení větví (rodiče z Gramps z jiné větve ID) · <b class="kb">⚑</b> kontroly <b class="kb block">⚑</b> blokující</span></div>
     <div class="row"><span>původ: ${Object.values(ORIGIN).map((o) => `<b class="orig-l ${o.cls}">${o.tag}</b> ${o.title}`).join(" · ")}</span></div>
-    <div class="row"><span>pruh = checklist: <i class="sw" style="background:#2d8a3a"></i>doloženo <i class="sw" style="background:#d6a516"></i>slabé <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw" style="background:#9a9a9a"></i>neexistuje <i class="sw"></i>nehledáno</span>
+    <div class="row"><span>pruh = základní checklist (fáze I): <i class="sw" style="background:#2d8a3a"></i>nalezeno <i class="sw" style="background:#b5655e"></i>nenalezeno <i class="sw"></i>neprohledáno</span>
     <span>čárkovaně: <span style="color:#c27b4a">∞ manžel/ka</span>, <span style="color:#5b8f63">d. dítě</span></span></div>`;
 }
 
@@ -627,7 +634,7 @@ function renderPerson(d) {
   const struct = [];
   const sp = structParent(id);
   if (sp) struct.push(`${esc(relLabel(id).split(" ")[0])} <span class="pid" data-pid="${sp}">${sp}</span>`);
-  const chk = c ? `checklist: ${c.x} doloženo · ${c["~"]} slabé · ${c["-"]} nenalezeno · ${c.n} neexistuje · ${c[" "]} nehledáno` : "";
+  const chk = c ? `základní: ${chkText(c["základní"])} · rozšířený: ${chkText(c["rozšířený"])}` : "";
   const docs = p && p.docs ? `doklady: ${p.docs.open} chybí · ${p.docs.done} máme` : "";
   let h = `<h1>${esc(d.name || (p ? "(bez jména)" : "nesáhnuto"))}</h1>
     <div class="rel">${esc(d.rel || relLabel(id))}</div>
@@ -641,6 +648,16 @@ function renderPerson(d) {
     h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   }
 
+  if (d.checklist_items && d.checklist_items.length) {
+    const ico = { x: "✓", "-": "✗", " ": "○" };
+    const block = (tier) => d.checklist_items.filter((e) => e.tier === tier).map((e) =>
+      `<li class="chk s${e.state === "x" ? "x" : e.state === "-" ? "n" : "o"}"><b>${ico[e.state] || "○"}</b> ${esc(e.label)}
+       ${e.note ? `<small>— ${e.auto ? "<i>auto</i> " : ""}${esc(e.note)}</small>` : e.state === " " && e.hint ? `<small class="muted">(${esc(e.hint)})</small>` : ""}</li>`).join("");
+    const base = d.checklist_items.filter((e) => e.tier === "základní");
+    const left = base.filter((e) => e.state === " " || (e.state === "-" && !e.note && !(p && p.zavora))).length;
+    h += `<h2 class="sec">Základní checklist <small>${d.faze1 ? "fáze I uzavřena" : `zbývá ${left}`}${d.birth_est ? ` · rok narození odhadem ${d.birth_est}` : ""}</small></h2><ul class="chklist">${block("základní")}</ul>`;
+    h += det("chk-ext", `Rozšířený checklist <small>(${chkText(c["rozšířený"])})</small>`, `<ul class="chklist">${block("rozšířený")}</ul>`, false);
+  }
   if (p && p.kontext_missing && p.kontext_missing.length) {
     h += `<div class="nokx-box">Chybí ${esc(p.kontext_missing.join(" a "))} — doplnit podle docs/metodika/pribehy.md (<code>kontext: chybí</code> v dossieru).</div>`;
   }

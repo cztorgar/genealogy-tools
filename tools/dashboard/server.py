@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import sys
 import json
 import mimetypes
 import os
@@ -43,6 +44,8 @@ import mapdata
 
 WORKBENCH = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).resolve().parent / "static"
+sys.path.insert(0, str(WORKBENCH / "tools/research"))
+import checklist as cl  # noqa: E402 — šablona checklistu (základní / rozšířený), sdílená s checklist_sync.py
 
 # ID osoby: Kekule K%04d + přípony -S<n> (manžel/ka), -C<n> (dítě), -P1/-P2 (otec/matka)
 ID_RE = re.compile(r"\bK(\d{1,5})((?:-[SCP]\d+)*)\b")
@@ -52,7 +55,8 @@ SESSION_NAME_RE = re.compile(r"^k\d+(?:-[scp]\d+)*$")
 BRANCH_NAME_RE = re.compile(r"^vetev-[\w-]+$")      # session větve (docs/metodika/workflow-sessions.md)
 CLAUDE_PROJECTS = Path.home() / ".claude/projects"
 
-STATES = ["zmínka", "převzato", "rozpracováno", "pozastaveno", "dokončeno", "zapsáno"]
+# uzavřeno = fáze I hotová (základní checklist celý nalezen / nenalezen s důvodem) — počítá se, v dossieru se nepíše
+STATES = ["zmínka", "převzato", "rozpracováno", "pozastaveno", "dokončeno", "zapsáno", "uzavřeno"]
 PATCH_WAITING = {"navrženo", "schváleno"}
 TODO_CLOSED = ("nalezeno", "nenalezeno", "zodpovězeno", "neví", "hotovo", "vyřízeno", "uzavřeno")
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".tif", ".tiff"}
@@ -283,10 +287,7 @@ def parse_dossier(path: Path) -> dict:
             break
     secs = sections(body)
 
-    checklist = {"x": 0, "~": 0, "-": 0, "n": 0, " ": 0}
-    for m in re.finditer(r"^\s*- \[(.)\]", section(secs, "Checklist"), re.M):
-        mark = m.group(1)
-        checklist[mark if mark in checklist else " "] += 1
+    marks = cl.parse_marks(section(secs, "Checklist"))
 
     docs = {"open": 0, "done": 0, "na": 0}
     for m in re.finditer(r"^\s*- \[(.)\]", section(secs, "Doklady k dohledání"), re.M):
@@ -308,13 +309,47 @@ def parse_dossier(path: Path) -> dict:
         "id": pid, "name": name, "rel": rel, "stav": stav,
         "původ": fm.get("původ"), "gramps_id": fm.get("gramps_id"),
         "myheritage": fm.get("myheritage"),
-        "checklist": checklist, "docs": docs, "deferred": deferred, "log": log_n,
+        "marks": marks, "has_zavora": bool(section(secs, "Závora").strip()), "docs": docs, "deferred": deferred, "log": log_n,
         "birth": birth, "death": death,
         # `kontext: chybí` (tools/research/kontext_flags.py) + zda má dossier vyplněnou sekci Kontext
         "kontext_flag": str(fm.get("kontext") or "").strip() == "chybí",
         "has_kontext": bool(section(secs, "Kontext").strip()),
         "zavora": parse_zavora(section(secs, "Závora")),
     }
+
+
+# ---------------------------------------------------------------- checklist (fáze I)
+
+class GrampsFacts:
+    """Údaje osob z Gramps pro checklist (tools/research/gramps_facts.py); cache v paměti, Gramps jen čte."""
+
+    def __init__(self, ttl: int = 300):
+        self.ttl, self.at, self.data, self.error = ttl, 0.0, {}, None
+        self.lock = threading.Lock()
+
+    def get(self) -> dict:
+        with self.lock:
+            if time.time() - self.at < self.ttl:
+                return self.data
+            self.at = time.time()
+            try:
+                import gramps_facts
+                self.data, self.error = gramps_facts.load(), None
+            except Exception as e:  # noqa: BLE001 — Gramps neběží: checklist jen z dossierů
+                self.error = f"{type(e).__name__}: {e}"[:300]
+                self.at = time.time() - self.ttl + 60
+            return self.data
+
+
+def person_checklist(d: dict, gf: dict, root_birth: int | None) -> list:
+    g = gf.get(d["id"]) or cl.Facts()
+    f = cl.Facts(**{k: getattr(g, k) for k in g.__dataclass_fields__})
+    f.birth = f.birth or d.get("birth")
+    f.death = f.death or d.get("death")
+    if f.male is None and d.get("sex") in ("M", "F"):
+        f.male = d["sex"] == "M"
+    f = cl.finish(f, d["id"], root_birth)
+    return cl.evaluate(f, d.get("marks") or {}), f
 
 
 # ---------------------------------------------------------------- todo seznamy
@@ -356,6 +391,7 @@ class Tree:
         self.name = root.name
         self.gramps_url = gramps_url.rstrip("/")
         self.links = gramps_links.Links(WORKBENCH)   # propojení větví z Gramps (jen čtení, cache v paměti)
+        self.facts = GrampsFacts()                    # údaje osob z Gramps pro checklist
         self._herdr = (0.0, [])
         self._herdr_lock = threading.Lock()
         self._prompt_roots: dict[tuple[str, str], str | None] = {}
@@ -390,6 +426,7 @@ class Tree:
                 h.update(f"{p}:{st.st_mtime_ns}:{st.st_size}\n".encode())
         h.update(json.dumps(sessions, sort_keys=True).encode())
         h.update(json.dumps(self.links.get(), sort_keys=True).encode())
+        h.update(str(self.facts.at if not self.facts.error else 0).encode())
         return h.hexdigest()[:16]
 
     # --- herdr session
@@ -478,7 +515,7 @@ class Tree:
             else:
                 people[pid] = {"id": pid, "name": m.get("name") or "", "rel": m.get("rel") or "",
                                "stav": None, "file": None, "birth": m.get("birth"), "death": None,
-                               "checklist": None, "docs": None, "deferred": 0, "log": 0,
+                               "marks": {}, "docs": None, "deferred": 0, "log": 0,
                                "sex": m.get("sex"), "manual_only": True}
         return people
 
@@ -555,7 +592,7 @@ class Tree:
             if pid not in people and ID_FULL_RE.match(pid):
                 people[pid] = {"id": pid, "name": "", "rel": "", "stav": None, "file": None,
                                "hints": len(hints.get(pid, [])), "patches": {}, "todo": 0, "todo_open": 0,
-                               "checklist": None, "docs": None, "sources": pid in src_ids, "orphan": True}
+                               "marks": None, "docs": None, "sources": pid in src_ids, "orphan": True}
 
         for pid, d in people.items():
             ses = self.session_of(pid, sessions, people)
@@ -576,11 +613,15 @@ class Tree:
             if best:
                 people[best[1]]["branch"] = s["name"]
                 people[best[1]]["branch_guess"] = True
+        gf = self.facts.get()
+        root_birth = (gf.get("K0001") or cl.Facts()).birth or 1985
+        for pid, d in people.items():
             mine = [k for k in checks if k["osoba"] == pid and k["stav"] == kontroly.OPEN]
             d["kontroly"] = {"open": len(mine), "blocking": sum(k["blokuje"] for k in mine)}
             evs = events.get(pid, [])
             d["events"] = {"total": len(evs), "single": sum(e["sources"] == 1 for e in evs),
                            "none": sum(e["sources"] == 0 for e in evs)}
+            self.apply_checklist(d, gf, root_birth)
 
         counts: dict[str, int] = {}
         for d in people.values():
@@ -607,6 +648,22 @@ class Tree:
 
     def kontroly(self, files) -> list[dict]:
         return kontroly.load(files["kontroly"], CACHE, load_yaml, self.root, norm_any)
+
+    @staticmethod
+    def apply_checklist(d: dict, gf: dict, root_birth: int | None) -> None:
+        """Souhrn checklistu + stav `uzavřeno` (fáze I hotová, nikdo na osobě nepracuje, žádný patch nečeká)."""
+        if d.get("marks") is None:
+            d["checklist"] = None
+            return
+        entries, facts = person_checklist(d, gf, root_birth)
+        d["checklist"] = cl.summary(entries)
+        d["faze1"] = cl.phase1_done(entries, d.get("has_zavora", False))
+        d["birth_est"] = facts.birth if facts.birth_est else None
+        waiting = any(k in PATCH_WAITING for k in (d.get("patches") or {}))
+        d["stav_dossier"] = d.get("stav")
+        if d["faze1"] and d.get("stav") != "rozpracováno" and not waiting:
+            d["stav"] = "uzavřeno"
+        d.pop("marks", None)
 
     def events(self, files) -> dict[str, list[dict]]:
         return evidence.events(files["patches"], CACHE, load_yaml, self.root, norm_any)
@@ -692,6 +749,17 @@ class Tree:
         out["residences"] = [r for r in self.residences(files) if r["id"] == pid]
         out["events"] = self.events(files).get(pid, [])
         out["kontroly"] = [k for k in self.kontroly(files) if k["osoba"] == pid]
+        gf = self.facts.get()
+        if d.get("marks") is not None:
+            entries, _ = person_checklist(d, gf, (gf.get("K0001") or cl.Facts()).birth or 1985)
+            out["checklist_items"] = [{"key": e.item.key, "label": e.item.label, "tier": e.item.tier,
+                                       "state": e.state, "note": e.note, "auto": e.auto, "hint": e.item.hint}
+                                      for e in entries]
+        st = self.state()["people"].get(pid) or {}
+        for k in ("stav", "stav_dossier", "checklist", "faze1", "birth_est"):
+            if k in st:
+                out[k] = st[k]
+        out.pop("marks", None)
         return out
 
     def sources(self, pid: str, files) -> dict:
