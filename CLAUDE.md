@@ -46,6 +46,14 @@ Přístupy v `infra/gramps-web/.env`.
 
 - Stahovat **jen na vyžádání a rychlostí člověka**, přes cache. Žádné hromadné mirrorování.
 - MZA Brno blokuje IP při překročení limitů; Opava, Litoměřice, Plzeň mají anti-bot ochranu.
+- **Portály, které blokují roboty** (Třeboň, Matricula, Plzeň, Opava, Litoměřice…): přístup **jen přes Claude in Chrome**
+  jako člověk — jednotlivé konkrétní snímky, tempo člověka, žádné procházení svazků. **Nikdy** podvrh hlaviček/UA,
+  Origin/Referer, obcházení detekce robotů ani řešení CAPTCHA. Objeví-li se CAPTCHA/kontrola „jste člověk“ → předat
+  řízení uživateli a čekat. Chrome řídí v jednu chvíli **jen jedna session** a jen když je uživatel k dispozici.
+- Z prohlížeče **číst z obrazovky** a uložit přesnou URL pohledu (snímek, výřez). **Stažení souboru** jen se souhlasem
+  uživatele (session sepíše seznam snímků ke stažení, uživatel potvrdí).
+- Snímky z portálů, jejichž podmínky zakazují předání třetím stranám (Třeboň, Matricula), **neposílat do OpenAI** —
+  čte jen Claude → jistota ≤ 1 (R5 ≤ 2), dokud snímek neověří uživatel.
 - Detaily k portálům: [`docs/archivy/`](docs/archivy/).
 
 ## Soukromí
