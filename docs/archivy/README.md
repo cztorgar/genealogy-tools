@@ -22,7 +22,7 @@ Lhůty zveřejnění: N 100 let, O a Z 75 let.
 | **Kramerius** [digitalniknihovna.cz](https://www.digitalniknihovna.cz/) | noviny, schematismy, adresáře, Verlustlisten | **veřejné REST API v7** | `kramerius` | |
 | **ČÚZK archivní mapy** [ags.cuzk.gov.cz/archiv](https://ags.cuzk.gov.cz/archiv/) | stabilní katastr | [ověřit WMS] | `cuzk_mapy` | |
 | **holocaust.cz** [databáze obětí](https://www.holocaust.cz/databaze-obeti/) | oběti šoa | jmenné vyhledávání | `holocaust_cz` | |
-| **FamilySearch** | obrázky části SOA (Litoměřice, Opava, Třeboň, Zámrsk), malé indexy; Slovensko | API jen se schválením | — | |
+| **FamilySearch** | obrázky části SOA (Litoměřice, Opava, Třeboň, Zámrsk), malé indexy; Slovensko | API jen se schválením; jen Chrome, přihlašuje uživatel | — | [slovensko.md](slovensko.md) |
 | **Matricula** [data.matricula-online.eu](https://data.matricula-online.eu/) | DE, AT, PL — příhraničí (Pasov, St. Pölten), Vídeň a Dolní Rakousy; **české fondy nemá** | HTML; snímky jen v prohlížeči (403 mimo `?pg=`, robots.txt zakazuje `?pg=`) | `matricula` (v0.1, jen metadata) | [matricula.md](matricula.md) |
 | **Archiv UK, Monasterium, Manuscriptorium, Archiv města Ostravy** | specializované | | — | |
 
