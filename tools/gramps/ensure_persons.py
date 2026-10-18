@@ -44,7 +44,7 @@ def main(tree_dir: str, pids: list[str]) -> int:
         text = path.read_text(encoding="utf-8")
         m = TITLE_RE.search(text)
         full = m[1].strip() if m else pid
-        given, _, surname = full.rpartition(" ") if " " in full else ("", "", full)
+        given, _, surname = full.rpartition(" ") if " " in full else (full, "", "NN")   # jedno slovo = křestní jméno, příjmení neznámé
         indi = ged.get(by_id.get(pid, ""))
         sex = indi.val("SEX") if indi else manual.get(pid, {}).get("sex", "")
         # pozice v ID určuje pohlaví (otec -P1 / sudé Kekule = M, matka -P2 / liché = F) — MyHeritage se občas plete
