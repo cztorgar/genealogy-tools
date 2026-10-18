@@ -3,11 +3,13 @@
 from .aron_zamrsk import AronZamrsk
 from .ebadatelna_praha import EbadatelnaPraha
 from .kramerius import Kramerius
+from .matricula import Matricula
 
 MODULES = {
     AronZamrsk.id: AronZamrsk,
     EbadatelnaPraha.id: EbadatelnaPraha,
     Kramerius.id: Kramerius,
+    Matricula.id: Matricula,
 }
 
 _instances: dict = {}

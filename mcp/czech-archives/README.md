@@ -141,3 +141,10 @@ generátor citací a sidecar `.yml`.
 - **Nový modul SOA Třeboň** (digi.ceskearchivy.cz / Digitální badatelna SOA Třeboň) — potřeba pro Mirovice
   (Petrovi/Voborníkovi, větev Brejchovi 2026-10-17); jižní a jihozápadní Čechy.
 - SQLite katalog svazků (`sync_catalog`), gazetteer → `find_registers` podle obce bez znalosti archivu.
+
+### Modul `matricula` (Matricula Online, v0.1 — jen metadata)
+
+Svazky farností Rakouska/Německa/Polska… (`find_registers(module="matricula", place="Hennersdorf")` nebo cesta
+`oesterreich/wien/hennersdorf`), `register_info` (počet a jména snímků), `cite`, `page_url` = odkaz `?pg=` pro člověka.
+**`fetch_page` záměrně selže** — obrazový server vydává snímky jen prohlížeči (403, kontrola Origin) a robots.txt
+zakazuje automatům stránky `?pg=`. Detaily a podmínky: [`docs/archivy/matricula.md`](../../docs/archivy/matricula.md).
