@@ -34,8 +34,11 @@ pause_and_park() {
   "$dir/park.sh" "${parked_round[@]}" | tee -a "$log"
 }
 resume_round() {
+  local acct note=""; acct=$(active)
+  # pod pracovním účtem blokuje politika organizace Claude in Chrome → session musí pracovat bez prohlížeče
+  [ "$acct" = pracovni ] && note=" POZOR: na účtu pracovni NENÍ Claude in Chrome (blokuje ho politika organizace) — pracuj jen bez prohlížeče (eBadatelna, ARON, Kramerius…). Zbývá-li ti jen práce přes Chrome, ulož Předání a zastav se."
   for a in "${parked_round[@]}"; do
-    "$dir/unpark.sh" "$a" "manager: pauza končí (přepnuto na účet $(active)) — pokračuj podle svého Předání / fronty." | tee -a "$log"
+    "$dir/unpark.sh" "$a" "manager: pauza končí (přepnuto na účet $acct) — pokračuj podle svého Předání / fronty.$note" | tee -a "$log"
   done
   parked_round=()
 }
