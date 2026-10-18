@@ -76,6 +76,11 @@ zmínka ─┐
 převzato┘
 ```
 
+**Při odchodu od osoby stav vždy přepnout** (session větve to dělá u každé osoby, ne až na konci):
+`rozpracováno` smí mít jen osoba, na které session **právě teď** pracuje (max. 1–2 na session). Odchází-li session od
+osoby: všechno dohledatelné hotovo, Závora zapsaná → `dokončeno` (manager po aplikaci → `zapsáno`); čeká na kontrolu,
+prohlížeč, doklad od uživatele → `pozastaveno` + důvod. Při PAUZE/konci session projít své osoby a stavy srovnat.
+
 Fronta (`research/people/README.md`) čte stav z dossierů a ukazuje souhrn.
 
 ## Herdr
