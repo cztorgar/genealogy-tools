@@ -283,3 +283,23 @@ path.xlink:hover { stroke-width: 4; opacity: 1; }
 #panel .ptab.on { background: var(--panel); font-weight: 600; box-shadow: 0 1px 0 var(--panel); }
 #panel .ptab small { color: var(--muted); font-weight: 400; }
 #panel .ppane { padding-top: 4px; }
+
+/* fronta fáze I */
+#frontawrap { flex: 1; min-width: 0; overflow: auto; padding: 10px 16px 40px; }
+#frontawrap[hidden] { display: none; }
+#fr-filters { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 6px; color: var(--muted); }
+#fr-filters select { font: inherit; padding: 2px 4px; }
+.frhelp { color: var(--muted); margin: 0 0 10px; max-width: 900px; }
+#fr-list h3 { margin: 16px 0 6px; font-size: 14px; }
+.frtab { border-collapse: collapse; width: 100%; background: var(--panel); }
+.frtab th, .frtab td { border-bottom: 1px solid var(--line); padding: 3px 8px; text-align: left; vertical-align: top; }
+.frtab th { font-weight: 600; color: var(--muted); position: sticky; top: 0; background: var(--panel); }
+.frtab td.num { text-align: right; color: var(--muted); width: 1%; white-space: nowrap; }
+.frtab tr.side td { color: #555; }
+.frtab .sw { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--edge); border-radius: 2px; vertical-align: middle; }
+.frkey { font-size: 11px; background: #eef2f8; border-radius: 3px; padding: 0 4px; }
+.frwarn { font-size: 11px; background: #fdecea; color: #8b1a1a; border-radius: 3px; padding: 0 4px; }
+.frwait { font-size: 11px; color: #2f6fd0; }
+.frrun { color: var(--run-working); }
+.obt { font-size: 11px; border-radius: 3px; padding: 0 5px; white-space: nowrap; }
+.obt.lo { background: #d8f0d8; color: #1d5e26; } .obt.mid { background: #fff2c4; color: #6b5200; } .obt.hi { background: #fde0c8; color: #8a3b00; }

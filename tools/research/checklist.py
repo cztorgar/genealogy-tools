@@ -212,6 +212,19 @@ def evaluate(facts: Facts, marks: dict[str, tuple[str, str]], tier: str | None =
 NOT_SEARCHED = re.compile(r"nehledán|neprohledán|neprocház|neprošl|nečten", re.I)
 
 
+ZAVORA_PROC_RE = re.compile(r"\*\*proč:?\*\*:?\s*([^\n·]*)", re.I)
+OBTIZNOST = ["nízká", "střední", "velká"]   # jak těžké je závoru prolomit (docs/metodika/fronta.md)
+OBTIZNOST_RE = re.compile(r"^\s*[-*]\s+\*\*obtížnost:?\*\*:?\s*(nízká|střední|velká)\b", re.M | re.I)
+
+
+def zavora_valid(section_text: str) -> bool:
+    """Závora platí jako důvod `[-]`, jen když má vyplněné „proč“ a to neříká „nehledáno“ (pak je to neodvedená práce)."""
+    body = section_text.strip()
+    m = ZAVORA_PROC_RE.search(body)
+    proc = m.group(1) if m else body
+    return len(proc.strip(" —–-.")) >= 3 and not NOT_SEARCHED.search(proc)
+
+
 def closed(e: Entry, has_zavora: bool) -> bool:
     """Položka uzavřená pro fázi I: nalezeno, nebo nenalezeno s důvodem, který neříká „nehledáno“."""
     if e.state == NALEZENO:

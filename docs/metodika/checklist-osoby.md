@@ -19,7 +19,7 @@ aktuální šablony (manager po dávkách). Dashboard počítá živě.
 | `[x]` | nalezeno | doloženo pramenem; **doplní se samo** (`auto:`), má-li osoba v Gramps odpovídající událost s citací |
 | `[-]` | nenalezeno | prohledáno vše, co šlo — **platný výsledek**, pokud má důvod: text za pomlčkou na řádku, nebo sekce `## Závora` |
 
-`[-]` s důvodem „nehledáno / neprocházeno / nečteno“ **není uzavřené**: pramen existuje, jen se do něj nepodívalo.
+`[-]` s důvodem „nehledáno / neprocházeno / nečteno“ **není uzavřené** (totéž platí pro závoru s takovým „proč“ nebo s prázdným „proč“): pramen existuje, jen se do něj nepodívalo.
 Dashboard ho označí štítkem *nehledáno* a osoba nezezelená. Závora patří tam, kde prameny opravdu došly: nedochováno,
 nečitelné, nebo prohledáno bez výsledku. Známý, ale ještě neprohledaný pramen zůstává `[ ]` a do poznámky se
 napíše, kde ho hledat.

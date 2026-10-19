@@ -46,6 +46,7 @@ WORKBENCH = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).resolve().parent / "static"
 sys.path.insert(0, str(WORKBENCH / "tools/research"))
 import checklist as cl  # noqa: E402 — šablona checklistu (základní / rozšířený), sdílená s checklist_sync.py
+import fronta  # noqa: E402 — pořadí osob fáze I
 
 # ID osoby: Kekule K%04d + přípony -S<n> (manžel/ka), -C<n> (dítě), -P1/-P2 (otec/matka)
 ID_RE = re.compile(r"\bK(\d{1,5})((?:-[SCP]\d+)*)\b")
@@ -228,7 +229,8 @@ def first_year(text: str) -> int | None:
 
 
 # Závora (docs/metodika/workflow-sessions.md, oddíl „Závora“): pevné odrážky `- **klíč:** hodnota`
-ZAVORA_KEYS = {"kde": "kde", "proč": "proc", "prohledáno": "prohledano", "co by": "prolomit", "datum": "datum"}
+ZAVORA_KEYS = {"kde": "kde", "proč": "proc", "prohledáno": "prohledano", "co by": "prolomit", "obtížnost": "obtiznost_text",
+               "datum": "datum"}
 ZAVORA_TYPES = [("nezachov", "matriky nezachovány"), ("nedigital", "nedigitalizováno"), ("nenalez", "nenalezeno"),
                 ("nečiteln", "nečitelné"), ("totožnost", "nejistá totožnost"), ("mimo dosah", "mimo dosah"),
                 ("rozpočet", "rozpočet/kontext"), ("nezkoum", "nezkoumáno")]
@@ -263,6 +265,9 @@ def parse_zavora(text: str) -> dict | None:
     z["sance"] = max(chances, key=ZAVORA_CHANCES.index) if chances else None
     br = re.findall(r"prolomeno\s+(\d{4}-\d{2}-\d{2})", text, re.I)
     z["prolomeno"] = br[-1] if br else None
+    m = cl.OBTIZNOST_RE.search(text)
+    z["obtiznost"] = m.group(1).lower() if m else None
+    z["nehledano"] = not cl.zavora_valid(text)
     return z
 
 
@@ -309,7 +314,7 @@ def parse_dossier(path: Path) -> dict:
         "id": pid, "name": name, "rel": rel, "stav": stav,
         "původ": fm.get("původ"), "gramps_id": fm.get("gramps_id"),
         "myheritage": fm.get("myheritage"),
-        "marks": marks, "has_zavora": bool(section(secs, "Závora").strip()), "docs": docs, "deferred": deferred, "log": log_n,
+        "marks": marks, "has_zavora": cl.zavora_valid(section(secs, "Závora")), "docs": docs, "deferred": deferred, "log": log_n,
         "birth": birth, "death": death,
         # `kontext: chybí` (tools/research/kontext_flags.py) + zda má dossier vyplněnou sekci Kontext
         "kontext_flag": str(fm.get("kontext") or "").strip() == "chybí",
@@ -623,6 +628,7 @@ class Tree:
                            "none": sum(e["sources"] == 0 for e in evs)}
             self.apply_checklist(d, gf, root_birth)
 
+        queue = fronta.build(people)
         counts: dict[str, int] = {}
         for d in people.values():
             k = d.get("stav") or "bez dossieru"
@@ -641,6 +647,7 @@ class Tree:
             "log": self.log_tail(),
             "doklady": self.doklady_summary(),
             "kontroly": checks,
+            "fronta": queue,
             "counts": counts,
             "links": self.links.get(),
             "states": STATES,
@@ -658,6 +665,9 @@ class Tree:
         entries, facts = person_checklist(d, gf, root_birth)
         d["checklist"] = cl.summary(entries)
         d["faze1"] = cl.phase1_done(entries, d.get("has_zavora", False))
+        d["open_items"] = [e.item.key for e in entries
+                           if e.item.tier == cl.ZAKLADNI and not cl.closed(e, d.get("has_zavora", False))]
+        d["parents_in_tree"] = all(facts.parents)
         d["birth_est"] = facts.birth if facts.birth_est else None
         waiting = any(k in PATCH_WAITING for k in (d.get("patches") or {}))
         d["stav_dossier"] = d.get("stav")

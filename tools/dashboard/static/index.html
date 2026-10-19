@@ -14,7 +14,7 @@
 <body>
 <header id="bar">
   <strong id="title">Workbench</strong>
-  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button><button data-tab="kontroly" title="Fronta kontrol — co musíš rozhodnout ty">Kontroly <span id="k-count"></span></button></nav>
+  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button><button data-tab="kontroly" title="Fronta kontrol — co musíš rozhodnout ty">Kontroly <span id="k-count"></span></button><button data-tab="fronta" title="Fronta osob fáze I — pořadí, v jakém se zkoumají">Fronta</button></nav>
   <div id="counts"></div>
   <div class="spacer"></div>
   <div class="search">
@@ -66,6 +66,17 @@
     </div>
     <div id="k-list"></div>
   </section>
+  <section id="frontawrap" hidden>
+    <div id="fr-filters">
+      <label><input type="checkbox" id="fr-anc"> jen přímí předci</label>
+      <label>skupina <select id="fr-tier"><option value="">obě</option><option value="1">1 — šedí</option><option value="2">2 — nezelení</option></select></label>
+      <span id="fr-summary"></span>
+    </div>
+    <p class="frhelp">Pořadí: nejdřív šedí, pak nezelení; uvnitř přímí předci před vedlejšími liniemi, blíž ke kořeni dřív.
+      Každá osoba skončí buď s rodiči ve stromu (další úroveň), nebo se závorou s obtížností <span class="obt lo">nízká</span> /
+      <span class="obt mid">střední</span> / <span class="obt hi">velká</span>. Pravidla: docs/metodika/fronta.md.</p>
+    <div id="fr-list"></div>
+  </section>
   <aside id="panel" hidden>
     <button id="close" title="Zavřít (Esc)">×</button>
     <div id="panel-body"></div>
@@ -75,5 +86,6 @@
 <script src="/static/app.js"></script>
 <script src="/static/map.js"></script>
 <script src="/static/kontroly.js"></script>
+<script src="/static/fronta.js"></script>
 </body>
 </html>

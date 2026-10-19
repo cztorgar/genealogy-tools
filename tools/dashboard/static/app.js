@@ -429,7 +429,7 @@ function linkIds(text) {
 }
 function zavoraTip(z) {
   return (z.prolomeno ? `závora (prolomeno ${z.prolomeno})` : "závora") +
-    `\nkde: ${z.kde || "?"}\nproč: ${z.proc || "?"}` + (z.sance ? `\nšance prolomit: ${z.sance}` : "");
+    `\nkde: ${z.kde || "?"}\nproč: ${z.proc || "?"}` + (z.obtiznost ? `\nobtížnost: ${z.obtiznost}` : "") + (z.sance ? `\nšance prolomit: ${z.sance}` : "");
 }
 const ZAV_SANCE = { "vysoká": "hi", "střední": "mid", "malá": "lo", "žádná": "none", "prakticky žádná": "none" };
 function renderZavory() {
@@ -447,6 +447,8 @@ function renderZavory() {
       ${z.prolomeno ? `<small>prolomeno ${esc(z.prolomeno)}</small>` : ""}
       ${z.kde ? `<br><small><b>kde:</b> ${esc(z.kde)}</small>` : ""}
       ${z.prolomit ? `<br><small><b>prolomilo by:</b> ${esc(z.prolomit)}</small>` : ""}
+      ${z.obtiznost ? ` <span class="obt ${{"nízká": "lo", "střední": "mid", "velká": "hi"}[z.obtiznost]}" title="obtížnost prolomit">${esc(z.obtiznost)}</span>` : ` <span class="frwarn">obtížnost neodhadnuta</span>`}
+      ${z.nehledano ? ` <span class="frwarn" title="„proč“ říká nehledáno — není to závora">nehledáno</span>` : ""}
       ${z.sance ? ` <span class="sance ${ZAV_SANCE[z.sance] || ""}" title="nejlepší z uvedených cest">šance ${esc(z.sance)}</span>` : ""}</li>`;
   }).join("") || `<li class="empty">žádná tohoto typu</li>`);
 }

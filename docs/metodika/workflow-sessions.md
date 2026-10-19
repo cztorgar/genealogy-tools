@@ -179,8 +179,12 @@ Kdykoli se linie (nebo jedna osoba) zastaví, zapíše session do dossieru **pos
 - **prohledáno bez výsledku:** <svazky, roky, snímky — totéž co v Logu hledání, souhrnně>
 - **co by závoru prolomilo:** <konkrétní další pramen: originál místo rejstříku, jiná farnost, pozemková kniha,
   badatelna archivu X, rozhodnutí kontroly …> + odhad šance (vysoká / malá / prakticky žádná)
+- **obtížnost:** nízká | střední | velká — <proč> (škála v [`fronta.md`](fronta.md))
 - **datum, kdo:** YYYY-MM-DD, <session>
 ```
+
+„Proč: nehledáno / rozpočet“ **není závora** — pramen existuje a čeká se na něj. Taková sekce osobu neuzavře
+(počítá se jako neodvedená práce) a osoba zůstane ve frontě.
 
 Dashboard ukazuje osoby se závorou ve stromu (konec linie) a v panelu osoby. Když se závora později prolomí,
 sekce se nemaže — připíše se „prolomeno YYYY-MM-DD: …“.

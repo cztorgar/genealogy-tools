@@ -42,7 +42,7 @@ def section_span(text: str, title: str) -> tuple[int, int] | None:
 
 def has_zavora(text: str) -> bool:
     sp = section_span(text, "Závora")
-    return bool(sp and text[sp[0]:sp[1]].split("\n", 1)[1].strip())
+    return bool(sp) and cl.zavora_valid(text[sp[0]:sp[1]].split("\n", 1)[1])
 
 
 def person_facts(pid: str, text: str, gf: dict, manual: dict, root_birth: int | None) -> cl.Facts:
