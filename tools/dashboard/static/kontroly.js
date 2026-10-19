@@ -66,12 +66,14 @@ function renderK(k) {
   </header>`;
 
   const img = k.vyrez || k.snimek;
+  const portal = k.url ? `<a href="${esc(k.url)}" target="_blank" rel="noopener">portál ↗</a>` : "";
   const shot = img ? `<div class="kshot">
       ${k[(k.vyrez ? "vyrez" : "snimek") + "_chybi"] ? `<div class="miss">soubor ${esc(img)} chybí</div>`
         : `<img src="${fileUrl(img)}" data-full="${esc(img)}" alt="výřez" title="zvětšit">`}
       <div class="links">${[k.vyrez && k.snimek ? `<a href="#" data-full-link="${esc(k.snimek)}">celý snímek</a>` : "",
-        k.url ? `<a href="${esc(k.url)}" target="_blank" rel="noopener">portál ↗</a>` : ""].filter(Boolean).join(" · ")}</div>
-    </div>` : "";
+        portal].filter(Boolean).join(" · ")}</div>
+    </div>` : portal ? `<div class="kshot"><div class="miss">snímek není stažený — otevři na portálu</div>
+      <div class="links">${portal}</div></div>` : "";
 
   const vars = k.varianty.map((v, i) => `<label class="var ${isRecommended(k, v) ? "rec" : ""} ${String(i) === pick ? "on" : ""}">
       <input type="radio" name="v-${esc(k.id)}" value="${i}" ${String(i) === pick ? "checked" : ""} ${editing ? "" : "disabled"}>
