@@ -23,6 +23,11 @@ Navazuje na [`dukazni-standard.md`](dukazni-standard.md), [`prepis.md`](prepis.m
 | R7 | Pole, která nejsou klíčová (kmotři, porodní bába, příčina smrti, svědci), se při neshodě **neeskalují**. Zapíšou se obě čtení s `[?]`. |
 | R8 | Shoda dvou modelů není důkaz. U jmen platí R2 jen tehdy, když jméno **nepřišlo z nápovědy** (hint nesmí obsahovat čtené jméno — jen obec, rok, č. p., co hledat). |
 
+> **Režim „jen Claude“ (rozhodnutí uživatele 2026-10-19):** OpenAI se nepoužívá. R1 a R3 tím odpadají. Zápis čte
+> jen Claude: nejdřív z celého snímku, pak znovu z užšího výřezu u klíčových polí. Jistota je nejvýš 1. Citace nese
+> poznámku „autonomní čtení jen Claude, neověřeno uživatelem“. Nejisté klíčové pole (jméno, datum, č. p.) jde do
+> kontroly. Režim platí, dokud ho uživatel nezruší.
+
 ## 2. Totožnost (pravidla I) — největší riziko
 
 | # | Pravidlo |
