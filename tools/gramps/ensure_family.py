@@ -5,6 +5,8 @@ Vazby, které uživatel zná, jsou vždy správně (docs/metodika/gramps-vs-work
 s citací „Ústní sdělení — Vojtěch Bereščák“ (jistota 3). Gramps ID rodiny = F-<otec>-<matka>.
 Osoby musí v Gramps existovat (ensure_persons.py). Opakované spuštění jen doplní chybějící děti.
 
+Rodinu s jedním rodičem (F-otec-X / F-X-matka) při zadání obou rodičů doplní a přejmenuje.
+
 Vazby z pramenů (ne od uživatele) zakládej s `--no-oral` — citaci pak dodá patch.
 
 Použití: ensure_family.py --father K0002 --mother K0003 [--children K0001,K0002-C1] [--married] [--no-oral]
@@ -69,6 +71,16 @@ def main() -> int:
     today = date.today().isoformat()
 
     fam = by_gid(gw, "families", fid)
+    # rodina s jedním rodičem (F-otec-X / F-X-matka) a teď známe i druhého → doplnit a přejmenovat, ne zakládat druhou
+    for half, key, who in ((f"F-{a.father}-X", "mother_handle", mother), (f"F-X-{a.mother}", "father_handle", father)):
+        if fam or not (a.father and a.mother):
+            break
+        fam = by_gid(gw, "families", half)
+        if fam:
+            fam[key], fam["gramps_id"] = who["handle"], fid
+            gw.put(f"/families/{fam['handle']}", fam)
+            fam = by_gid(gw, "families", fid)
+            print(f"~ rodina {half} → {fid}")
     if not fam:
         cit = None if a.no_oral else oral_citation(gw, f"rodinné vazby {fid}, sděleno {today}")
         gw.post("/families/", {
