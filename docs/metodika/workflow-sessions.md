@@ -110,7 +110,7 @@ Všechno běží v herdr (terminálový multiplexer pro agenty), ve workspace
 
 ```yaml
 person: K42                       # číslo osoby, Gramps ID doplní manager při zápisu
-status: navrženo                  # navrženo → schváleno → aplikováno
+status: navrženo                  # navrženo → schváleno → aplikováno | zamítnuto (zamitnuto: {kdy, proc})
 summary: Jan Řezáč, * 17. 7. 1841 Nosetín č. 10, ověřeno v matrice N
 changes:
   - op: add_event                 # add_event | update_event | add_citation | remove_citation | update_citation | add_media
