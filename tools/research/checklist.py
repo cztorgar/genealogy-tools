@@ -254,8 +254,9 @@ def parse_marks(section_text: str) -> dict:
             label = BY_KEY[key].label
             note = note[len(label):].strip() if note.startswith(label) else note
             note = re.sub(r"^—\s*", "", note).strip()
-            if note.startswith("(") and note.endswith(")") and note[1:-1] == BY_KEY[key].hint:
-                note = ""
+            hint = f"({BY_KEY[key].hint})"
+            if BY_KEY[key].hint and note.startswith(hint):   # výchozí nápověda není důvod
+                note = re.sub(r"^—\s*", "", note[len(hint):].strip()).strip()
         else:
             key, note = _legacy_key(text)
             if not key:
