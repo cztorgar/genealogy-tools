@@ -28,6 +28,11 @@ Navazuje na [`dukazni-standard.md`](dukazni-standard.md), [`prepis.md`](prepis.m
 > poznámku „autonomní čtení jen Claude, neověřeno uživatelem“. Nejisté klíčové pole (jméno, datum, č. p.) jde do
 > kontroly. Režim platí, dokud ho uživatel nezruší.
 
+> **Žádní paralelní „screeningoví“ subagenti nad snímky (2026-10-19).** Session k0024 pustila 3 subagenty, kteří
+> každý prošli stovky snímků matrik. Za 5 hodin to bylo přes 100 M tokenů zápisu do cache a vyčerpaly se tím dva
+> účty. Procházení svazků po listech dělá session sama, po menších dávkách (rejstřík → cílený list), a snímky
+> zmenšuje. Subagenta nad obrázky pouštět jen na pokyn uživatele.
+
 ## 2. Totožnost (pravidla I) — největší riziko
 
 | # | Pravidlo |
