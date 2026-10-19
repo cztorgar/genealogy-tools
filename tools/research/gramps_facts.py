@@ -24,6 +24,23 @@ def _year(ev: dict) -> int | None:
     return y or None
 
 
+def _md(ev: dict, late: bool = False) -> tuple[int, int] | None:
+    """(měsíc, den) data události; u rozmezí s `late` konec rozmezí. Bez měsíce → None."""
+    dv = (ev.get("date") or {}).get("dateval") or []
+    if late and len(dv) >= 7 and dv[6]:
+        dv = dv[4:]
+    return (dv[1], dv[0] or 1) if len(dv) >= 3 and dv[1] else None
+
+
+def _late_year(ev: dict) -> int | None:
+    """Nejpozdější rok data (u rozmezí konec) — pro úmrtí; „po“ (AFT, FROM) nedává horní mez → None."""
+    d = ev.get("date") or {}
+    if d.get("modifier") in (2, 7):                # AFT, FROM
+        return None
+    dv = d.get("dateval") or []
+    return (dv[6] if d.get("modifier") in (4, 5) and len(dv) >= 7 and dv[6] else None) or _year(ev)
+
+
 def load(g=None) -> dict[str, Facts]:
     """→ {Gramps ID: Facts} (bez odhadů — ty doplní `checklist.finish`)."""
     if g is None:
@@ -57,9 +74,9 @@ def load(g=None) -> dict[str, Facts]:
                 continue
             t, y = ev.get("type"), _year(ev)
             if t in ("Birth", "Baptism", "Christening") and y and (f.birth is None or t == "Birth"):
-                f.birth = y
-            if t in ("Death", "Burial") and y and (f.death is None or t == "Death"):
-                f.death = y
+                f.birth, f.birth_md = y, _md(ev)
+            if t in ("Death", "Burial") and _late_year(ev) and (f.death is None or t == "Death"):
+                f.death, f.death_md = _late_year(ev), _md(ev, late=True)
             if t in ("Death", "Burial"):
                 f.dead = True
             if not cited(ref) or not _exact(ev):

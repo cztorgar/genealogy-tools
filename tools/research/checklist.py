@@ -37,6 +37,7 @@ class Item:
 
 
 CENSUS_YEARS = (1857, 1869, 1880, 1890, 1900, 1910, 1921)
+CENSUS_DAY = {1857: (10, 31), 1921: (2, 15)}           # rozhodný den (měsíc, den); ostatní 31. 12.
 
 ITEMS = [
     # --- základní (fáze I)
@@ -81,6 +82,8 @@ class Facts:
     birth: int | None = None
     death: int | None = None
     birth_est: bool = False
+    birth_md: tuple[int, int] | None = None              # (měsíc, den), je-li datum známé
+    death_md: tuple[int, int] | None = None
     male: bool | None = None
     married: bool = False
     dead: bool = False
@@ -119,6 +122,16 @@ def lifespan(birth: int | None, death: int | None) -> tuple[int | None, int | No
     return birth, death if death else min(birth + 80, TODAY_YEAR)
 
 
+def alive_at_census(y: int, f: Facts) -> bool:
+    """Žil v rozhodný den sčítání? Rok narození / úmrtí = rok sčítání rozhoduje den; úmrtí bez dne → nežil."""
+    day = CENSUS_DAY.get(y, (12, 31))
+    if f.death == y and (f.death_md is None or f.death_md < day):
+        return False
+    if f.birth == y and not f.birth_est and f.birth_md and f.birth_md > day:
+        return False
+    return True
+
+
 # ---------------------------------------------------------------- výběr a vyhodnocení
 
 def applicable(facts: Facts, tier: str | None = None) -> list[Item]:
@@ -139,6 +152,8 @@ def applicable(facts: Facts, tier: str | None = None) -> list[Item]:
             if it.key.startswith("scitani"):
                 s = start                                                          # sčítá se i novorozenec
             if e < lo or s > hi:
+                continue
+            if it.key.startswith("scitani") and not alive_at_census(lo, facts):
                 continue
         out.append(it)
     return out

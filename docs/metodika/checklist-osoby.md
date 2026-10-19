@@ -35,6 +35,12 @@ Klíč (`z:`) a štítek generuje sync — **měň jen značku a text za pomlčk
 | `z` | úmrtí / pohřeb | zemřelí (nebo narození před 100+ lety) | Death / Burial s citací |
 | `scitaniRRRR` | sčítání lidu 1857, 1869, 1880, 1890, 1900, 1910, 1921 | žil v daném roce | Census s citací v daném roce |
 
+Sčítání se nabízí, jen když osoba v **rozhodný den** žila (1857: 31. 10., 1921: 15. 2., ostatní 31. 12.). Kdo
+zemřel v roce sčítání před tímto dnem (nebo bez známého dne), nebo se narodil po něm, sčítání nemá. Neznámé
+úmrtí se bere jako narození + 80 let. Proto i nepřímé úmrtí patří do Gramps jako událost Death s datem
+`BEF` / `BET … AND …` (např. „† otce“ v zápisu dítěte). Sčítání po tomto datu pak zmizí samo, a nemusí se psát
+`[-] … nežil`.
+
 Sčítání se pro obec často nedochovalo (zejm. 1857, 1880 a uherská 1880–1910) → `[-]` s důvodem „nedochováno pro
 obec X (ARON / SOkA …)“. Jednou zjištěná nedochovanost platí pro všechny z té obce a roku.
 

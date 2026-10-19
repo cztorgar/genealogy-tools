@@ -65,7 +65,8 @@ Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
 - Pořadí hledání:
   1. odkazy do archivů z poznámek (už někdo něco našel),
   2. **základní checklist** ([fáze I](../../docs/metodika/faze-vyzkumu.md)): křest (N) → rodiče → sňatek (O) →
-     úmrtí (Z) → sčítání lidu v jeho životě,
+     úmrtí (Z) → sčítání lidu v jeho životě. Úmrtí známé jen nepřímo („† otec“ v zápisu dítěte, vdovec)
+     navrhni patchem jako Death `BEF …` / `BET … AND …`. Sčítání po něm z checklistu zmizí samo.
   3. rozšířený checklist (fáze II) jen na pokyn.
 - U osob mladších 100 let (N) / 75 let (O, Z) se zeptej na **rodinné doklady** — online matriky nejsou.
 
