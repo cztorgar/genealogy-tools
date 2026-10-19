@@ -687,7 +687,7 @@ function renderPerson(d) {
   const sp = structParent(id);
   const struct = sp ? `${esc(relLabel(id).split(" ")[0])} <span class="pid" data-pid="${sp}">${sp}</span>` : "";
   const base = (d.checklist_items || []).filter((e) => e.tier === "základní");
-  const left = base.filter((e) => e.state === " " || (e.state === "-" && !e.note && !(p && p.zavora))).length;
+  const left = base.filter((e) => !e.closed).length;
   const progress = base.length ? `<div class="facts"><small>fáze I: ${d.faze1 ? "<b>uzavřena</b>" : `zbývá ${left} z ${base.length}`}
     · ${chkText(c["základní"])}</small></div>` : "";
   const head = `<h1>${esc(d.name || (p ? "(bez jména)" : "nesáhnuto"))}</h1>
@@ -704,7 +704,7 @@ function renderPerson(d) {
   if (d.checklist_items && d.checklist_items.length) {
     const ico = { x: "✓", "-": "✗", " ": "○" };
     const block = (tier) => d.checklist_items.filter((e) => e.tier === tier).map((e) =>
-      `<li class="chk s${e.state === "x" ? "x" : e.state === "-" ? "n" : "o"}"><b>${ico[e.state] || "○"}</b> ${esc(e.label)}
+      `<li class="chk s${e.state === "x" ? "x" : e.state === "-" ? "n" : "o"}${e.tier === "základní" && !e.closed ? " open" : ""}"><b>${ico[e.state] || "○"}</b> ${esc(e.label)}${e.tier === "základní" && e.state === "-" && !e.closed ? ` <span class="tag block" title="[-] s „nehledáno“ — pramen existuje, nepočítá se jako uzavřené">nehledáno</span>` : ""}
        ${e.note ? `<small>— ${e.auto ? "<i>auto</i> " : ""}${esc(e.note)}</small>` : e.state === " " && e.hint ? `<small class="muted">(${esc(e.hint)})</small>` : ""}</li>`).join("");
     h += `<h2 class="sec">Základní checklist <small>${d.faze1 ? "fáze I uzavřena" : `zbývá ${left}`}${d.birth_est ? ` · rok narození odhadem ${d.birth_est}` : ""}</small></h2><ul class="chklist">${block("základní")}</ul>`;
     tabs.prace += det("chk-ext", `Rozšířený checklist <small>(${chkText(c["rozšířený"])})</small>`, `<ul class="chklist">${block("rozšířený")}</ul>`, true);

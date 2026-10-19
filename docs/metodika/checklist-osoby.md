@@ -19,6 +19,11 @@ aktuální šablony (manager po dávkách). Dashboard počítá živě.
 | `[x]` | nalezeno | doloženo pramenem; **doplní se samo** (`auto:`), má-li osoba v Gramps odpovídající událost s citací |
 | `[-]` | nenalezeno | prohledáno vše, co šlo — **platný výsledek**, pokud má důvod: text za pomlčkou na řádku, nebo sekce `## Závora` |
 
+`[-]` s důvodem „nehledáno / neprocházeno / nečteno“ **není uzavřené**: pramen existuje, jen se do něj nepodívalo.
+Dashboard ho označí štítkem *nehledáno* a osoba nezezelená. Závora patří tam, kde prameny opravdu došly: nedochováno,
+nečitelné, nebo prohledáno bez výsledku. Známý, ale ještě neprohledaný pramen zůstává `[ ]` a do poznámky se
+napíše, kde ho hledat.
+
 Lhůty matrik (N mladší 100 let, O a Z mladší 75 let) dávají `[-]` automaticky s důvodem „jen doklad / matriční úřad“.
 Starý formát se převádí: `[~]` slabý pramen → nalezeno (jistota je v citaci), `[n]` neexistuje → nenalezeno.
 

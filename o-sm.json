@@ -1,0 +1,202 @@
+{
+ "nastroj": "openai_read",
+ "model": "gpt-6-luna",
+ "model_pozadovany": "gpt-6-luna",
+ "typ": "O",
+ "snimek": "/tmp/claude-1000/-home-vojta-Git-projects-moje-projekty-genealogy/5ae5019c-649b-4df5-b056-223fb23d322c/scratchpad/vapO/CZ_215000010_00190_GZKT3BIL_00135_sign-1893.JPG",
+ "snimek_sha256": "7ef8d4df7987c5ab8d8f6e0c48b5af0807b8a3cd665bf4265f14f2e63e86ade4",
+ "obrazek": {
+  "original": [
+   4402,
+   3318
+  ],
+  "crop": [
+   2289,
+   1194,
+   2024,
+   796
+  ],
+  "sent": [
+   2024,
+   796
+  ],
+  "bytes": 528569
+ },
+ "detail": "original",
+ "effort": "low",
+ "hint": "Klamoš (fara Vápno), O 1834",
+ "cas": "2026-10-19T09:18:33+02:00",
+ "trvani_s": 13.5,
+ "usage": {
+  "input_tokens": 5140,
+  "cached_tokens": 0,
+  "output_tokens": 1116,
+  "reasoning_tokens": 479,
+  "cost_usd_est": 0.00107,
+  "price_per_1m": {
+   "input": 0.1,
+   "cached": 0.01,
+   "output": 0.5
+  }
+ },
+ "cteni": {
+  "zapis_nalezen": true,
+  "umisteni": "Zápis na této straně, první zobrazený řádek pod nadpisem 1834.",
+  "jazyk_pismo": "Čeština a němčina, kurent a latinka.",
+  "zapis": {
+   "datum_snatku": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "oddavajici": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "cislo_domu": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "misto": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "zenich": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "zenich_vek": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "zenich_stav": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "zenich_otec": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "zenich_matka": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "nevesta": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "nevesta_vek": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "nevesta_stav": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "nevesta_otec": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "nevesta_matka": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "low"
+    }
+   },
+   "nabozenstvi": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "svedci": [],
+   "poznamky": []
+  },
+  "nejista_mista": [
+   "Datum v příslušné rubrice není na výřezu bezpečně čitelné.",
+   "Jména snoubenců a údaje o jejich rodičích jsou kvůli obtížně čitelnému rukopisu nejisté."
+  ]
+ }
+}

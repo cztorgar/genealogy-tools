@@ -754,7 +754,8 @@ class Tree:
         if d.get("marks") is not None:
             entries, _ = person_checklist(d, gf, (gf.get("K0001") or cl.Facts()).birth or 1985)
             out["checklist_items"] = [{"key": e.item.key, "label": e.item.label, "tier": e.item.tier,
-                                       "state": e.state, "note": e.note, "auto": e.auto, "hint": e.item.hint}
+                                       "state": e.state, "note": e.note, "auto": e.auto, "hint": e.item.hint,
+                                       "closed": cl.closed(e, d.get("has_zavora", False))}
                                       for e in entries]
         st = self.state()["people"].get(pid) or {}
         for k in ("stav", "stav_dossier", "checklist", "faze1", "birth_est"):

@@ -115,3 +115,4 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 | 2026-10-18 | kontroly se `snimek: ~/.cache/…` (predci-alena) | dashboard „soubor chybí“ (2 kontroly) | zkopírováno do sources/, pravidlo v autonomie.md |
 | 2026-10-18 | souběh: session upravila patch během aplikace (P-K0116-01 `c6`) | text patche ≠ `applied` | ověřeno v Gramps; review: porovnat `changes` × Gramps u patchů měněných v commitu aplikace |
 | 2026-10-19 | session hromadným regexem měnila checklisty i v cizích dossierech (predci-k0005, 7 souborů) | `[-]`→`[ ]` mimo větev | obnoveno z gitu; review: `git diff` dossierů mimo větev session |
+| 2026-10-19 | session uzavírala `[-]` + Závora „nehledáno — pramen online“ (predci-k0015: K0506/07, K0510/11) | falešná zelená | `checklist.closed`: „nehledáno/neprocházeno/nečteno“ se nepočítá; strom 85 → 76 zelených |

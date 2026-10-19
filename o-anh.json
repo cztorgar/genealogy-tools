@@ -1,0 +1,258 @@
+{
+ "nastroj": "openai_read",
+ "model": "gpt-6.1-sol",
+ "model_pozadovany": "gpt-6.1-sol",
+ "typ": "N",
+ "snimek": "/tmp/claude-1000/-home-vojta-Git-projects-moje-projekty-genealogy/5ae5019c-649b-4df5-b056-223fb23d322c/scratchpad/vapN/CZ_215000010_00190_Q2UBS6QS_00116_sign-1888.JPG",
+ "snimek_sha256": "a63428daca78d9e48c0f6a9dfc467ca17c10f73c5285124dc8d4fac66de10a85",
+ "obrazek": {
+  "original": [
+   4078,
+   3318
+  ],
+  "crop": [
+   81,
+   1592,
+   1957,
+   199
+  ],
+  "sent": [
+   1957,
+   199
+  ],
+  "bytes": 123512
+ },
+ "detail": "original",
+ "effort": "low",
+ "hint": "Klamoš (fara Vápno), N 1795, prosinec",
+ "cas": "2026-10-19T09:25:51+02:00",
+ "trvani_s": 39.5,
+ "usage": {
+  "input_tokens": 4202,
+  "cached_tokens": 0,
+  "output_tokens": 1793,
+  "reasoning_tokens": 340,
+  "cost_usd_est": 0.02633,
+  "price_per_1m": {
+   "input": 2.0,
+   "cached": 0.2,
+   "output": 10.0
+  }
+ },
+ "cteni": {
+  "zapis_nalezen": true,
+  "umisteni": "Výřez, jediný celý zápis uprostřed snímku.",
+  "jazyk_pismo": "Čeština, převážně kurent.",
+  "zapis": {
+   "datum_narozeni": {
+    "raw": null,
+    "value": null,
+    "confidence": "high"
+   },
+   "datum_krtu": {
+    "raw": "Decem[?] 14",
+    "value": null,
+    "confidence": "medium"
+   },
+   "cislo_domu": {
+    "raw": "20",
+    "value": "20",
+    "confidence": "medium"
+   },
+   "misto": {
+    "raw": null,
+    "value": null,
+    "confidence": "high"
+   },
+   "jmeno_ditete": {
+    "raw": "Anna",
+    "value": "Anna",
+    "confidence": "high"
+   },
+   "nabozenstvi": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "pohlavi": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "manzelske": {
+    "raw": null,
+    "value": null,
+    "confidence": "low"
+   },
+   "otec": {
+    "jmeno": {
+     "raw": "Matěÿ [Sawra?]",
+     "value": "Matěj [Šavra?]",
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "otec_otec": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "otec_matka": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "matka": {
+    "jmeno": {
+     "raw": "Kateřina [Sawowa?]",
+     "value": "Kateřina [Šavová?]",
+     "confidence": "low"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "matka_otec": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "matka_matka": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "kmotri": [
+    {
+     "jmeno": {
+      "raw": "[Maryna?] [?]",
+      "value": "[Marina?] [?]",
+      "confidence": "low"
+     },
+     "povolani_stav": {
+      "raw": null,
+      "value": null,
+      "confidence": "high"
+     },
+     "bydliste": {
+      "raw": null,
+      "value": null,
+      "confidence": "high"
+     }
+    },
+    {
+     "jmeno": {
+      "raw": "Waczlaw [?]",
+      "value": "Václav [?]",
+      "confidence": "medium"
+     },
+     "povolani_stav": {
+      "raw": null,
+      "value": null,
+      "confidence": "high"
+     },
+     "bydliste": {
+      "raw": null,
+      "value": null,
+      "confidence": "high"
+     }
+    }
+   ],
+   "porodni_baba": {
+    "jmeno": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "povolani_stav": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    },
+    "bydliste": {
+     "raw": null,
+     "value": null,
+     "confidence": "high"
+    }
+   },
+   "krtitel": {
+    "raw": "[?]",
+    "value": null,
+    "confidence": "low"
+   },
+   "poznamky": []
+  },
+  "nejista_mista": [
+   "Datum čtu jako 14. prosince; bez hlavičky nelze bezpečně určit, zda jde o datum křtu, narození, nebo společné datum. Rok na výřezu není.",
+   "Číslo domu patrně 20.",
+   "Příjmení otce a matky: nejisté čtení Sawra / Sawowa, zejména počáteční písmeno a zakončení otcova příjmení.",
+   "Jméno první kmotry a příjmení obou kmotrů vyžadují ověření.",
+   "Značky v úzkých rubrikách jsou viditelné, ale bez záhlaví je nelze bezpečně přiřadit náboženství, pohlaví a manželskému původu.",
+   "Text v pravé krajní rubrice je nečitelný; přiřazení ke křtiteli je nejisté."
+  ]
+ }
+}

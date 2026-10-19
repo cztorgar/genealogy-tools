@@ -208,11 +208,21 @@ def evaluate(facts: Facts, marks: dict[str, tuple[str, str]], tier: str | None =
     return out
 
 
+# „[-] … nehledáno“ není negativní nález — pramen existuje, jen se do něj nepodívalo
+NOT_SEARCHED = re.compile(r"nehledán|neprohledán|neprocház|neprošl|nečten", re.I)
+
+
+def closed(e: Entry, has_zavora: bool) -> bool:
+    """Položka uzavřená pro fázi I: nalezeno, nebo nenalezeno s důvodem, který neříká „nehledáno“."""
+    if e.state == NALEZENO:
+        return True
+    return e.state == NENALEZENO and bool(e.note or has_zavora) and not NOT_SEARCHED.search(e.note)
+
+
 def phase1_done(entries: list[Entry], has_zavora: bool) -> bool:
     """Fáze I uzavřena: každá základní položka nalezena, nebo nenalezena s důvodem (na řádku či závora)."""
     base = [e for e in entries if e.item.tier == ZAKLADNI]
-    return bool(base) and all(e.state == NALEZENO or (e.state == NENALEZENO and (e.note or has_zavora))
-                              for e in base)
+    return bool(base) and all(closed(e, has_zavora) for e in base)
 
 
 def summary(entries: list[Entry]) -> dict:
