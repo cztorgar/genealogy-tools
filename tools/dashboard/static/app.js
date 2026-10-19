@@ -617,6 +617,60 @@ async function loadLazy(dt) {
   } catch { dt.querySelector(".lazy").textContent = "nelze načíst"; }
 }
 
+// GEDCOM-like datum z patche → česky: „18 JUL 1841“ → 18. 7. 1841, ABT → ~, BEF → před, BET … AND … → mezi … a …
+const MON = { JAN: 1, FEB: 2, MAR: 3, APR: 4, MAY: 5, JUN: 6, JUL: 7, AUG: 8, SEP: 9, OCT: 10, NOV: 11, DEC: 12 };
+function fmtDate(s) {
+  if (!s) return "";
+  const one = (t) => t.trim().split(/\s+/).map((w) => (MON[w] ? `${MON[w]}.` : /^\d{1,2}$/.test(w) ? `${w}.` : w)).join(" ");
+  const up = String(s).toUpperCase();
+  let m;
+  if ((m = up.match(/^BET (.+) AND (.+)$/))) return `mezi ${one(m[1])} a ${one(m[2])}`;
+  if ((m = up.match(/^FROM (.+) TO (.+)$/))) return `${one(m[1])} – ${one(m[2])}`;
+  if ((m = up.match(/^(ABT|EST|CAL) (.+)$/))) return `~${one(m[2])}`;
+  if ((m = up.match(/^BEF (.+)$/))) return `před ${one(m[1])}`;
+  if ((m = up.match(/^AFT (.+)$/))) return `po ${one(m[1])}`;
+  return one(up);
+}
+
+const TODAY_YEAR = new Date().getFullYear();
+const UNKNOWN = `<span class="unk">neznámé</span>`;
+
+// narození / úmrtí / bydliště do hlavičky: Gramps (aplikované patche) → nápověda z dossieru → odhad → neznámé
+function vitals(d, p) {
+  const ev = d.events || [];
+  const first = (types) => { for (const t of types) { const e = ev.find((x) => x.type === t && x.date); if (e) return e; } return null; };
+  const at = (e, verb) => `${verb ? `<small>${verb}</small> ` : ""}${esc(fmtDate(e.date))}${e.place ? ` · ${esc(e.place)}` : ""}`;
+  const hint = (y) => `~${esc(y)} <small class="muted">nápověda, neověřeno</small>`;
+
+  const b = first(["Birth"]), bc = first(["Christening", "Baptism"]);
+  let birth = b ? at(b) + (bc && !/^\d/.test(b.date) ? ` <small class="muted">(křest ${esc(fmtDate(bc.date))})</small>` : "")
+    : bc ? at(bc, "křest") : null;
+  if (!birth) birth = p && p.birth ? hint(p.birth) : d.birth_est ? `${UNKNOWN} <small class="muted">odhad ~${esc(d.birth_est)}</small>` : UNKNOWN;
+
+  const de = first(["Death"]), bu = first(["Burial"]);
+  let death = de ? at(de) : bu ? at(bu, "pohřeb") : null;
+  if (!death) {
+    const by = (b && +String(b.date).match(/\d{4}/)?.[0]) || (bc && +String(bc.date).match(/\d{4}/)?.[0]) || (p && p.birth) || d.birth_est;
+    death = p && p.death ? hint(p.death)
+      : by && by > TODAY_YEAR - 100 ? `${UNKNOWN} <small class="muted">možná žije</small>` : UNKNOWN;
+  }
+
+  const res = (d.residences || []).slice().sort((a, x) => x.year - a.year);
+  let home;
+  if (res.length) {
+    const r = res[0];
+    home = `${esc(r.place)}${r.cp ? ` čp. ${esc(r.cp)}` : ""} <small class="muted">(${r.year}${r.year_to ? `–${r.year_to}` : ""}${res.length > 1 ? `, +${res.length - 1} další` : ""})</small>`;
+  } else {
+    const e = ev.filter((x) => x.place && ["Census", "Residence", "Occupation", "Death", "Birth"].includes(x.type))
+      .sort((a, x) => (+String(x.date).match(/\d{4}/)?.[0] || 0) - (+String(a.date).match(/\d{4}/)?.[0] || 0))[0];
+    home = e ? `${esc(e.place)} <small class="muted">(${esc(TYPE_CS[e.type] || e.type)} ${esc(fmtDate(e.date))})</small>` : UNKNOWN;
+  }
+  return `<dl class="vitals"><dt>narození</dt><dd>${birth}</dd><dt>úmrtí</dt><dd>${death}</dd><dt>bydliště</dt><dd>${home}</dd></dl>`;
+}
+
+const PTABS = [["prehled", "Přehled"], ["zivot", "Život"], ["prameny", "Prameny"], ["prace", "Práce"]];
+let ptab = store.get("ptab", "prehled");
+
 function renderPerson(d) {
   const p = S.people[d.id];
   const id = d.id;
@@ -626,45 +680,79 @@ function renderPerson(d) {
   const facts = [
     `<span class="chip" style="background:${STATE_COLORS[p ? stav : ""] || "#fff"}">${esc(stav)}</span>`,
     `<span class="tag">${esc(id)}</span>`,
-    p && years(p) ? `<span class="tag">${esc(years(p))}</span>` : "",
     p && p["původ"] ? `<span class="tag">původ: ${esc(p["původ"])}</span>` : "",
     ses ? `<span class="chip" title="${esc(sessionTip(ses, id))}"><b style="color:var(--run-${ses.status})">●</b> ${ses.kind === "vetev" ? "session větve" : "session"} ${esc(ses.name)}: ${esc(ses.status)}</span>` : "",
     d.gramps ? `<a href="${esc(d.gramps)}" target="_blank" rel="noopener">Gramps ↗</a>` : "",
   ].join(" ");
-  const struct = [];
   const sp = structParent(id);
-  if (sp) struct.push(`${esc(relLabel(id).split(" ")[0])} <span class="pid" data-pid="${sp}">${sp}</span>`);
-  const chk = c ? `základní: ${chkText(c["základní"])} · rozšířený: ${chkText(c["rozšířený"])}` : "";
-  const docs = p && p.docs ? `doklady: ${p.docs.open} chybí · ${p.docs.done} máme` : "";
-  let h = `<h1>${esc(d.name || (p ? "(bez jména)" : "nesáhnuto"))}</h1>
-    <div class="rel">${esc(d.rel || relLabel(id))}</div>
-    <div class="facts">${facts}</div>
-    <div class="facts"><small>${[chk, docs, p ? `odloženo: ${p.deferred || 0}` : "", p ? `log: ${p.log || 0}` : ""].filter(Boolean).join(" · ")}</small></div>
-    <div class="facts"><small>${struct.join(" · ")}</small></div>`;
-  if (d.abs_path) {
-    h += `<div class="facts"><span class="path" id="abs">${esc(d.abs_path)}</span>
-      <button onclick="navigator.clipboard.writeText(document.getElementById('abs').textContent).then(()=>this.textContent='zkopírováno')">kopírovat</button></div>`;
-  } else {
-    h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
-  }
+  const struct = sp ? `${esc(relLabel(id).split(" ")[0])} <span class="pid" data-pid="${sp}">${sp}</span>` : "";
+  const base = (d.checklist_items || []).filter((e) => e.tier === "základní");
+  const left = base.filter((e) => e.state === " " || (e.state === "-" && !e.note && !(p && p.zavora))).length;
+  const progress = base.length ? `<div class="facts"><small>fáze I: ${d.faze1 ? "<b>uzavřena</b>" : `zbývá ${left} z ${base.length}`}
+    · ${chkText(c["základní"])}</small></div>` : "";
+  const head = `<h1>${esc(d.name || (p ? "(bez jména)" : "nesáhnuto"))}</h1>
+    <div class="rel">${esc(d.rel || relLabel(id))}${struct ? ` · ${struct}` : ""}</div>
+    ${vitals(d, p)}
+    <div class="facts">${facts}</div>${progress}`;
 
+  const tabs = { prehled: "", zivot: "", prameny: "", prace: "" };
+  const count = { prehled: 0, zivot: 0, prameny: 0, prace: 0 };
+
+  // --- Přehled: co chybí a co blokuje
+  let h = "";
+  if (!d.abs_path) h += `<p><i>Osoba zatím nemá dossier — plyne ze struktury ID (${esc(relLabel(id))}).</i></p>`;
   if (d.checklist_items && d.checklist_items.length) {
     const ico = { x: "✓", "-": "✗", " ": "○" };
     const block = (tier) => d.checklist_items.filter((e) => e.tier === tier).map((e) =>
       `<li class="chk s${e.state === "x" ? "x" : e.state === "-" ? "n" : "o"}"><b>${ico[e.state] || "○"}</b> ${esc(e.label)}
        ${e.note ? `<small>— ${e.auto ? "<i>auto</i> " : ""}${esc(e.note)}</small>` : e.state === " " && e.hint ? `<small class="muted">(${esc(e.hint)})</small>` : ""}</li>`).join("");
-    const base = d.checklist_items.filter((e) => e.tier === "základní");
-    const left = base.filter((e) => e.state === " " || (e.state === "-" && !e.note && !(p && p.zavora))).length;
     h += `<h2 class="sec">Základní checklist <small>${d.faze1 ? "fáze I uzavřena" : `zbývá ${left}`}${d.birth_est ? ` · rok narození odhadem ${d.birth_est}` : ""}</small></h2><ul class="chklist">${block("základní")}</ul>`;
-    h += det("chk-ext", `Rozšířený checklist <small>(${chkText(c["rozšířený"])})</small>`, `<ul class="chklist">${block("rozšířený")}</ul>`, false);
-  }
-  if (p && p.kontext_missing && p.kontext_missing.length) {
-    h += `<div class="nokx-box">Chybí ${esc(p.kontext_missing.join(" a "))} — doplnit podle docs/metodika/pribehy.md (<code>kontext: chybí</code> v dossieru).</div>`;
+    tabs.prace += det("chk-ext", `Rozšířený checklist <small>(${chkText(c["rozšířený"])})</small>`, `<ul class="chklist">${block("rozšířený")}</ul>`, true);
   }
   if (d.zavora_text) {
     const z = p && p.zavora;
     h += `<h2 class="sec">Závora <small>${z ? esc(z.typy.join(" + ")) + (z.sance ? ` · šance ${esc(z.sance)}` : "") + (z.prolomeno ? ` · prolomeno ${esc(z.prolomeno)}` : "") : ""}</small></h2>`;
     h += `<div class="zavora${z && z.prolomeno ? " broken" : ""}">${md(d.zavora_text)}</div>`;
+  }
+  if (d.kontroly && d.kontroly.length) {
+    const rows = d.kontroly.map((k) => `<li><a href="#" data-kontrola="${esc(k.id)}">${esc(k.id)}</a>
+      ${k.blokuje ? `<span class="tag block">blokuje</span>` : ""} <span class="tag">${esc(k.typ || "")}</span>
+      <span class="kstav ${esc(k.stav)}">${esc(k.stav)}</span><br><small>${esc(k.otazka || "")}</small></li>`).join("");
+    const open = d.kontroly.filter((k) => k.stav === "otevřeno").length;
+    h += `<h2 class="sec">Kontroly (${open} otevřeno)</h2><ul class="klist">${rows}</ul>`;
+    count.prehled = open;
+  }
+  tabs.prehled = h;
+
+  // --- Život: doložené údaje, bydliště, příběh
+  h = "";
+  if (d.events && d.events.length) {
+    const yr = (e) => { const m = String(e.date || "").match(/\d{4}/); return m ? +m[0] : 9999; };
+    const rows = d.events.slice().sort((a, b) => yr(a) - yr(b)).map((e) => {
+      const recs = e.records.map((r) => `${r.label}${r.confidence != null ? ` (jistota ${r.confidence})` : ""}${r.patch ? ` — ${r.patch}` : ""}`).join("\n");
+      return `<tr class="${e.sources <= 1 ? "one" : ""}">
+        <td>${esc(TYPE_CS[e.type] || e.type || "?")}${e.family ? " <small>(rodina)</small>" : ""}</td>
+        <td>${esc(fmtDate(e.date))}</td><td>${esc(e.place)}</td>
+        <td class="n" title="${esc(recs)}">${circled(e.sources)}${e.support ? ` <small title="rejstřík — podpůrně, nepočítá se">+R${e.support}</small>` : ""}</td>
+        <td class="n">${e.confidence ?? "—"}</td>
+        <td><small>${esc(trunc(e.description || "", 70))}</small></td></tr>`;
+    }).join("");
+    const one = d.events.filter((e) => e.sources <= 1).length;
+    h += `<h2 class="sec">Doložené údaje <small>(${d.events.length} událostí, ${one} s jediným pramenem)</small></h2>
+      <table class="evt"><thead><tr><th>událost</th><th>datum</th><th>místo</th><th title="počet nezávislých zápisů v citacích">pramenů</th><th title="nejvyšší jistota citace">jist.</th><th>popis</th></tr></thead><tbody>${rows}</tbody></table>
+      <p><small>Pramen = různý zápis (dvě fotky téhož zápisu = jeden, rejstřík se nepočítá). Najetím na počet se ukážou zápisy.</small></p>`;
+    count.zivot += d.events.length;
+  } else {
+    h += `<p class="muted"><i>Ve stromu zatím žádné doložené události.</i></p>`;
+  }
+  if (d.residences && d.residences.length) {
+    const rows = d.residences.slice().sort((a, b) => a.year - b.year).map((r) =>
+      `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)}${r.undetermined ? ` <small class="warn">${esc(r.undetermined)}</small>` : ""} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
+       <a href="#" data-showmap="${esc(r.place)}|${esc(r.cp)}|${r.year}">na mapě</a></li>`).join("");
+    h += `<h2 class="sec">Bydliště</h2><ul>${rows}</ul>`;
+  }
+  if (p && p.kontext_missing && p.kontext_missing.length) {
+    h += `<div class="nokx-box">Chybí ${esc(p.kontext_missing.join(" a "))} — doplnit podle docs/metodika/pribehy.md (<code>kontext: chybí</code> v dossieru).</div>`;
   }
   if (d.story) {
     const when = new Date(d.story.mtime * 1000).toLocaleDateString("cs-CZ");
@@ -674,60 +762,13 @@ function renderPerson(d) {
   if (d.kontext) {
     h += `<h2 class="sec">Kontext <small>(z dossieru — surové poznámky sessions)</small></h2><div class="kontext">${md(d.kontext)}</div>`;
   }
-  if (d.kontroly && d.kontroly.length) {
-    const rows = d.kontroly.map((k) => `<li><a href="#" data-kontrola="${esc(k.id)}">${esc(k.id)}</a>
-      ${k.blokuje ? `<span class="tag block">blokuje</span>` : ""} <span class="tag">${esc(k.typ || "")}</span>
-      <span class="kstav ${esc(k.stav)}">${esc(k.stav)}</span><br><small>${esc(k.otazka || "")}</small></li>`).join("");
-    h += `<h2 class="sec">Kontroly (${d.kontroly.filter((k) => k.stav === "otevřeno").length} otevřeno)</h2><ul class="klist">${rows}</ul>`;
-  }
-  if (d.events && d.events.length) {
-    const yr = (e) => { const m = String(e.date || "").match(/\d{4}/); return m ? +m[0] : 9999; };
-    const rows = d.events.slice().sort((a, b) => yr(a) - yr(b)).map((e) => {
-      const recs = e.records.map((r) => `${r.label}${r.confidence != null ? ` (jistota ${r.confidence})` : ""}${r.patch ? ` — ${r.patch}` : ""}`).join("\n");
-      return `<tr class="${e.sources <= 1 ? "one" : ""}">
-        <td>${esc(TYPE_CS[e.type] || e.type || "?")}${e.family ? " <small>(rodina)</small>" : ""}</td>
-        <td>${esc(e.date)}</td><td>${esc(e.place)}</td>
-        <td class="n" title="${esc(recs)}">${circled(e.sources)}${e.support ? ` <small title="rejstřík — podpůrně, nepočítá se">+R${e.support}</small>` : ""}</td>
-        <td class="n">${e.confidence ?? "—"}</td>
-        <td><small>${esc(trunc(e.description || "", 70))}</small></td></tr>`;
-    }).join("");
-    const one = d.events.filter((e) => e.sources <= 1).length;
-    h += det("events", `Doložení údajů <small>(${d.events.length} událostí, ${one} s jediným pramenem; z aplikovaných patchů)</small>`,
-      `<table class="evt"><thead><tr><th>událost</th><th>datum</th><th>místo</th><th title="počet nezávislých zápisů v citacích">pramenů</th><th title="nejvyšší jistota citace">jist.</th><th>popis</th></tr></thead><tbody>${rows}</tbody></table>
-       <p><small>Pramen = různý zápis (dvě fotky téhož zápisu = jeden, rejstřík se nepočítá). Najetím na počet se ukážou zápisy.</small></p>`, true);
-  }
-  if (d.residences && d.residences.length) {
-    const rows = d.residences.slice().sort((a, b) => a.year - b.year).map((r) =>
-      `<li>${r.year}${r.year_to ? `–${r.year_to}` : ""} · ${esc(r.place)} čp. ${esc(r.cp)}${r.undetermined ? ` <small class="warn">${esc(r.undetermined)}</small>` : ""} <small>(${esc(TYPE_CS[r.type] || r.type)}, ${esc(r.patch)})</small>
-       <a href="#" data-showmap="${esc(r.place)}|${esc(r.cp)}|${r.year}">na mapě</a></li>`).join("");
-    h += `<h2 class="sec">Bydliště (z patchů)</h2><ul>${rows}</ul>`;
-  }
-  if (d.patches.length) {
-    h += `<h2 class="sec">Patche (${d.patches.length})</h2>`;
-    for (const pt of d.patches) {
-      const waiting = ["navrženo", "schváleno"].includes(pt.status);
-      h += det(`patch:${pt.file}`, `<span class="status ${esc(pt.status)}">${esc(pt.status)}</span> ${esc(pt.file)}<br><small>${esc(pt.summary)}</small>`,
-        `<div class="path">${esc(pt.path)}</div><pre>${esc(pt.text)}</pre>`, waiting);
-    }
-  }
-  if (d.hints.length) {
-    h += `<h2 class="sec">Nápovědy (${d.hints.length})</h2>`;
-    for (const x of d.hints) h += det(`hint:${x.file}`, `${esc(x.file.split("/").pop())}`, md(x.text), false);
-  }
-  if (d.todos.length) {
-    h += `<h2 class="sec">Sdílené seznamy (${d.todos.length})</h2>`;
-    for (const t of d.todos) {
-      const st = t.state ? ` <small>— ${esc(t.state)}</small>` : "";
-      h += det(`todo:${t.list}:${t.title}`, `${esc(t.list_title)}: ${esc(trunc(t.title, 90))}${st}`, md(t.text), t.open);
-    }
-  }
-  if (d.dossier) {
-    h += `<h2 class="sec">Dossier</h2>`;
-    h += det("dossier", `${esc(d.file)}`, md(stripFm(d.dossier)), true);
-  }
+  tabs.zivot = h;
+
+  // --- Prameny: záznamy, snímky, přepisy, nápovědy
+  h = "";
   const s = d.sources;
   if (s && (s.sidecars.length || s.images.length || s.texts.length)) {
-    h += `<h2 class="sec">Prameny${s.dir ? ` <small class="path">${esc(s.dir)}/</small>` : ""}</h2>`;
+    if (s.dir) h += `<p><small class="path">${esc(s.dir)}/</small></p>`;
     if (s.sidecars.length) {
       const items = s.sidecars.map((x) => {
         const img = x.image ? `<img loading="lazy" src="${fileUrl(x.image)}" data-full="${esc(x.image)}" alt="">` : "";
@@ -744,7 +785,7 @@ function renderPerson(d) {
           ${x.persons.length ? `<div><small>osoby: ${x.persons.map((q) => `<span class="pid" data-pid="${q}">${q}</span>`).join(" ")}</small></div>` : ""}
           <div>${links}</div></div></div>`;
       }).join("");
-      h += det("src:sidecars", `Záznamy se sidecarem <small>(${s.sidecars.length})</small>`, items, true);
+      h += det("src:sidecars", `Záznamy <small>(${s.sidecars.length})</small>`, items, true);
     }
     if (s.images.length) {
       h += det("src:images", `Snímky bez sidecaru <small>(${s.images.length})</small>`,
@@ -755,9 +796,59 @@ function renderPerson(d) {
       const isOpen = openDetails.has(key);
       h += `<details data-key="${esc(key)}" data-lazy="${esc(t)}" ${isOpen ? "open" : ""}><summary>${esc(t.split("/").pop())} <small>${esc(t)}</small></summary><div class="lazy">načítám…</div></details>`;
     }
+    count.prameny += s.sidecars.length + s.images.length + s.texts.length;
   }
-  return h;
+  if (d.hints.length) {
+    h += `<h2 class="sec">Nápovědy <small>(cizí stromy — neověřeno)</small></h2>`;
+    for (const x of d.hints) h += det(`hint:${x.file}`, `${esc(x.file.split("/").pop())}`, md(x.text), false);
+  }
+  if (!h) h = `<p class="muted"><i>Žádné prameny ani nápovědy.</i></p>`;
+  tabs.prameny = h;
+
+  // --- Práce: patche, seznamy, dossier
+  h = tabs.prace;
+  const waitingN = d.patches.filter((pt) => ["navrženo", "schváleno"].includes(pt.status)).length;
+  if (d.patches.length) {
+    h += `<h2 class="sec">Patche (${d.patches.length}${waitingN ? `, ${waitingN} čeká` : ""})</h2>`;
+    for (const pt of d.patches) {
+      const waiting = ["navrženo", "schváleno"].includes(pt.status);
+      h += det(`patch:${pt.file}`, `<span class="status ${esc(pt.status)}">${esc(pt.status)}</span> ${esc(pt.file)}<br><small>${esc(pt.summary)}</small>`,
+        `<div class="path">${esc(pt.path)}</div><pre>${esc(pt.text)}</pre>`, waiting);
+    }
+  }
+  if (d.todos.length) {
+    h += `<h2 class="sec">Sdílené seznamy (${d.todos.length})</h2>`;
+    for (const t of d.todos) {
+      const st = t.state ? ` <small>— ${esc(t.state)}</small>` : "";
+      h += det(`todo:${t.list}:${t.title}`, `${esc(t.list_title)}: ${esc(trunc(t.title, 90))}${st}`, md(t.text), t.open);
+    }
+  }
+  const docs = p && p.docs ? `doklady: ${p.docs.open} chybí · ${p.docs.done} máme` : "";
+  const misc = [docs, p ? `odloženo: ${p.deferred || 0}` : "", p ? `log: ${p.log || 0}` : ""].filter(Boolean).join(" · ");
+  if (d.dossier) {
+    h += `<h2 class="sec">Dossier</h2>`;
+    if (misc) h += `<div class="facts"><small>${misc}</small></div>`;
+    h += `<div class="facts"><span class="path" id="abs">${esc(d.abs_path)}</span>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('abs').textContent).then(()=>this.textContent='zkopírováno')">kopírovat</button></div>`;
+    h += det("dossier", `${esc(d.file)}`, md(stripFm(d.dossier)), false);
+  }
+  count.prace = waitingN;
+  tabs.prace = h;
+
+  if (!tabs[ptab]) ptab = "prehled";
+  const bar = PTABS.map(([k, t]) => `<button class="ptab${k === ptab ? " on" : ""}" data-ptab="${k}">${t}${count[k] ? ` <small>${count[k]}</small>` : ""}</button>`).join("");
+  return `<div class="phead">${head}<nav class="ptabs">${bar}</nav></div>`
+    + PTABS.map(([k]) => `<section class="ppane" data-pane="${k}"${k === ptab ? "" : " hidden"}>${tabs[k]}</section>`).join("");
 }
+
+$("#panel").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-ptab]");
+  if (!b) return;
+  ptab = b.dataset.ptab;
+  store.set("ptab", ptab);
+  $("#panel").querySelectorAll("[data-ptab]").forEach((x) => x.classList.toggle("on", x === b));
+  $("#panel").querySelectorAll("[data-pane]").forEach((x) => { x.hidden = x.dataset.pane !== ptab; });
+});
 
 $("#close").addEventListener("click", closePanel);
 function closePanel() { $("#panel").hidden = true; selected = null; hit = null; render(); }

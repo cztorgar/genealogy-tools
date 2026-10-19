@@ -269,3 +269,17 @@ path.xlink:hover { stroke-width: 4; opacity: 1; }
 .chklist li { margin: 2px 0; }
 .chklist .sx b { color: #2d8a3a; } .chklist .sn b { color: #b5655e; } .chklist .so b { color: #9a9a9a; }
 .chklist .muted { color: var(--muted); }
+
+/* panel osoby — hlavička a záložky */
+#panel .phead { position: sticky; top: 0; background: var(--panel); z-index: 1; padding-bottom: 2px; border-bottom: 1px solid var(--line); }
+#panel .vitals { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 8px 0; font-size: 14px; }
+#panel .vitals dt { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; align-self: center; }
+#panel .vitals dd { margin: 0; font-weight: 600; }
+#panel .vitals small { font-weight: 400; }
+#panel .unk { color: #b23b3b; font-style: italic; font-weight: 600; }
+#panel .muted { color: var(--muted); }
+#panel .ptabs { display: flex; gap: 2px; margin-top: 6px; }
+#panel .ptab { border: 1px solid var(--line); border-bottom: none; border-radius: 5px 5px 0 0; background: #f1f1ec; padding: 4px 12px; cursor: pointer; font-size: 13px; }
+#panel .ptab.on { background: var(--panel); font-weight: 600; box-shadow: 0 1px 0 var(--panel); }
+#panel .ptab small { color: var(--muted); font-weight: 400; }
+#panel .ppane { padding-top: 4px; }
