@@ -22,6 +22,7 @@ Dashboard ukáže osobu zeleně (stav **uzavřeno**, počítá se, do dossieru s
 1. každá položka základního checklistu je `[x]`, nebo `[-]` s důvodem / závorou,
 2. na osobě nikdo nepracuje (`stav` ≠ `rozpracováno`),
 3. nečeká žádný její patch (`navrženo` / `schváleno`).
+4. nemá otevřenou **blokující** kontrolu.
 
 Přibude-li položka do základního checklistu, osoby bez ní zelenou ztratí — tak to má být. Cíl fáze I: **celý strom
 zelený**. Pruh v boxu osoby ukazuje postup základního checklistu.

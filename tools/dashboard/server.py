@@ -651,7 +651,7 @@ class Tree:
 
     @staticmethod
     def apply_checklist(d: dict, gf: dict, root_birth: int | None) -> None:
-        """Souhrn checklistu + stav `uzavřeno` (fáze I hotová, nikdo na osobě nepracuje, žádný patch nečeká)."""
+        """Souhrn checklistu + stav `uzavřeno` (fáze I hotová, nikdo na osobě nepracuje, žádný patch ani blokující kontrola nečeká)."""
         if d.get("marks") is None:
             d["checklist"] = None
             return
@@ -661,7 +661,8 @@ class Tree:
         d["birth_est"] = facts.birth if facts.birth_est else None
         waiting = any(k in PATCH_WAITING for k in (d.get("patches") or {}))
         d["stav_dossier"] = d.get("stav")
-        if d["faze1"] and d.get("stav") != "rozpracováno" and not waiting:
+        blocked = bool((d.get("kontroly") or {}).get("blocking"))     # otevřená blokující kontrola
+        if d["faze1"] and d.get("stav") != "rozpracováno" and not waiting and not blocked:
             d["stav"] = "uzavřeno"
         d.pop("marks", None)
 
