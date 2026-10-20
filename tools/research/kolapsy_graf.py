@@ -6,7 +6,7 @@ Data (jméno, roky, adresy = obec + č. p. z událostí) bere živě z Gramps We
 
     kolapsy:
       - nazev: hulovi
-        titulek: "Hulovi — společní předci Vojty a Terezy"
+        titulek: "Novákovi — společní předci obou stran"
         spolecni: [K0106, K0107]              # společný pár (nahoře)
         vetve:                                 # každá větev = řetězec potomků (dítě, jeho manžel/ka) až dolů
           - [[K0053, K0052], [K0026, K0027], …, [K0001]]
@@ -24,6 +24,8 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "gramps"))
 from gw import GrampsWeb  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 CP = re.compile(r"(?:č\.\s*p\.|čp\.|č\.)\s*(\d+(?:/[IVX]+)?)")
 
@@ -134,4 +136,4 @@ def main(tree: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parents[3] / "genealogy-trees/berescak")))
+    sys.exit(main(Path(sys.argv[1]) if len(sys.argv) > 1 else wbconfig.tree_dir()))

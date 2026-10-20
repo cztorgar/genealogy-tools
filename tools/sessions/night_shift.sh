@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Noční směna: drží výzkumné session v běhu na dvou účtech Claude.
+# Noční směna: drží výzkumné session v běhu na dvou účtech Claude (volitelné; potřebuje herdr, jq a nástroj
+# claude-account pro přepínání účtů; účty z genealogy.toml → [sessions] ucty, ucty_bez_chrome).
 # Když aktivní účet dosáhne prahu (5h okno), session pozastaví, zaparkuje, přepne aktivní účet na druhý (pokud má
 # rezervu) a session obnoví s kontextem (unpark → claude --resume) — poběží na novém účtu. Když jsou oba účty
 # vyčerpané, čeká na reset (resets_at z cache), pak přepne a obnoví. Manager ani dashboard se neparkují.
@@ -19,7 +20,10 @@ util() {   # využití 5h okna účtu; po resets_at bere 0
       else (.five_hour.utilization // 0) end' "$f" 2>/dev/null || echo 0
 }
 active() { claude-account list 2>/dev/null | awk '/aktivní/{print $1; exit}'; }
-other() { [ "$1" = osobni ] && echo pracovni || echo osobni; }
+mapfile -t ACCTS < <(python3 "$dir/../wbconfig.py" get sessions.ucty)
+mapfile -t NOCHROME < <(python3 "$dir/../wbconfig.py" get sessions.ucty_bez_chrome)
+[ ${#ACCTS[@]} -ge 2 ] || { echo "nastav aspoň dva účty v genealogy.toml → [sessions] ucty" >&2; exit 2; }
+other() { local a; for a in "${ACCTS[@]}"; do [ "$a" != "$1" ] && { echo "$a"; return; }; done; }
 running() { herdr agent list 2>/dev/null | jq -r '.result.agents[] | select((.cwd // "") | test("genealogy"))
             | select(.name != null and .name != "manager" and .name != "dashboard") | .name' | grep -E "$only"; }
 
@@ -35,8 +39,8 @@ pause_and_park() {
 }
 resume_round() {
   local acct note=""; acct=$(active)
-  # pod pracovním účtem blokuje politika organizace Claude in Chrome → session musí pracovat bez prohlížeče
-  [ "$acct" = pracovni ] && note=" POZOR: na účtu pracovni NENÍ Claude in Chrome (blokuje ho politika organizace) — pracuj jen bez prohlížeče (eBadatelna, ARON, Kramerius…). Zbývá-li ti jen práce přes Chrome, ulož Předání a zastav se."
+  # na některých účtech nejde Claude in Chrome (např. politika organizace) → session musí pracovat bez prohlížeče
+  printf '%s\n' "${NOCHROME[@]}" | grep -qx "$acct" && note=" POZOR: na účtu $acct NENÍ Claude in Chrome — pracuj jen bez prohlížeče (eBadatelna, ARON, Kramerius…). Zbývá-li ti jen práce přes Chrome, ulož Předání a zastav se."
   for a in "${parked_round[@]}"; do
     "$dir/unpark.sh" "$a" "manager: pauza končí (přepnuto na účet $acct) — pokračuj podle svého Předání / fronty.$note" | tee -a "$log"
   done

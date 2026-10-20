@@ -2,7 +2,7 @@
 
 ## Konvence v Gramps
 
-- **Příjmení v dnešní spisovné podobě** s diakritikou jako primární jméno (`Bereščák`), zapsané tvary
+- **Příjmení v dnešní spisovné podobě** s diakritikou jako primární jméno (`Dvořák`), zapsané tvary
   z pramenů jako alternativní jména (`Bereschtschak`, `Beresczak`).
 - **Ženy rodným příjmením** jako primárním jménem, příjmení po sňatku jako alternativní jméno typu
   „married name“ (MyHeritage exportuje jako `_MARNM`).

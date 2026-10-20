@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Založí / doplní rodinu v Gramps (strom berescak): rodiče + děti, s citací ústního sdělení uživatele.
+"""Založí / doplní rodinu v Gramps (master strom): rodiče + děti, s citací ústního sdělení uživatele.
 
 Vazby, které uživatel zná, jsou vždy správně (docs/metodika/gramps-vs-workbench.md) → zakládají se hned,
-s citací „Ústní sdělení — Vojtěch Bereščák“ (jistota 3). Gramps ID rodiny = F-<otec>-<matka>.
+s citací „Ústní sdělení — <badatel z genealogy.toml>“ (jistota 3). Gramps ID rodiny = F-<otec>-<matka>.
 Osoby musí v Gramps existovat (ensure_persons.py). Opakované spuštění jen doplní chybějící děti.
 
 Rodinu s jedním rodičem (F-otec-X / F-X-matka) při zadání obou rodičů doplní a přejmenuje.
@@ -20,9 +20,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gw import GrampsWeb  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 ORAL_SOURCE_ID = "S-USTNE-K0001"
-ORAL_TITLE = "Ústní sdělení — Vojtěch Bereščák"
+ORAL_TITLE = f"Ústní sdělení — {wbconfig.researcher()}"
 
 
 def by_gid(gw: GrampsWeb, kind: str, gid: str) -> dict | None:
@@ -40,7 +42,7 @@ def oral_citation(gw: GrampsWeb, page: str) -> str:
     src = by_gid(gw, "sources", ORAL_SOURCE_ID)
     if not src:
         gw.post("/sources/", {"_class": "Source", "gramps_id": ORAL_SOURCE_ID, "title": ORAL_TITLE,
-                              "author": "Vojtěch Bereščák"})
+                              "author": wbconfig.researcher()})
         src = by_gid(gw, "sources", ORAL_SOURCE_ID)
     res = gw.post("/citations/", {"_class": "Citation", "source_handle": src["handle"], "page": page,
                                   "confidence": 3})

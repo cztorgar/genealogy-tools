@@ -32,12 +32,12 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 ### A. Totožnost a vazby (nejvyšší riziko)
 - Každá vazba rodič → dítě a manželství: má citaci? Splňuje **I1** (≥ 2 nezávislé údaje kromě jména)? Zvlášť vazby, které
   rozhodl **manager podle I0** bez uživatele (deník rozhodnutí) a **zhroucení předků** (stejný pár ve dvou liniích).
-- Past **I5**: otec × syn stejného jména ve stejném domě, vdova × druhá manželka, macecha. (Viz dva Jakubové Kučerové,
-  Jan Kubelka st. × jeho otec, Václav × Jan Kubelka 1826.)
+- Past **I5**: otec × syn stejného jména ve stejném domě, vdova × druhá manželka, macecha. (Typicky dva stejnojmenní hospodáři
+  v jednom domě, nebo otec a syn se stejným jménem v jedné matrice.)
 - **Jmenovci obcí**: Komárov u Přelouče × Komárov u Nechanic, Písek, Lhotka… — místo musí sedět s farností a okresem.
 - Rodiny s jedním rodičem (`F-…-X`) — není druhý rodič mezitím doložen? Nevznikla duplicitní rodina?
-- Osoba nesmí mít dvě rodičovské rodiny ani rodiče ze dvou generací (chyba managera 2026-10-17: Magdalena Kubelková
-  dočasně připojena k matce Jana st. místo k jeho ženě).
+- Osoba nesmí mít dvě rodičovské rodiny ani rodiče ze dvou generací (chyba managera 2026-10-17: dcera
+  dočasně připojena k matce otce místo k jeho ženě).
 - Pohlaví podle pozice v ID (P1 = muž, P2 = žena, sudé/liché Kekule) — MyHeritage se pletl (Voderka).
 
 ### B. Čtení a jistota
@@ -106,8 +106,8 @@ nic sama neopravuje ve stromu bez patche a nic neschvaluje.
 | 2026-10-16 | applier: prázdné názvy zdrojů u fotek matrik | S-IMG_3961–3963 | opraveno ručně |
 | 2026-10-16 | `find_registers` vždy `digitized: false` | místopis Chlumecka tvrdil „bez skenů“ | opraveno |
 | 2026-10-17 | applier `add_note` přepisoval soubor patche | 2 patche bez `changes` | obnoveno |
-| 2026-10-17 | `compare.py` falešné shody (čísla, příjmení, podmnožina tokenů) | R2 přijetí před `d9f5c97` | přepočteno jen u Midlochů/Boudyšů — **zbytek ověřit** |
-| 2026-10-17 | manager: Magdalena Kubelková připojena k rodině s matkou Jana st. | 1 rodina + citace | smazáno, opraveno (-03) |
+| 2026-10-17 | `compare.py` falešné shody (čísla, příjmení, podmnožina tokenů) | R2 přijetí před `d9f5c97` | přepočteno jen u dvou rodů — **zbytek ověřit** |
+| 2026-10-17 | manager: dcera připojena k rodině s matkou otce | 1 rodina + citace | smazáno, opraveno (-03) |
 | 2026-10-17 | MyHeritage: Jiří Voderka na pozici matky, pohlaví F | dossier, Gramps | přesunuto, opraveno |
 | 2026-10-17 | applier: ID zdroje s mezerou (rodokmen Ornstů) | 9 patchů spadlo | opraveno, aplikováno |
 | 2026-10-17 | duplicitní narození Jiřího Šandy (E0243) | 1 událost | smazáno |

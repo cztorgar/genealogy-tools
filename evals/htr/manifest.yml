@@ -3,7 +3,6 @@
 # `tools/htr/eval.py prepare` přes MCP czech-archives (fetch_archivalie_page).
 # vyrez = [x, y, w, h] v pixelech původního snímku; ref/<id>.txt = referenční přepis výřezu (Opus, ručně).
 cache: ~/.cache/genealogy-workbench/htr-test
-strom: ../genealogy-trees/berescak
 polozky:
   - id: kouty-0030
     skupina: latinka20

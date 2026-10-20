@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Seřadí události osob a rodin v Gramps (strom berescak) chronologicky.
+"""Seřadí události osob a rodin v Gramps (master strom) chronologicky.
 
 Gramps zobrazuje události v pořadí `event_ref_list`, ne podle data — patche je přidávají na konec.
 Řazení: podle data (sortval); stejné datum → pořadí podle typu (narození, křest, … úmrtí, pohřeb);

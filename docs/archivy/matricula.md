@@ -46,6 +46,6 @@ svazků. Taufbuch 01-12 (1912–1921) má 230 snímků; `?pg=30` = snímek `03-T
 2. `register_info` → počet snímků a jména (`03-Taufe_0026`); `page_url` → odkaz `…/?pg=<snímek>`.
 3. Session zapíše odkaz do `## Doklady k dohledání` dossieru (`kde: online Matricula (uživatel)`); uživatel snímek
    otevře, uloží (soukromé studium) do `doklady/` a session ho zpracuje jako doklad.
-4. Druhé čtení přes OpenAI = předání třetí straně → jen po rozhodnutí uživatele (kontrola G-03 stromu `berescak`).
+4. Druhé čtení přes OpenAI = předání třetí straně → jen po rozhodnutí uživatele.
 
 Použije i predci-k0007 (Vídeň-Ottakring: `oesterreich/wien/16-altottakring`, `16-neuottakring`).

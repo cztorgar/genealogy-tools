@@ -8,6 +8,8 @@ import os
 import re
 import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 
 def main(tree: str) -> int:
@@ -44,4 +46,4 @@ def main(tree: str) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "../genealogy-trees/berescak"))
+    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else str(wbconfig.tree_dir())))

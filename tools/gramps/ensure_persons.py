@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Založí v Gramps (strom berescak) osoby podle ID workbenche — **jen jméno a pohlaví**.
+"""Založí v Gramps (master strom) osoby podle ID workbenche — **jen jméno a pohlaví**.
 
 Existence osoby je důvod ji založit; data, místa a vazby se přidávají až po ověření (patche).
 Gramps ID = ID workbenche (K0001, K0001-S1 …); atributy `workbench ID` a `MyHeritage _UID` pro párování.

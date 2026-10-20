@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zapíše schválený patch (patches/P-<ID>-<nn>.yml) do Gramps (strom berescak).
+"""Zapíše schválený patch (patches/P-<ID>-<nn>.yml) do Gramps (master strom).
 
 Patch musí mít `status: schváleno` (schvaluje uživatel), jinak `--approve` (manager po výslovném
 souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `status: aplikováno`,
@@ -28,6 +28,8 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gw import GrampsWeb
 from sort_events import sort_object  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 MONTHS = {m: i for i, m in enumerate(
     ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"], 1)}
@@ -162,7 +164,7 @@ class Applier:
         gid = f"S-{Path(str(orig)).stem}" if orig else f"S-{sidecar.stem}"
         # Gramps ID bez mezer a diakritiky (např. original „RODOKMEN - Rod Ornstů.pdf“ → S-RODOKMEN-Rod-Ornstu)
         gid = re.sub(r"[^A-Za-z0-9_.-]+", "-", unicodedata.normalize("NFKD", gid).encode("ascii", "ignore").decode()).strip("-")
-        if "ústní" in str(meta.get("type", "")).lower() and "Bereščák" in str(meta.get("informant", meta)):
+        if "ústní" in str(meta.get("type", "")).lower() and wbconfig.researcher() in str(meta.get("informant", meta)):
             gid = "S-USTNE-K0001"   # ústní sdělení uživatele = jeden společný zdroj (ensure_family.py)
         s = self.find("sources", gid)
         if s:

@@ -150,7 +150,7 @@ def kramerius_titles(query: str, rows: int = 15, public_only: bool = True) -> di
 def kramerius_plan(tree_dir: str, person_id: str) -> dict:
     """Z dossieru a patchů osoby vygeneruje dotazy pro kramerius_search (jen generuje, nespouští).
 
-    tree_dir např. `../genealogy-trees/berescak` (relativně vůči kořeni workbenche, nebo absolutně).
+    tree_dir např. `../genealogy-trees/novak` (relativně vůči kořeni workbenche, nebo absolutně).
     Vrací: tvary příjmení, obce s roky, časové okno (od 18 let do úmrtí, jinak +60 let, nejvýše 1950),
     dotazy příjmení × obec (proximity 5 u šumových obcí) a doporučené tituly z docs/prameny/digitalizovane.
     """

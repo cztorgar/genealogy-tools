@@ -1,6 +1,6 @@
 # Lokální HTR bez LLM — stav testu
 
-**Stav (2026-10-17): rozpracováno, pozastaveno** (limit účtu). Zadání: [`ZADANI-htr-lokalne.md`](ZADANI-htr-lokalne.md).
+**Stav (2026-10-17): rozpracováno, pozastaveno** (limit účtu).
 
 ## Zjištěno zatím
 

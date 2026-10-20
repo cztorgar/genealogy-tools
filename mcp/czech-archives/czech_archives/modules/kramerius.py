@@ -84,7 +84,7 @@ def surname_forms(surname: str) -> dict:
         female_stem = stem
     else:
         base = s
-        if low.endswith("ek") and len(s) > 3:   # Jiránek → Jiránka
+        if low.endswith("ek") and len(s) > 3:   # Hájek → Hájka
             base = s[:-2] + "k"
         elif low.endswith("ec") and len(s) > 3:  # Němec → Němce
             base = s[:-2] + "c"

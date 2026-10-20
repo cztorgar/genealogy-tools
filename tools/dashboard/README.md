@@ -3,14 +3,14 @@
 Lokální stránka s živým přehledem stavu výzkumu nad stromem: rodokmen s barvou stavu u každé osoby,
 odznaky (běžící session, čekající patch, nápovědy, todo, doklady), panel osoby s dossierem a vším k ní,
 přehled session / patchů / sdílených seznamů / výzkumného logu, mapa „kde kdo žil“ a **fronta kontrol**
-s rozhodováním a doložením údajů počtem nezávislých pramenů.
+s rozhodováním, **fronta fáze I** (pořadí osob, obtížnost závor) a doložení údajů počtem nezávislých pramenů.
 
 Není to výstup stromu (rodinný web) — je to vizualizace **workbenche**.
 
 ## Spuštění
 
 ```sh
-uv run tools/dashboard/server.py                    # strom berescak, http://127.0.0.1:5056/
+uv run tools/dashboard/server.py                    # strom z genealogy.toml, http://127.0.0.1:5056/
 uv run tools/dashboard/server.py --tree <strom> --port 5056
 uv run tools/dashboard/server.py --tree-dir /cesta/ke/stromu --gramps-url http://localhost:5055
 ```

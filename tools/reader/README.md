@@ -20,7 +20,7 @@ Klíč se nikde nevypisuje ani neukládá — nekopíruj ho do příkazů ani so
        --dry-run --out /tmp/x.json        # uloží /tmp/x.sent.jpg — podívej se, že je tam celý zápis
    ```
 
-   Bez výřezu použij `--hint "Žiželice 1882, Josef, otec František Vrbický, č. 224"` — nápověda slouží
+   Bez výřezu použij `--hint "Žiželice 1882, Josef, otec František Novák, č. 224"` — nápověda slouží
    jen k nalezení zápisu na stránce (model nesmí z ní doplňovat obsah; kontroluj `umisteni`).
 3. **Druhé čtení:**
 

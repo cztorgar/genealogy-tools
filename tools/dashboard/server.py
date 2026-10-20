@@ -9,7 +9,7 @@
 Jediný zápis: rozhodnutí kontroly do `research/kontroly/<id>.yml` (POST z této stránky, token proti CSRF).
 Poslouchá jen na 127.0.0.1.
 
-    uv run tools/dashboard/server.py [--tree berescak] [--port 5056]
+    uv run tools/dashboard/server.py [--tree <strom>] [--port 5056]
 
 API:
     GET /api/state[?v=<verze>]   souhrn (osoby, session, patche, todo, log); při stejné verzi {"unchanged": true}
@@ -45,6 +45,8 @@ import mapdata
 WORKBENCH = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).resolve().parent / "static"
 sys.path.insert(0, str(WORKBENCH / "tools/research"))
+sys.path.insert(0, str(WORKBENCH / "tools"))
+import wbconfig  # noqa: E402 — lokální konfigurace (genealogy.toml)
 import checklist as cl  # noqa: E402 — šablona checklistu (základní / rozšířený), sdílená s checklist_sync.py
 import fronta  # noqa: E402 — pořadí osob fáze I
 
@@ -945,12 +947,13 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--tree", default="berescak", help="název stromu v ../genealogy-trees/")
+    ap.add_argument("--tree", help="název stromu v ../genealogy-trees/ (výchozí: strom.adresar z genealogy.toml)")
     ap.add_argument("--tree-dir", help="cesta ke stromu (místo --tree)")
     ap.add_argument("--port", type=int, default=5056)
     ap.add_argument("--gramps-url", default="http://localhost:5055")
     args = ap.parse_args()
-    root = Path(args.tree_dir).resolve() if args.tree_dir else (WORKBENCH.parent / "genealogy-trees" / args.tree)
+    root = (Path(args.tree_dir).resolve() if args.tree_dir
+            else WORKBENCH.parent / "genealogy-trees" / args.tree if args.tree else wbconfig.tree_dir())
     if not root.is_dir():
         raise SystemExit(f"strom nenalezen: {root}")
     Handler.tree = Tree(root, args.gramps_url)

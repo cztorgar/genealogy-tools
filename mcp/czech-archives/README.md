@@ -126,7 +126,7 @@ generátor citací a sidecar `.yml`.
 
 ## Pořadí modulů
 
-1. `aron_zamrsk` — hlavní archiv stromu `berescak` (Chlumecko, Bydžovsko, Hradecko) — hotovo
+1. `aron_zamrsk` — SOA Zámrsk (východní Čechy: Chlumecko, Bydžovsko, Hradecko) — hotovo
 2. `ebadatelna_praha` — střední Čechy (Žiželice, Týnec n. L., Žehuň, Ohaře) — hotovo
 3. `kramerius` — noviny, adresáře, schematismy — hotovo
 4. ostatní podle potřeby

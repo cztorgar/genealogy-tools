@@ -11,7 +11,7 @@
 
 Vstup `score`: jeden textový soubor na výřez, pojmenovaný podle `id` z manifestu (řádky libovolně zalomené;
 za tabulátorem na řádku může být confidence — ignoruje se). Referenční přepis `evals/htr/ref/<id>.txt`
-a klíčové tokeny `evals/htr/ref/<id>.json` ({"tokens": [{"t": "Vrbický", "typ": "prijmeni"}, …]},
+a klíčové tokeny `evals/htr/ref/<id>.json` ({"tokens": [{"t": "Novák", "typ": "prijmeni"}, …]},
 typ: jmeno | prijmeni | letopocet | cp | misto). Položky bez ref/klíče se přeskočí a vypíšou.
 
 Metriky po skupinách písma (a celkem):

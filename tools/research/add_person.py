@@ -5,7 +5,7 @@ v `research/people/manual.json` + osoba v Gramps (jen jméno a pohlaví, ensure_
 ID podle schématu kotvy: `<kotva>-S<n>` manžel/ka, `<kotva>-C<n>` dítě, `<kotva>-P1/P2` rodič.
 
 Použití: add_person.py <strom-dir> <ID> --name "Marie Pospíšilová" --sex F --puvod pramen \\
-           --rel "2. manželka — Josef Vrbický (K0028)" [--birth 1888] [--hint "…"]
+           --rel "2. manželka — Josef Novák (K0028)" [--birth 1888] [--hint "…"]
 """
 import argparse
 import json

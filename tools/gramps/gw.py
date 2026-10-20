@@ -1,6 +1,6 @@
 """Minimální klient Gramps Web API (bez závislostí). Přístupy z infra/gramps-web/.env.
 
-Účty: GRAMPSWEB_ADMIN_* = strom berescak (master), GRAMPSWEB_REF_* = myheritage-ref.
+Účty: GRAMPSWEB_ADMIN_* = master strom, GRAMPSWEB_REF_* = myheritage-ref.
 """
 from __future__ import annotations
 

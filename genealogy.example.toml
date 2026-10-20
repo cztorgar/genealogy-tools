@@ -1,0 +1,18 @@
+# Lokální nastavení workbenche — zkopíruj na genealogy.toml (ten je v .gitignore) a vyplň.
+
+[strom]
+# adresář repa stromu (relativně ke kořeni workbenche, nebo absolutně)
+adresar = "../genealogy-trees/novak"
+# název stromu v Gramps Web (master; jen doložené osoby)
+gramps_strom = "novak"
+# popisky stran rodu pro přehledy míst (prefix ID → popisek); K0001 = výchozí osoba
+strany = { "K0001" = "Jan", "K0001-S1" = "Marie" }
+
+[badatel]
+# kdo strom vede — informátor u citace „Ústní sdělení — <jméno>“ (jistota 3)
+jmeno = "Jan Novák"
+
+[sessions]
+# jen pro volitelnou orchestraci (tools/sessions/, herdr + přepínání účtů Claude); jinak nech prázdné
+ucty = []                  # např. ["osobni", "pracovni"] — pořadí pro střídání při vyčerpání limitu
+ucty_bez_chrome = []       # účty, na kterých nefunguje Claude in Chrome

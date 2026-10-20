@@ -17,6 +17,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import checklist as cl  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 GREY = {None, "zmínka", "převzato"}
 ANC_RE = re.compile(r"^K\d+(?:-S\d+)?(?:-P[12])*$")
@@ -96,7 +98,7 @@ def snapshot(tree: Path) -> str:
 
 
 def main() -> int:
-    tree = Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parents[3] / "genealogy-trees/berescak")
+    tree = Path(sys.argv[1]) if len(sys.argv) > 1 else wbconfig.tree_dir()
     (tree / "research/fronta.md").write_text(snapshot(tree), encoding="utf-8")
     print(tree / "research/fronta.md")
     return 0

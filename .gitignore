@@ -6,3 +6,5 @@ cache/
 .token-cache.json
 .obsidian/
 .claude/settings.local.json
+genealogy.toml
+CLAUDE.local.md

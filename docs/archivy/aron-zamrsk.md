@@ -232,6 +232,6 @@ Dotazy 16. 10. 2026 (FTX „Žiželice“ a filtr `REG~GEO~REF` na hesla obce a 
   `9e1841a5-…`), 1890 (inv. č. 1246, `4f1b11b9-…`), 1900 (inv. č. 1338, `09c952c2-…`), 1910
   (inv. č. 1435, `017df0a5-…`), 1921 (poř. č. 815 a 816, `34478435-…`, `dac3a1ba-…`); plus místní části
   (Zbraň, Končice, Kundratice, Loukonosy, Hradišťko II). **Všechny uvedené ročníky pokrývají čp. 53** —
-  vhodné pro rodinu Vrbických. Sčítání 1869 je digitalizované: 862 snímků, sada `AP77LOV2`, ZIP
+  vhodné pro studium jednoho rodu v obci. Sčítání 1869 je digitalizované: 862 snímků, sada `AP77LOV2`, ZIP
   `https://storage.vychodoceskearchivy.cz/scitani/A/CZ_225101010_01019_AP77LOV2_zizelice-1869.zip`
   (velikost neověřena, nestahováno).

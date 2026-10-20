@@ -101,7 +101,7 @@ otisku čp. obvykle nejsou, jsou tam čísla parcel a stavební parcely jsou č�
 Tohle je mimo místopis (pracuje se s daty stromu), proto jen návrh:
 
 - **Data:**
-  - každé místo v Gramps (strom `berescak`) dostane souřadnice z `gazetteer/chlumecko.yml`
+  - každé místo v Gramps (master strom) dostane souřadnice z `gazetteer/chlumecko.yml`
     (úroveň obec a osada);
   - kde je známé čp., přidat „dům“ jako podřízené místo (`Chlumec n. C. čp. 53`) se souřadnicemi
     podle bodu 3.

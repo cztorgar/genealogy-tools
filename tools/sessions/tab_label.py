@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Název tabu osobní session: „K0056 František Vrbický *1848“.
+"""Název tabu osobní session: „K0056 František Novák *1848“.
 
-Rok narození: doložený z Gramps (strom berescak, událost Birth, jinak Christening), jinak nápověda
+Rok narození: doložený z Gramps (master strom, událost Birth, jinak Christening), jinak nápověda
 z dossieru / manual.json s otazníkem („*1848?“). Bez roku jen ID a jméno.
 
 Použití: tab_label.py <strom-dir> <ID>

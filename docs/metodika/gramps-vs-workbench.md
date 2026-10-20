@@ -17,7 +17,7 @@ Rozhoduje, **o čem data jsou**: Gramps drží *strom* (osoby a fakty s citacemi
 ## Pravidla přechodu
 
 - **Rodinné vazby** (rodiče, partneři, děti, sourozenci), které uživatel zná, se zakládají hned — jsou vždy
-  správně. Citace: zdroj „Ústní sdělení — Vojtěch Bereščák“, jistota 3.
+  správně. Citace: zdroj „Ústní sdělení — <badatel>“, jistota 3.
 
 - **Osoba se v Gramps zakládá, jakmile o ní mluvíme** (otevře se její session) — jen jméno a pohlaví,
   Gramps ID = ID workbenche (`K0001`, `K0001-S1`), atributy `workbench ID` a `MyHeritage _UID`.
@@ -38,7 +38,7 @@ Rozhoduje, **o čem data jsou**: Gramps drží *strom* (osoby a fakty s citacemi
 | 4 velmi vysoká | primární záznam, přímo o události, zapsaný v době události (matrika N u křtu) |
 | 3 vysoká | primární záznam, údaj nepřímý nebo pozdější (věk v úmrtním záznamu → rok narození) |
 | 2 normální | odvozený pramen (index, druhopis, sčítání s údaji z paměti) |
-| 3 vysoká | **přímé ústní sdělení uživatele** (Vojtěch Bereščák) — bere se jako pravdivé; doklad pak povýší na 4 |
+| 3 vysoká | **přímé ústní sdělení uživatele** (badatel z `genealogy.toml`) — bere se jako pravdivé; doklad pak povýší na 4 |
 | 1 nízká | ústní tradice z doslechu, rodinná paměť třetích osob, sekundární literatura bez odkazu |
 | 0 velmi nízká | cizí strom bez pramene, Smart Match |
 

@@ -5,14 +5,14 @@ description: Výzkum jedné osoby stromu v samostatné session — projde checkl
 
 # Výzkum osoby
 
-Argument: číslo osoby (`K42`, `K0042`) a volitelně strom (výchozí `berescak`).
-Strom: `../genealogy-trees/<strom>/`. Jsi **osobní session** — pravidla v
+Argument: číslo osoby (`K42`, `K0042`) a volitelně cesta ke stromu (výchozí `strom.adresar`
+z `genealogy.toml`, viz `python3 tools/wbconfig.py get strom.adresar`). Jsi **osobní session** — pravidla v
 `docs/metodika/workflow-sessions.md` (co smíš zapisovat). Komunikuj česky.
 
 ## 1. Načti kontext
 
-1. `CLAUDE.md`, `docs/metodika/workflow-sessions.md`, `dukazni-standard.md`, `citace.md`, `prepis.md`.
-2. Dossier `research/people/<ID>-<slug>.md` (slug začíná malým písmenem — `K0001-vojtech-…`, ne `K0001-C1-…`).
+1. `AGENTS.md`, `docs/metodika/workflow-sessions.md`, `dukazni-standard.md`, `citace.md`, `prepis.md`.
+2. Dossier `research/people/<ID>-<slug>.md` (slug začíná malým písmenem — `K0001-jan-…`, ne `K0001-C1-…`).
 3. Kontext (jen čtení): u přímého předka dossiery rodičů (K×2, K×2+1) a dítěte (K÷2); u vedlejší linie
    (`K0001-S1`, `K0002-C1-C2`) dossier kotvy (část ID před posledním `-S<n>`/`-C<n>`) a jejích dalších
    manželů/dětí (`research/people/README.md`, sekce Vedlejší linie).
@@ -24,19 +24,19 @@ Strom: `../genealogy-trees/<strom>/`. Jsi **osobní session** — pravidla v
 Vypiš uživateli přehled — **nic nehledej, dokud ho uživatel neviděl**:
 
 ```
-## K42 · Jan Řezáč  (otec → matka → otec → matka → otec, generace 6)
-Stav: převzato (původ: myheritage) · Gramps berescak: nezapsán · MyHeritage: I500150
+## K42 · Jan Novák  (otec → matka → otec → matka → otec, generace 6)
+Stav: převzato (původ: myheritage) · Gramps (master): nezapsán · MyHeritage: I500150
 
 ### Co víme
 | Údaj | Hodnota | Jistota | Zdroj |
 |---|---|---|---|
-| narození | 17. 7. 1841, Nosetín č. 10 | 0 | MyHeritage (Smart Match) |
+| narození | 17. 7. 1841, Lhota č. 10 | 0 | MyHeritage (Smart Match) |
 | ...
-Rodiče: Josef Řezáč (K84, stav …), Terezie Macháčková (K85, stav …)
-Manželka: Magdaléna Bardová (K43) · Děti: … (K21 = naše linie)
+Rodiče: Josef Novák (K84, stav …), Terezie Svobodová (K85, stav …)
+Manželka: Magdaléna Dvořáková (K43) · Děti: … (K21 = naše linie)
 
 ### Co máme za soubory
-- dossier: research/people/K0042-jan-rezac.md
+- dossier: research/people/K0042-jan-novak.md
 - nápovědy: research/hints/K0042-… (počet, od koho)
 - snímky: sources/K0042/ (počet) · přepisy: transcriptions/K0042-* · patche: patches/P-K0042-*
 - fotky: media/… (z dossieru, sekce Média)
@@ -54,14 +54,14 @@ základní: nalezeno x · nenalezeno y · neprohledáno z (vypsat neprohledané)
 
 Zdroje pro kartu: dossier, dossiery rodičů a dítěte (jejich `stav:`), `research/hints/K<nnnn>-*`,
 výpis souborů v `sources/K<nnnn>/`, `transcriptions/K<nnnn>-*`, `patches/P-K<nnnn>-*`; je-li osoba už
-v Gramps `berescak` (`gramps_id` v dossieru), načti její doložená fakta a ukaž je s jistotou z citací.
+v Gramps master stromu (`gramps_id` v dossieru), načti její doložená fakta a ukaž je s jistotou z citací.
 
 Pak navrhni plán (viz níže) a **počkej na pokyn uživatele**.
 
 ## 3. Začni
 
 - Až uživatel odsouhlasí plán: nastav v dossieru `stav: rozpracováno` a pošli managerovi zprávu
-  `herdr agent prompt manager "K0042 Jan Řezáč: začínám"`.
+  `herdr agent prompt manager "K0042 Jan Novák: začínám"` (bez herdr: napiš to uživateli).
 - Pořadí hledání:
   1. odkazy do archivů z poznámek (už někdo něco našel),
   2. **základní checklist** ([fáze I](../../docs/metodika/faze-vyzkumu.md)): křest (N) → rodiče → sňatek (O) →
@@ -85,7 +85,7 @@ záznamu nebo nový typ seznamu → napiš managerovi.
 Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k dohledání` **svého** dossieru:
 
 ```
-- [ ] oddací list 2018 — Vojtěch Bereščák × Zuzana Jiránková | potvrdí: datum a místo sňatku, rodiče snoubenců | kde: doma
+- [ ] oddací list 2018 — Jan Novák × Marie Svobodová | potvrdí: datum a místo sňatku, rodiče snoubenců | kde: doma
 ```
 
 - Název dokladu piš **jednotně** (`rodný list — <jméno>`, `oddací list <rok> — <on> × <ona>`,
@@ -152,7 +152,7 @@ Každý doklad, který musí uživatel sehnat, zapiš do sekce `## Doklady k doh
 Jinou osobu (např. manželku) smíš převzít, jen když chce uživatel a ta osoba nemá vlastní session —
 pravidla v `workflow-sessions.md`, sekce Převzetí jiné osoby.
 
-Do Gramps `berescak` nezapisuj, necommituj a neměň workbench — to dělá manager.
+Do Gramps (master) nezapisuj, necommituj a neměň workbench — to dělá manager.
 
 ## Autonomní režim
 

@@ -35,7 +35,7 @@ inv. č. 1234, fol. 12v, snímek 18, zápis Luková č. 2 (3. 5. 1853). Online: 
 | kartotéka padlých / VÚA | VÚA, kartotéka, jméno, datum narození, odkaz |
 | tisk (Kramerius) | titul, ročník, číslo, strana, digitální knihovna, UUID |
 | cizí strom (nápověda) | služba, název stromu, autor, datum, URL — jistota 0 |
-| ústní sdělení uživatele | „Ústní sdělení — Vojtěch Bereščák“, datum, kontext (session) — **jistota 3** |
+| ústní sdělení uživatele | „Ústní sdělení — <badatel>“ (jméno z `genealogy.toml`, `badatel.jmeno`), datum, kontext (session) — **jistota 3** |
 | ústní sdělení třetí osoby / tradice | kdo, kdy, komu, v jaké souvislosti — jistota 1 (přímý svědek nedávné události 2) |
 
 Citace v Gramps: Zdroj = matrika (svazek), Citace = konkrétní zápis (folio, snímek, jistota).

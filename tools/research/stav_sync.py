@@ -8,6 +8,8 @@ Použití: stav_sync.py [strom-dir]   (opakovatelné)
 import re
 import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 
 def main(tree: Path) -> int:
@@ -31,4 +33,4 @@ def main(tree: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parents[3] / "genealogy-trees/berescak")))
+    sys.exit(main(Path(sys.argv[1]) if len(sys.argv) > 1 else wbconfig.tree_dir()))

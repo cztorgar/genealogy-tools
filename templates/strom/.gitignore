@@ -1,0 +1,13 @@
+# média a snímky pramenů jsou velké — zálohují se zvlášť (např. restic), do gitu jen texty a metadata
+media/
+**/*.jpg
+**/*.jpeg
+**/*.JPG
+**/*.png
+**/*.tif
+**/*.pdf
+**/*.HEIC
+**/*.heic
+**/*.MP4
+**/*.mp4
+.obsidian/

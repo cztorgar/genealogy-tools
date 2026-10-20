@@ -9,7 +9,7 @@
 set -uo pipefail
 limit=${1:-85}; interval=${2:-60}; acct=${3:-}; only=${4:-.}; switch_to=${5:-}
 [ -n "$acct" ] || acct=$(claude-account list 2>/dev/null | awk '/aktivní/{print $1; exit}')
-cache="$HOME/.claude/cache/usage-${acct:-osobni}.json"
+cache="$HOME/.claude/cache/usage-${acct:-default}.json"
 
 while :; do
   read -r five week < <(jq -r '[(.five_hour.utilization // 0), (.seven_day.utilization // 0)] | @tsv' "$cache" 2>/dev/null || echo "0 0")

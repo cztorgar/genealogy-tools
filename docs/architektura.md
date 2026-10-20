@@ -45,4 +45,4 @@ Uchovává se v Gramps jako atributy osoby (`_UID` se importuje) → umožňuje 
 ## Hosting
 
 - Teď: Gramps Web lokálně v Dockeru (`infra/gramps-web`, port 5055, jen localhost).
-- Později: přesun na MAYA (za ZeroTier, zálohy restic), případně přístup pro rodinu.
+- Později: vlastní server za VPN (zálohy např. restic), případně přístup pro rodinu.

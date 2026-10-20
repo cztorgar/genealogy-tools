@@ -41,7 +41,7 @@ Pravidla:
 Šablona:
 
 ```markdown
-# Josef Vrbický (1815–1887), barvíř v Žiželicích
+# Josef Novák (1815–1887), barvíř v Žiželicích
 
 <text>
 

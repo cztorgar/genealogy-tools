@@ -1,6 +1,6 @@
 # Skills
 
-Opakovatelné postupy pro Claude Code. Složka je nalinkovaná do `.claude/skills/`.
+Opakovatelné postupy pro Claude Code (složka je nalinkovaná do `.claude/skills/`). Jiní agenti čtou `SKILL.md` jako playbook, přehled je v [`../docs/playbooky/`](../docs/playbooky/README.md).
 
 | Skill | Účel | Stav |
 |---|---|---|

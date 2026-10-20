@@ -1,7 +1,7 @@
 # SOA Třeboň — DigiArchiv (digi.ceskearchivy.cz)
 
 Stav k 18. 10. 2026 (session predci-k0005). **Modul `digi_trebon` nevznikl a zatím nevznikne** — viz níže.
-Rozhodnutí o dalším postupu: kontrola `research/kontroly/G-02.yml` stromu `berescak` (čeká na uživatele).
+Rozhodnutí o dalším postupu (vlastní modul vs. jen ruční čtení přes prohlížeč) je na uživateli.
 
 ## Obsah
 
@@ -51,5 +51,5 @@ Co by to změnilo: souhlas archivu s kopiemi pro soukromý výzkum, nebo registr
 ## Co session stihla před zastavením
 
 Jediný zápis přečtený on-line (jedno čtení Claude, bez kopie snímku): O Chyšky kn. 16 (1882–1925), snímek 82,
-zápis č. 13 — sňatek 3. 8. 1897 Václav Jankovský × Božena Řezáčová. URL pohledu:
+zápis č. 13 (sňatek 1897). Formát URL pohledu:
 https://digi.ceskearchivy.cz/4265/82/1450/1550/100/0 (jistota ≤ 1, „čteno on-line přes prohlížeč“).

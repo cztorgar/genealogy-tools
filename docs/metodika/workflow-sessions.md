@@ -1,8 +1,8 @@
 # Pracovní workflow — manager a osobní session
 
 Strom se staví **od nuly, osoba po osobě**: přímí předci od výchozí osoby dozadu (čísla podle Kekuleho).
-Export z MyHeritage je jen zdroj nápověd (Gramps strom `myheritage-ref`), master je Gramps strom
-`berescak`, který obsahuje jen doložené osoby.
+Export z MyHeritage (nebo jiný GEDCOM) je jen zdroj nápověd (Gramps strom `myheritage-ref`), master je Gramps strom
+stromu (`strom.gramps_strom` v `genealogy.toml`), který obsahuje jen doložené osoby.
 
 ## Role
 
@@ -26,7 +26,7 @@ Strom je v `../genealogy-trees/<strom>/`.
 | `research/people/README.md` (fronta), `research/doklady.md` | jen přes `build_queue.py` | ✅ (generuje `build_queue.py`) |
 | `research/todo-*.md` (sdílené seznamy: `todo-hroby`, `todo-pozemkove-knihy`, `todo-rodina`, `todo-<rod>`, …) | ✅ jen **připsat nový záznam na konec** | ✅ úpravy záznamů, nové seznamy |
 | `doklady/` (skeny od uživatele) | ✅ přesunout do `sources/<ID>/` | ✅ |
-| Gramps strom `berescak` | ❌ jen čtení | ✅ zápis (z patche) |
+| Gramps master strom | ❌ jen čtení | ✅ zápis (z patche) |
 | git commit repa stromu | ❌ | ✅ |
 | workbench (`genealogy/`) | ❌ — návrhy změn pošli managerovi | ✅ |
 
@@ -68,7 +68,7 @@ kmotr, svědek, sourozenec) · `ústně` (z vyprávění).
 | `rozpracováno` | výzkum začal | osobní session po odsouhlasení plánu |
 | `pozastaveno` | čeká na doklad / pramen — důvod v dossieru | osobní session |
 | `dokončeno` | výzkum hotový, patch připraven pro managera | osobní session |
-| `zapsáno` | v Gramps `berescak` s citacemi | manager |
+| `zapsáno` | v Gramps (master) s citacemi | manager |
 
 ```
 zmínka ─┐
@@ -84,8 +84,9 @@ prohlížeč, doklad od uživatele → `pozastaveno` + důvod. Při PAUZE/konci 
 
 Fronta (`research/people/README.md`) čte stav z dossierů a ukazuje souhrn.
 
-## Herdr
+## Herdr (volitelná orchestrace)
 
+Volitelné — bez herdr se pracuje v jedné AI session a role se střídají ručně ([`../prirucka.md`](../prirucka.md)).
 Všechno běží v herdr (terminálový multiplexer pro agenty), ve workspace
 `genealogy`. Manager je tab + agent `manager`.
 
@@ -111,18 +112,18 @@ Všechno běží v herdr (terminálový multiplexer pro agenty), ve workspace
 ```yaml
 person: K42                       # číslo osoby, Gramps ID doplní manager při zápisu
 status: navrženo                  # navrženo → schváleno → aplikováno | zamítnuto (zamitnuto: {kdy, proc})
-summary: Jan Řezáč, * 17. 7. 1841 Nosetín č. 10, ověřeno v matrice N
+summary: Jan Novák, * 17. 7. 1841 Lhota č. 10, ověřeno v matrice N
 changes:
   - op: add_event                 # add_event | update_event | add_citation | remove_citation | update_citation | add_media
     type: Birth                   # Birth | Christening | Marriage | Death | Burial | Residence | Occupation | Census
     date: 17 JUL 1841
-    place: Nosetín
-    description: "Nosetín č. 10"            # jen o této osobě, krátce
-    context: "otec Josef Řezáč, tkadlec; kmotři …"   # kontext záznamu → poznámka k události
+    place: Lhota
+    description: "Lhota č. 10"            # jen o této osobě, krátce
+    context: "otec Josef Novák, tkadlec; kmotři …"   # kontext záznamu → poznámka k události
     citation: c1
 citations:
   c1:
-    source_sidecar: sources/K0042/soapraha-nosetin-N-1830-1850-s18.yml
+    source_sidecar: sources/K0042/soapraha-lhota-N-1830-1850-s18.yml
     page: "fol. 12v, snímek 18"
     confidence: 4
     transcription: transcriptions/K0042-krest-1841.md
@@ -137,7 +138,7 @@ Odvozené obrázky (kontrastní kopie apod.) zůstávají jen v `sources/`, do G
 (`event: <handle>` + `citation_gramps_id`; nepoužívaná citace se smaže), `update_citation` (`citation_gramps_id` +
 `page`/`confidence`), `add_family_citation` (`family: [otec, matka]` + `citation`/`citations` — doklad vazby
 rodiče → dítě nebo manželství), `add_media` (`file`, `citation`). Sidecar ústního sdělení uživatele
-(`type: ústní sdělení`, informátor Vojtěch Bereščák) se zapíše pod společný zdroj `S-USTNE-K0001`.
+(`type: ústní sdělení`, informátor = badatel z `genealogy.toml`) se zapíše pod společný zdroj `S-USTNE-K0001`.
 Zdroj v Gramps = původní fotka dokladu z pole `original` sidecaru (`S-IMG_3967`), jinak název souboru —
 kopie téhož dokladu u jiné osoby (i přejmenovaná) duplikát nezaloží, pokud má v sidecaru stejné `original`. Stejná citace (zdroj + `page` + jistota) se znovu
 použije, nezakládá se duplikát.

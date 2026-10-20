@@ -14,6 +14,8 @@ from datetime import date
 from pathlib import Path
 
 import yaml
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import wbconfig  # noqa: E402
 
 WB = Path(__file__).resolve().parents[2]
 CP = re.compile(r"(?:č\.\s*p\.|čp\.|č\.)\s*(\d+(?:/[IVX]+)?)")
@@ -40,7 +42,7 @@ def gazetteer() -> dict:
 
 
 def side(pid: str) -> str:
-    return "Tereza" if pid.startswith("K0001-S2") else "Vojta"
+    return wbconfig.side(pid)
 
 
 def main(tree: Path) -> int:
@@ -110,4 +112,4 @@ def main(tree: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1] if len(sys.argv) > 1 else WB.parent / "genealogy-trees/berescak")))
+    sys.exit(main(Path(sys.argv[1]) if len(sys.argv) > 1 else wbconfig.tree_dir()))

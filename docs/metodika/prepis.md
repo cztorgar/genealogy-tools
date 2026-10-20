@@ -13,7 +13,7 @@ Každý přepsaný záznam = `transcriptions/<id>.md` + `transcriptions/<id>.jso
    | `[Wáclaw?]` | nejisté čtení jedné varianty |
    | `[Jan/Jiří?]` | dvě (víc) možná čtení, nerozhodnuto |
    | `[…]` | doplněno přepisovatelem (zkratka, chybějící písmeno) |
-   | `{^Vávra^}` | vpisek nad řádkem / dodatečně vepsáno |
+   | `{^Novák^}` | vpisek nad řádkem / dodatečně vepsáno |
    | `[přeškrtnuto: Wáclaw]` | přeškrtnutý text (pokud čitelný; jinak `[přeškrtnuto: ?]`) |
    | `[okraj: …]` | přípisek na okraji / v jiné rubrice |
    | `[jiná ruka: …]` | zápis jinou rukou nebo inkoustem (pozdější přípisek) |
