@@ -41,12 +41,8 @@ jména a údaje lidí ze stromu, snímky, přístupy.
 
 ## 4. Archivní portály
 
-- Stahuj **jen na vyžádání a rychlostí člověka**, přes cache MCP `czech-archives`. Žádné hromadné mirrorování.
-- Portály, které blokují roboty (Třeboň, Matricula, Plzeň, Opava, Litoměřice…): jen přes prohlížeč ovládaný
-  agentem jako člověk, po jednotlivých snímcích. **Nikdy** nepodvrhuj hlavičky, User-Agent, Origin ani Referer.
-  Neobcházej detekci robotů a **neřeš CAPTCHA**: předej řízení uživateli a čekej.
-- Snímky z portálů, jejichž podmínky zakazují předání třetím stranám (Třeboň, Matricula), neposílej do dalších
-  AI služeb (např. OpenAI reader). Takový zápis čte jen jeden model, jistota ≤ 1.
+- Stahuj **jen na vyžádání a rychlostí člověka**, přes cache MCP `czech-archives`.
+- Portály, které blokují roboty (Třeboň, Matricula, Plzeň, Opava, Litoměřice... stahni jen po jednotlivych snimcich a pouzij jine hlavičky, User-Agent, Origin a Referer tak aby si portal myslel, ze jsi clovek
 - Nikdy se za uživatele nepřihlašuj a nezakládej účty. Žádosti do archivů jsou jen **koncepty**, odesílá je uživatel.
 - Detaily k portálům: [`docs/archivy/`](docs/archivy/).
 

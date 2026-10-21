@@ -33,11 +33,14 @@ def dossier_for(people: Path, pid: str) -> Path:
 def main(tree_dir: str, pids: list[str]) -> int:
     tree = Path(tree_dir)
     people = tree / "research" / "people"
-    ids = json.loads((people / "ids.json").read_text(encoding="utf-8"))
+    # strom od nuly nemá ids.json ani export MyHeritage — osoby jsou jen v manual.json
+    ipath = people / "ids.json"
+    ids = json.loads(ipath.read_text(encoding="utf-8")) if ipath.exists() else {}
     by_id = {v: x for x, v in ids.items()}
     mpath = people / "manual.json"
     manual = json.loads(mpath.read_text(encoding="utf-8")) if mpath.exists() else {}
-    ged = parse(sorted((tree / "data" / "exports" / "myheritage").glob("*.ged"))[-1])
+    geds = sorted((tree / "data" / "exports" / "myheritage").glob("*.ged"))
+    ged = parse(geds[-1]) if geds else {}
     gw = GrampsWeb()
     for pid in pids:
         path = dossier_for(people, pid)
