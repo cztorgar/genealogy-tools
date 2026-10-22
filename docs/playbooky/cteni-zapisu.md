@@ -11,8 +11,7 @@ OpenAI + PERO). Pravidla: [`docs/metodika/prepis.md`](../metodika/prepis.md),
    snímku `<snímek>.crop-<n>.jpg`. Čti **celý snímek i výřez**, u klíčových polí (jména, data, č. p.) ještě užší výřez.
 2. **Přečti nezávisle.** Doslovně, nic nenormalizuj, nečitelné `[?]`, nejisté `[Jan?]`. Rubriky podle typu
    zápisu (`docs/prameny/`).
-3. **Druhé čtení**, je-li dostupné a povolené: `tools/reader/openai_read.py`, PERO (`tools/reader/pero_web.py`).
-   Snímky z portálů se zákazem předání třetím stranám (Třeboň, Matricula) jinam **neposílej**.
+3. **Druhé čtení**, je-li dostupné a povolené: `tools/reader/openai_read.py`, PERO (`tools/reader/pero_web.py`).   
 4. **Porovnej po polích** (`tools/reader/compare.py`). Shoda = kandidát na jistotu 2. Neshoda klíčového pole =
    kontrola typu `cteni` ([`kontroly.md`](kontroly.md)) s výřezem a všemi čteními.
 5. **Přepis** do `transcriptions/<ID>-<typ>-<rok>.md` ve čtyřech vrstvách: doslovně → normalizace → překlad

@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "mcp>=1.2",
+    "pillow>=10.0",   # skládání Zoomify dlaždic (modul digi_trebon)
 ]
 
 [project.scripts]

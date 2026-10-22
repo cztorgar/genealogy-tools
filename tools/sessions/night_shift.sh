@@ -39,7 +39,6 @@ pause_and_park() {
 }
 resume_round() {
   local acct note=""; acct=$(active)
-  # na některých účtech nejde Claude in Chrome (např. politika organizace) → session musí pracovat bez prohlížeče
   printf '%s\n' "${NOCHROME[@]}" | grep -qx "$acct" && note=" POZOR: na účtu $acct NENÍ Claude in Chrome — pracuj jen bez prohlížeče (eBadatelna, ARON, Kramerius…). Zbývá-li ti jen práce přes Chrome, ulož Předání a zastav se."
   for a in "${parked_round[@]}"; do
     "$dir/unpark.sh" "$a" "manager: pauza končí (přepnuto na účet $acct) — pokračuj podle svého Předání / fronty.$note" | tee -a "$log"

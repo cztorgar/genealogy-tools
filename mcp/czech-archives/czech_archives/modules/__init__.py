@@ -1,12 +1,14 @@
 """Registr modulů. Nový modul = soubor v tomto balíčku s třídou a řádek níže."""
 
 from .aron_zamrsk import AronZamrsk
+from .digi_trebon import DigiTrebon
 from .ebadatelna_praha import EbadatelnaPraha
 from .kramerius import Kramerius
 from .matricula import Matricula
 
 MODULES = {
     AronZamrsk.id: AronZamrsk,
+    DigiTrebon.id: DigiTrebon,
     EbadatelnaPraha.id: EbadatelnaPraha,
     Kramerius.id: Kramerius,
     Matricula.id: Matricula,

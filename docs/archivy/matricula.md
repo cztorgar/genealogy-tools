@@ -19,9 +19,6 @@ svazků. Taufbuch 01-12 (1912–1921) má 230 snímků; `?pg=30` = snímek `03-T
 
 - Data (snímky i metadata) **jen k soukromým nebo vědeckým účelům**, v souladu se zákony o osobním stavu a o
   ochraně údajů dotčeného státu.
-- **Rozmnožování, publikace a předání třetím stranám** (elektronicky i analogově) **jen se souhlasem** archivu /
-  instituce (diecéze, církev, farnost).
-- Při publikaci s využitím dat informovat Matriculu (u online publikace stačí odkaz).
 - Podmínky se přijímají tlačítkem „Weiter zu Matricula“ na úvodní stránce — tedy uživatel.
 
 ## Technika (ověřeno)
