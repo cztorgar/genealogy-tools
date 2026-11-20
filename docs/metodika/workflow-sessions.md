@@ -137,7 +137,8 @@ Odvozené obrázky (kontrastní kopie apod.) zůstávají jen v `sources/`, do G
 `citations: [c1, c2]`), `add_citation` (`event: <handle>` + `citation`), `remove_citation`
 (`event: <handle>` + `citation_gramps_id`; nepoužívaná citace se smaže), `update_citation` (`citation_gramps_id` +
 `page`/`confidence`), `add_family_citation` (`family: [otec, matka]` + `citation`/`citations` — doklad vazby
-rodiče → dítě nebo manželství), `add_media` (`file`, `citation`). Sidecar ústního sdělení uživatele
+rodiče → dítě nebo manželství), `add_media` (`file`, `citation`), `update_name` (`first_name` / `surname` + `citations` — oprava jména osoby podle
+pramene, např. chybné čtení). Sidecar ústního sdělení uživatele
 (`type: ústní sdělení`, informátor = badatel z `genealogy.toml`) se zapíše pod společný zdroj `S-USTNE-K0001`.
 Zdroj v Gramps = původní fotka dokladu z pole `original` sidecaru (`S-IMG_3967`), jinak název souboru —
 kopie téhož dokladu u jiné osoby (i přejmenovaná) duplikát nezaloží, pokud má v sidecaru stejné `original`. Stejná citace (zdroj + `page` + jistota) se znovu

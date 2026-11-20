@@ -7,7 +7,8 @@ souhlasu uživatele v session) — status se pak nastaví sám. Po zápisu: `sta
 
 Podporované operace: add_event (osoba nebo `family: [K6, K7]`), update_event (type/description/date/place
 existující události), add_citation / remove_citation (k existující události), update_citation
-(page/confidence podle Gramps ID citace), add_note (k události nebo osobě), add_family_citation (citace vazby k rodině), add_media. Zdroj = dokument
+(page/confidence podle Gramps ID citace), add_note (k události nebo osobě), add_family_citation (citace vazby k rodině), add_media,
+update_name (first_name / surname primárního jména + citace ke jménu). Zdroj = dokument
 ze sidecaru (`sources/<ID>/<doklad>.yml`), jeden Gramps Source na doklad (Gramps ID `S-<doklad>`),
 citace s jistotou, k citaci se připojí médium. Místa se zakládají podle názvu (hierarchie později).
 
@@ -366,6 +367,26 @@ def main(tree_dir: str, patch_file: str, approve: bool, dry: bool) -> int:
                     a.gw.put(f"/events/{ch['event']}", ev)
                 a.log.append(f"+ citace k události {ev['type']} {ch['event']}")
             applied.append({"op": op, "event": ch["event"], "citation": cit})
+        elif op == "update_name":
+            # oprava primárního jména osoby podle pramene (chybné čtení, doplněné rodné příjmení)
+            if not dry:
+                fresh = a.gw.get(f"/people/{person['handle']}")
+                pn = fresh["primary_name"]
+                old = f"{pn['first_name']} {pn['surname_list'][0]['surname'] if pn['surname_list'] else ''}".strip()
+                if "first_name" in ch:
+                    pn["first_name"] = ch["first_name"]
+                if "surname" in ch:
+                    if pn["surname_list"]:
+                        pn["surname_list"][0]["surname"] = ch["surname"]
+                    else:
+                        pn["surname_list"] = [{"_class": "Surname", "surname": ch["surname"], "primary": True}]
+                for k in ([ch["citation"]] if ch.get("citation") else []) + list(ch.get("citations") or []):
+                    if cites[k] not in pn["citation_list"]:
+                        pn["citation_list"].append(cites[k])
+                a.gw.put(f"/people/{person['handle']}", fresh)
+                new = f"{pn['first_name']} {pn['surname_list'][0]['surname'] if pn['surname_list'] else ''}".strip()
+                a.log.append(f"~ jméno {pid}: {old} → {new}")
+            applied.append({"op": op, **{k: ch[k] for k in ("first_name", "surname") if k in ch}})
         elif op == "add_media":
             cit = cites[ch["citation"]]
             src_meta = patch["citations"][ch["citation"]]
