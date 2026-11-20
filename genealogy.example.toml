@@ -16,3 +16,7 @@ jmeno = "Jan Novák"
 # jen pro volitelnou orchestraci (tools/sessions/, herdr + přepínání účtů Claude); jinak nech prázdné
 ucty = []                  # např. ["osobni", "pracovni"] — pořadí pro střídání při vyčerpání limitu
 ucty_bez_chrome = []       # účty, na kterých nefunguje Claude in Chrome
+
+[zaloha]
+# rclone remote pro snímky a PDF stromu, které nejsou v gitu (tools/zaloha/snimky.sh)
+cil = "onedrive:rodokmen/zaloha/novak"
