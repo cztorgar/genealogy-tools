@@ -34,6 +34,26 @@ services:
       - grampsweb_redis
     command: celery -A gramps_webapi.celery worker --loglevel=INFO --concurrency=2
 
+  # Dashboard workbenche (tools/dashboard) — čte živé soubory stromu, Gramps volá po síti dockeru.
+  # Svazky: workbench a stromy se stejnou vzájemnou polohou jako na hostiteli (strom.adresar = ../genealogy-trees/…).
+  dashboard:
+    build: ../../tools/dashboard
+    restart: unless-stopped
+    user: "${DASHBOARD_UID:-1000}:${DASHBOARD_GID:-1000}"
+    ports:
+      - "127.0.0.1:${DASHBOARD_PORT:-5056}:5056"
+    environment:
+      GRAMPSWEB_API_URL: "http://grampsweb:5000/api"
+      DASHBOARD_IN_DOCKER: "1"   # POST přichází z brány dockeru; port je publikovaný jen na 127.0.0.1
+      DASHBOARD_PUBLIC_PORT: "${DASHBOARD_PORT:-5056}"   # kontrola Origin/Host proti portu, který vidí prohlížeč
+    command: ["python", "tools/dashboard/server.py", "--host", "0.0.0.0", "--port", "5056",
+              "--gramps-url", "http://localhost:${GRAMPSWEB_PORT:-5055}"]
+    volumes:
+      - ../..:/ws/genealogy-tools
+      - ${GENEALOGY_TREES_DIR:-../../../genealogy-trees}:/ws/genealogy-trees
+    depends_on:
+      - grampsweb
+
   grampsweb_redis:
     image: docker.io/valkey/valkey:8-alpine
     restart: unless-stopped

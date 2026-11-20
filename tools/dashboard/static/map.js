@@ -22,16 +22,24 @@ const undeterminedOf = (place, cp) => (M.residences.find((r) => r.undetermined &
 function setTab(tab) {
   const isMap = tab === "mapa";
   document.body.classList.toggle("tab-mapa", isMap);
-  document.body.classList.toggle("tab-kontroly", tab === "kontroly" || tab === "fronta");
+  document.body.classList.toggle("tab-kontroly", tab === "kontroly" || tab === "fronta" || tab === "overeni" || tab === "listiny" || tab === "domy" || tab === "zajimavosti");
   document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
   $("#canvas").hidden = tab !== "strom";
   $("#mapwrap").hidden = !isMap;
   $("#kontrolywrap").hidden = tab !== "kontroly";
   $("#frontawrap").hidden = tab !== "fronta";
+  $("#overeniwrap").hidden = tab !== "overeni";
+  $("#listinywrap").hidden = tab !== "listiny";
+  $("#zajimavostiwrap").hidden = tab !== "zajimavosti";
+  $("#domywrap").hidden = tab !== "domy";
   store.set("tab", tab);
   if (isMap) { ensureMap(); setTimeout(() => lmap && lmap.invalidateSize(), 0); }
   else if (tab === "kontroly") { if (window.renderKontroly) renderKontroly(true); }
   else if (tab === "fronta") { if (window.renderFronta) renderFronta(true); }
+  else if (tab === "overeni") { if (window.renderOverovani) renderOverovani(true); }
+  else if (tab === "listiny") { if (window.renderListiny) renderListiny(true); }
+  else if (tab === "zajimavosti") { if (window.renderZajimavosti) renderZajimavosti(true); }
+  else if (tab === "domy") { if (window.renderDomy) renderDomy(true); }
   else if (selected) setTimeout(() => focusNode(selected), 0);
 }
 document.querySelectorAll("#tabs button").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.tab)));

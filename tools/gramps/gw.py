@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import os
 import time
 import urllib.error
 import urllib.request
@@ -26,7 +27,8 @@ def env() -> dict[str, str]:
 class GrampsWeb:
     def __init__(self, ref: bool = False):
         e = env()
-        self.base = f"http://127.0.0.1:{e.get('GRAMPSWEB_PORT', '5055')}/api"
+        # v kontejneru dashboardu se Gramps volá po síti dockeru (GRAMPSWEB_API_URL=http://grampsweb:5000/api)
+        self.base = os.environ.get("GRAMPSWEB_API_URL") or f"http://127.0.0.1:{e.get('GRAMPSWEB_PORT', '5055')}/api"
         user = e["GRAMPSWEB_REF_USER" if ref else "GRAMPSWEB_ADMIN_USER"]
         pwd = e["GRAMPSWEB_REF_PASSWORD" if ref else "GRAMPSWEB_ADMIN_PASSWORD"]
         self.token = self._token(user, pwd)

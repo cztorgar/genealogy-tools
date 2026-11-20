@@ -14,7 +14,7 @@
 <body>
 <header id="bar">
   <strong id="title">Workbench</strong>
-  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button><button data-tab="kontroly" title="Fronta kontrol — co musíš rozhodnout ty">Kontroly <span id="k-count"></span></button><button data-tab="fronta" title="Fronta osob fáze I — pořadí, v jakém se zkoumají">Fronta</button></nav>
+  <nav id="tabs"><button data-tab="strom" class="on">Strom</button><button data-tab="mapa">Mapa</button><button data-tab="kontroly" title="Fronta kontrol — co musíš rozhodnout ty">Kontroly <span id="k-count"></span></button><button data-tab="overeni" title="Zápisy přečtené jen Claudem — porovnej se snímkem (research/todo-overeni.md)">K ověření <span id="ov-count"></span></button><button data-tab="zajimavosti" title="Záhady a příběhy rodu k rozluštění (research/todo-zajimavosti.md)">Zajímavosti <span id="z-count"></span></button><button data-tab="listiny" title="Všechny prameny a listiny, které máme (sources/)">Listiny</button><button data-tab="domy" title="Historie chalup a domů — kdo tu žil, narodil se, zemřel, byl na výminku">Domy</button><button data-tab="fronta" title="Fronta osob fáze I — pořadí, v jakém se zkoumají">Fronta</button></nav>
   <div id="counts"></div>
   <div class="spacer"></div>
   <div class="search">
@@ -66,6 +66,40 @@
     </div>
     <div id="k-list"></div>
   </section>
+  <section id="overeniwrap" hidden>
+    <div id="ov-filters">
+      <label>stav <select id="ovf-stav"><option value="otevřeno">k porovnání</option><option value="potvrzeno">sedí (čeká na managera)</option><option value="nesedí">nesedí (čeká na managera)</option><option value="hotovo">hotové</option><option value="">vše</option></select></label>
+      <label>osoba <select id="ovf-osoba"><option value="">všechny</option></select></label>
+      <span id="ov-summary"></span>
+    </div>
+    <p class="frhelp">Porovnej body „ověřit“ s výřezem (klik = zvětšit, „portál ↗“ = originál). „Sedí“ → manager zvedne jistotu citací na 4;
+      „nesedí“ → do poznámky napiš, co je na snímku jinak. Nejnovější zápisy jsou nahoře.</p>
+    <div id="ov-list"></div>
+  </section>
+  <section id="zajimavostiwrap" hidden>
+    <div id="z-filters">
+      <label>stav <select id="zf-stav"><option value="open">otevřené</option><option value="done">vyřešené</option><option value="">vše</option></select></label>
+      <span id="z-summary"></span>
+      <a href="#" id="z-file">research/todo-zajimavosti.md</a>
+    </div>
+    <div id="z-list"></div>
+  </section>
+  <section id="listinywrap" hidden>
+    <div id="l-filters">
+      <label>druh <select id="lf-typ"></select></label>
+      <label>osoba <select id="lf-osoba"><option value="">všechny</option></select></label>
+      <input id="lf-q" type="search" placeholder="hledat v listinách…">
+      <span id="l-summary"></span>
+    </div>
+    <div id="l-list"></div>
+  </section>
+  <section id="domywrap" hidden>
+    <aside id="d-side">
+      <div id="d-filters"><select id="df-obec"></select> <input id="df-q" type="search" placeholder="obec, č. p., jméno…"> <span id="d-summary"></span></div>
+      <ul id="d-list"></ul>
+    </aside>
+    <div id="d-detail"></div>
+  </section>
   <section id="frontawrap" hidden>
     <div id="fr-filters">
       <label><input type="checkbox" id="fr-anc"> jen přímí předci</label>
@@ -86,6 +120,9 @@
 <script src="/static/app.js"></script>
 <script src="/static/map.js"></script>
 <script src="/static/kontroly.js"></script>
+<script src="/static/overeni.js"></script>
+<script src="/static/archiv.js"></script>
+<script src="/static/zajimavosti.js"></script>
 <script src="/static/fronta.js"></script>
 </body>
 </html>

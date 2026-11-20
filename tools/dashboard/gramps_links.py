@@ -1,4 +1,5 @@
-"""Propojení větví (zhroucení předků): rodiče podle Gramps ≠ rodiče podle ID.
+"""Propojení větví: (1) zhroucení předků — rodiče podle Gramps ≠ rodiče podle ID;
+(2) sňatky mezi větvemi — manželé v Gramps, kteří podle ID patří do různých větví (ne X × X-S<n>, ne X-P1 × X-P2, ne Kekule 2n × 2n+1).
 
 Strom dashboardu je postavený z ID (`K%04d` Kekule, přípony `-S/-C/-P`). Skutečné rodinné vazby jsou
 v Gramps; když má osoba v Gramps za rodiče někoho z jiné větve ID, je to propojení — typicky zhroucení
@@ -119,6 +120,26 @@ def compute(people: list[dict], families: list[dict]) -> list[dict]:
     return out
 
 
+def marriages(people: list[dict], families: list[dict]) -> list[dict]:
+    """Rodiny, kde manžel a manželka podle ID nejsou pár (X × X-S<n>, Kekule 2n × 2n+1) → sňatek spojuje dvě větve."""
+    gid = {p["handle"]: p["gramps_id"] for p in people}
+    out = []
+    for f in families:
+        fa, mo = gid.get(f.get("father_handle") or ""), gid.get(f.get("mother_handle") or "")
+        if not fa or not mo:
+            continue
+        if re.fullmatch(re.escape(fa) + r"-S\d+", mo) or re.fullmatch(re.escape(mo) + r"-S\d+", fa):
+            continue
+        if fa.endswith("-P1") and mo == fa[:-3] + "-P2":   # rodiče osoby X: X-P1 × X-P2
+            continue
+        a, b = _kek(fa), _kek(mo)
+        if a is not None and b is not None and b == a + 1 and a % 2 == 0:
+            continue
+        out.append({"a": fa, "b": mo, "family": f.get("gramps_id")})
+    out.sort(key=lambda r: (r["a"], r["b"]))
+    return out
+
+
 class Links:
     """Cache vazeb z Gramps v paměti; obnova nejdřív po TTL, chyba se drží jen 60 s."""
 
@@ -140,7 +161,7 @@ class Links:
                 g = GrampsWeb()
                 ps = g.get("/people/?keys=handle,gramps_id&pagesize=100000")
                 fs = g.get("/families/?keys=handle,gramps_id,father_handle,mother_handle,child_ref_list&pagesize=100000")
-                self.data = {"links": compute(ps, fs), "error": None,
+                self.data = {"links": compute(ps, fs), "marriages": marriages(ps, fs), "error": None,
                              "at": time.strftime("%Y-%m-%d %H:%M"), "families": len(fs)}
                 self.ttl = TTL
             except Exception as e:  # noqa: BLE001 — Gramps neběží apod.; dashboard jede dál bez propojení

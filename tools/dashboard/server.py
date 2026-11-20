@@ -6,8 +6,10 @@
 """Workbench dashboard — živý přehled stavu výzkumu nad stromem.
 
 Čte **živé soubory stromu** při každém požadavku (jen paměťová cache podle mtime), nic negeneruje.
-Jediný zápis: rozhodnutí kontroly do `research/kontroly/<id>.yml` (POST z této stránky, token proti CSRF).
-Poslouchá jen na 127.0.0.1.
+Zápisy (POST z této stránky, token proti CSRF): rozhodnutí kontroly do `research/kontroly/<id>.yml`
+a verdikt „sedí / nesedí“ u zápisu v `research/todo-overeni.md`.
+Poslouchá jen na 127.0.0.1 (v dockeru na 0.0.0.0 kontejneru, port publikovaný jen na 127.0.0.1 hostitele —
+`infra/gramps-web/docker-compose.yml`, služba `dashboard`).
 
     uv run tools/dashboard/server.py [--tree <strom>] [--port 5056]
 
@@ -16,6 +18,7 @@ API:
     GET /api/person/<ID>         vše k osobě (dossier, nápovědy, patche, todo, prameny)
     GET /api/file?p=<cesta>      soubor stromu (snímky, přepisy) — jen čtení, jen uvnitř stromu
     POST /api/kontrola/<id>      rozhodnutí kontroly {volba, poznamka}; hlavička X-Dashboard-Token
+    POST /api/overeni/<id>       verdikt k zápisu ze seznamu k ověření {verdikt: sedí|nesedí, poznamka}
 """
 from __future__ import annotations
 
@@ -39,7 +42,9 @@ import yaml
 
 import evidence
 import gramps_links
+import archiv
 import kontroly
+import overeni
 import mapdata
 
 WORKBENCH = Path(__file__).resolve().parents[2]
@@ -416,7 +421,8 @@ class Tree:
             "patches": ls(r / "patches", "P-*.yml") + ls(r / "patches", "P-*.yaml"),
             "todos": ls(r / "research", "todo-*.md"),
             "research": [p for p in (r / "research/log.md", r / "research/doklady.md", r / "research/vetve.yml") if p.exists()],
-            "sidecars": [y for d in source_dirs for y in sorted(d.glob("*.yml"))],
+            "sidecars": sorted((r / "sources").rglob("*.yml")) if (r / "sources").is_dir() else [],
+            "domy": ls(r / "research/domy", "*.yml"),
             "source_dirs": source_dirs,
             "kontroly": kontroly.files(r),
             "pribehy": [p for p in ls(r / "research/pribehy", "*.md") if p.name != "README.md"],
@@ -562,10 +568,12 @@ class Tree:
                     "done": len(re.findall(r"^- \[x\]", t, re.M))}
         return CACHE.get(p, "doklady", parse)
 
-    def state(self) -> dict:
+    def state(self, known: str | None = None) -> dict:
         files = self.files()
         sessions = self.sessions()
         version = self.version(files, sessions)
+        if known == version:                  # klient má aktuální stav — nic dalšího nepočítat
+            return {"unchanged": True, "version": version}
         people = self.people(files)
         hints = self.hints(files)
         patches = self.patches(files)
@@ -622,12 +630,20 @@ class Tree:
                 people[best[1]]["branch_guess"] = True
         gf = self.facts.get()
         root_birth = (gf.get("K0001") or cl.Facts()).birth or 1985
+        occ = archiv.occupations(files["patches"], CACHE, load_yaml)
         for pid, d in people.items():
             mine = [k for k in checks if k["osoba"] == pid and k["stav"] == kontroly.OPEN]
             d["kontroly"] = {"open": len(mine), "blocking": sum(k["blokuje"] for k in mine)}
+            d["occupation"] = occ.get(pid) or ""
             evs = events.get(pid, [])
             d["events"] = {"total": len(evs), "single": sum(e["sources"] == 1 for e in evs),
                            "none": sum(e["sources"] == 0 for e in evs)}
+            # roky na kartě: Gramps (master) má přednost před nápovědami z dossieru; úmrtí jen přesné (BET/BEF ne)
+            f = gf.get(pid)
+            if f and f.birth:
+                d["birth"] = f.birth
+            if f and f.death and "z" in f.found:
+                d["death"] = f.death
             self.apply_checklist(d, gf, root_birth)
 
         queue = fronta.build(people)
@@ -649,11 +665,23 @@ class Tree:
             "log": self.log_tail(),
             "doklady": self.doklady_summary(),
             "kontroly": checks,
+            "overeni": self.overeni(),
+            **self.archiv(files, people),
             "fronta": queue,
             "counts": counts,
             "links": self.links.get(),
             "states": STATES,
         }
+
+    def archiv(self, files, people) -> dict:
+        """Přehled listin (sidecary v sources/) a historie domů (události s č. p. + research/domy/*.yml)."""
+        src = archiv.listiny(self.root, files["patches"], CACHE, load_yaml)
+        return {"listiny": src, "domy": archiv.domy(self.root, files["patches"], CACHE, load_yaml, people, src),
+                "zajimavosti": archiv.zajimavosti(self.root, ids_in)}
+
+    def overeni(self) -> list[dict]:
+        p = self.root / overeni.REL
+        return (CACHE.get(p, "overeni", lambda f: overeni.parse(f, self.root, ids_in)) or []) if p.is_file() else []
 
     def kontroly(self, files) -> list[dict]:
         return kontroly.load(files["kontroly"], CACHE, load_yaml, self.root, norm_any)
@@ -870,10 +898,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_file(f)
                 return self.send_error(HTTPStatus.NOT_FOUND)
             if path == "/api/state":
-                st = self.tree.state()
-                if q.get("v", [None])[0] == st["version"]:
-                    return self.send_json({"unchanged": True, "version": st["version"]})
-                return self.send_json(st)
+                return self.send_json(self.tree.state(q.get("v", [None])[0]))
             if path.startswith("/api/person/"):
                 pid = path[len("/api/person/"):]
                 if not ID_FULL_RE.match(pid):
@@ -906,17 +931,19 @@ class Handler(BaseHTTPRequestHandler):
 
 
     def do_POST(self):
-        """Jediný zápis: rozhodnutí kontroly. Jen z 127.0.0.1, s tokenem ze stránky a stejným původem."""
+        """Zápisy: rozhodnutí kontroly, verdikt k ověření. Jen z 127.0.0.1, s tokenem ze stránky a stejným původem."""
         path = unquote(urlparse(self.path).path)
         try:
             m = re.match(r"^/api/kontrola/((?:K\d+(?:-[SCP]\d+)*|G)-\d+)$", path)
-            if not m:
+            mo = re.match(r"^/api/overeni/([0-9a-f]{10})$", path)
+            if not (m or mo):
                 return self.send_error(HTTPStatus.NOT_FOUND)
-            if self.client_address[0] != "127.0.0.1":
+            if self.client_address[0] != "127.0.0.1" and not os.environ.get("DASHBOARD_IN_DOCKER"):
                 return self.send_json({"error": "jen z 127.0.0.1"}, HTTPStatus.FORBIDDEN)
             if not secrets.compare_digest(self.headers.get("X-Dashboard-Token", ""), CSRF_TOKEN):
                 return self.send_json({"error": "neplatný token — obnov stránku"}, HTTPStatus.FORBIDDEN)
-            port = self.server.server_address[1]
+            # v dockeru naslouchá server na 5056 kontejneru, prohlížeč ale posílá publikovaný port hostitele
+            port = int(os.environ.get("DASHBOARD_PUBLIC_PORT") or self.server.server_address[1])
             allowed = {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}
             origin = self.headers.get("Origin")
             if (origin and origin not in allowed) or self.headers.get("Host") not in {a[7:] for a in allowed}:
@@ -932,6 +959,13 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json({"error": "neplatný JSON"}, HTTPStatus.BAD_REQUEST)
             if not isinstance(body, dict):
                 return self.send_json({"error": "neplatný JSON"}, HTTPStatus.BAD_REQUEST)
+            if mo:
+                try:
+                    res = overeni.decide(self.tree.root, mo.group(1), str(body.get("verdikt") or ""),
+                                         str(body.get("poznamka") or ""), ids_in)
+                except overeni.VerdictError as e:
+                    return self.send_json({"error": str(e)}, HTTPStatus.CONFLICT)
+                return self.send_json(res)
             try:
                 res = kontroly.decide(self.tree.root, m.group(1), str(body.get("volba") or ""),
                                       str(body.get("poznamka") or ""))
@@ -950,6 +984,7 @@ def main() -> int:
     ap.add_argument("--tree", help="název stromu v ../genealogy-trees/ (výchozí: strom.adresar z genealogy.toml)")
     ap.add_argument("--tree-dir", help="cesta ke stromu (místo --tree)")
     ap.add_argument("--port", type=int, default=5056)
+    ap.add_argument("--host", default="127.0.0.1", help="adresa pro naslouchání (v kontejneru 0.0.0.0)")
     ap.add_argument("--gramps-url", default="http://localhost:5055")
     args = ap.parse_args()
     root = (Path(args.tree_dir).resolve() if args.tree_dir
@@ -957,7 +992,7 @@ def main() -> int:
     if not root.is_dir():
         raise SystemExit(f"strom nenalezen: {root}")
     Handler.tree = Tree(root, args.gramps_url)
-    srv = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
+    srv = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"dashboard: http://127.0.0.1:{args.port}/  (strom {root})", flush=True)
     try:
         srv.serve_forever()

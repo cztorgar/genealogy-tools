@@ -1,7 +1,7 @@
 // Workbench dashboard — frontend. Čte /api/state (polling), kreslí rodokmen v SVG, panel osoby.
 "use strict";
 
-const BW = 190, BH = 60, COLW = 270, VGAP = 8, INDENT = 16, MAX_INDENT = 4;
+const BW = 190, BH = 74, COLW = 270, VGAP = 8, INDENT = 16, MAX_INDENT = 4;
 const POLL_MS = 5000;
 const STATE_COLORS = {
   "": "var(--s-missing)", "zmínka": "var(--s-zminka)", "převzato": "var(--s-prevzato)",
@@ -252,6 +252,16 @@ function render() {
       el("title", {}, path).textContent = "zhroucení předků: " + linkText(l);
     }
   }
+  // sňatky mezi větvemi (S.links.marriages): tečkovaný oblouk mezi manželi z různých větví
+  for (const m of (S.links && S.links.marriages) || []) {
+    const a = pos.get(m.a), b = pos.get(m.b);
+    if (!a || !b) continue;
+    const [p1, p2] = a.y <= b.y ? [a, b] : [b, a];
+    const x1 = p1.x + BW, y1 = p1.y + BH / 2, x2 = p2.x + BW, y2 = p2.y + BH / 2;
+    const bend = Math.min(60, Math.max(24, Math.abs(y2 - y1) / 10));   // malý výběh doprava, ne velký oblouk
+    const path = el("path", { class: "xmarr", d: `M${x1},${y1} C${Math.max(x1, x2) + bend},${y1} ${Math.max(x1, x2) + bend},${y2} ${x2},${y2}` }, gE);
+    el("title", {}, path).textContent = `sňatek mezi větvemi: ${nm(m.a)} ∞ ${nm(m.b)}` + (m.family ? ` (${m.family})` : "");
+  }
 
   for (const [id, n] of pos) {
     const p = S.people[id] || null;
@@ -263,7 +273,7 @@ function render() {
     el("rect", { class: "box", width: BW, height: BH, rx: 4, fill: STATE_COLORS[stav] || "#fff" }, g);
     const tip = el("title", {}, g);
     tip.textContent = missing ? `${id} — nesáhnuto (${relLabel(id)})`
-      : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}\nstav: ${stav}` +
+      : `${p.name || "(bez jména)"} · ${id}\n${p.rel || relLabel(id)}` + (p.occupation ? `\npovolání: ${p.occupation}` : "") + `\nstav: ${stav}` +
         (p.kontext_missing && p.kontext_missing.length ? `\nchybí: ${p.kontext_missing.join(", ")} (docs/metodika/pribehy.md)` : "") +
         (p.zavora ? `\n${zavoraTip(p.zavora)}` : "") +
         (LBP.has(id) ? `\nzhroucení předků:\n${LBP.get(id).map(linkText).join("\n")}` : "");
@@ -277,6 +287,7 @@ function render() {
     }
     const meta = missing ? `${id} · ${relLabel(id).split(" ")[0]}` : [id, years(p)].filter(Boolean).join(" · ");
     el("text", { class: "meta", x: 7, y: 29 }, g).textContent = trunc(meta, 34);
+    if (p && p.occupation) el("text", { class: "meta occ", x: 7, y: 43 }, g).textContent = trunc(p.occupation, 32);
 
     if (p) {
       const b = [];
@@ -287,7 +298,7 @@ function render() {
       if (p.docs && p.docs.open) b.push(`📄${p.docs.open}`);
       if (p.sources) b.push("🗂");
       if (p.story) b.push("📖");
-      const bt = el("text", { class: "badges", x: 7, y: 45 }, g);
+      const bt = el("text", { class: "badges", x: 7, y: 59 }, g);
       bt.textContent = b.join("  ");
       const k = p.kontroly;
       if (p.kontext_missing && p.kontext_missing.length) {
@@ -457,9 +468,10 @@ document.addEventListener("change", (ev) => {
 });
 function renderLinks() {
   const L = S.links || {};
+  const marr = (L.marriages || []).map((m) => `<li>${personLabel(m.a)} <span class="xm">∞</span> ${personLabel(m.b)}<br><small>sňatek mezi větvemi · ${esc(m.family || "")}</small></li>`).join("");
   const err = L.error ? `<li class="empty" title="${esc(L.error)}">Gramps nedostupný — ${L.links && L.links.length ? "poslední známý stav" : "nic"}</li>` : "";
-  if (!L.links || !L.links.length) return err || `<li class="empty">žádné (Gramps ${esc(L.at || "?")})</li>`;
-  return err + L.links.map((l) => `<li>${personLabel(l.child)} <span class="xl">⇄</span> dítě ${l.parents.map(personLabel).join(" × ")}
+  if (!L.links || !L.links.length) return err + marr || `<li class="empty">žádné (Gramps ${esc(L.at || "?")})</li>`;
+  return err + marr + L.links.map((l) => `<li>${personLabel(l.child)} <span class="xl">⇄</span> dítě ${l.parents.map(personLabel).join(" × ")}
     <br><small>${l.relation ? `${personLabel(l.relation.a)} a ${personLabel(l.relation.b)}: <b>${esc(l.relation.text)}</b>`
       : "stupeň příbuznosti nejde z ID spočítat"}</small>
     <br><small class="path">${esc(l.family || "")} · podle ID by rodiče byli ${l.id_parents.map(esc).join(" / ")}</small></li>`).join("")
