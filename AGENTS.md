@@ -27,8 +27,27 @@ jména a údaje lidí ze stromu, snímky, přístupy.
 - Vždy odděluj vrstvy: doslovný přepis → normalizace → překlad → interpretace
   ([`prepis.md`](docs/metodika/prepis.md)).
 - Shoda dvou modelů není důkaz. Neshodu pole označ k ruční kontrole (`research/kontroly/`).
-- **Žádné paralelní subagenty / dávkové čtení nad snímky.** Obrázky v kontextu podagentů spotřebují
-  obrovské množství tokenů. Čti snímky po jednom v hlavní session.
+- **Subagenty používej** na práci, která běží dlouho a nezávisle: katalogové dotazy
+  (`register_info`, `find_registers`), webová a literární rešerše, hledání fondů a signatur —
+  a také na **paralelní čtení snímků**, když jde o oddělené úseky knihy (jiné snímky, jiné písmeno
+  rejstříku, jiná kniha). Každý agent dostane v zadání **co už víme**, ať to nehledá znovu.
+- **Čtení snímků v subagentovi má tvrdé podmínky** (jinak se ztratí přesnost, kvůli které se snímek
+  četl — agent vrací shrnutí a hlavní session ho nemá jak ověřit):
+  1. **Úzce vymezený úsek** — konkrétní snímky a konkrétní hledané jméno, ne „projdi knihu".
+  2. **Ulož obojí v TOP rozlišení** do `sources/`: **celý list** i **výřez řádku**, vždy crop
+     z plného snímku **bez jakéhokoli zmenšení** (žádný `resize`, žádný downscale kvůli čitelnosti
+     v chatu — zmenšuje se jen to, co se čte, ne to, co se ukládá). K tomu přesné místo nálezu
+     (id knihy, snímek, pozice zápisu na listě, URL) a sidecar `.yml`. Bez toho nález neplatí.
+  3. **Všechna pole řádku**, ne jen to hledané — v zadání agentovi je **vyjmenuj**, jinak je
+     vynechá. Křest: č. p. · pohlaví · manželské/nemanželské · otec i s jeho rodiči · matka
+     s rodným příjmením · **kmotři** · **kněz** · **porodní bába** · přípisky na okraji.
+     Oddavky: věk obou · stav (svobodný/vdovec) · **svědkové** · **poznámky s odkazy na křestní
+     knihu a paginu**. Úmrtí: **věk (roky/měsíce/dny)** · **příčina smrti** · vztah k pozůstalým.
+     Co nepřečte, označí `[?]` a **vypíše zvlášť** — tiché vynechání je horší než přiznaná mezera.
+  4. **Žádné dohady**. Jméno, datum, číslo popisné ani signatura se nedoplňují „podle smyslu“.
+  5. Sporné čtení jde do `research/kontroly/`, ne do stromu jako fakt.
+- Hranice odpovědnosti: **nález od subagenta je draft** (jistota nejvýš 1) stejně jako každý jiný
+  AI přepis — potvrzuje ho člověk proti snímku.
 
 ## 3. Zápis do stromu
 
